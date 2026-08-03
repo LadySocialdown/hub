@@ -328,6 +328,97 @@ export interface Database {
         };
         Relationships: [];
       };
+      instagram_settings: {
+        Row: {
+          id: number;
+          reference_date: string;
+          last_milestone_day: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          reference_date: string;
+          last_milestone_day?: number;
+          created_at?: string;
+        };
+        Update: {
+          reference_date?: string;
+          last_milestone_day?: number;
+        };
+        Relationships: [];
+      };
+      instagram_daily_snapshots: {
+        Row: {
+          date: string;
+          reach: number;
+          views: number;
+          likes: number;
+          comments: number;
+          shares: number;
+          saves: number;
+          total_interactions: number;
+          new_followers: number;
+          follows_and_unfollows: number;
+          estimated_unfollows: number;
+          net_follower_change: number;
+          created_at: string;
+        };
+        Insert: {
+          date: string;
+          reach?: number;
+          views?: number;
+          likes?: number;
+          comments?: number;
+          shares?: number;
+          saves?: number;
+          total_interactions?: number;
+          new_followers?: number;
+          follows_and_unfollows?: number;
+          estimated_unfollows?: number;
+          net_follower_change?: number;
+          created_at?: string;
+        };
+        Update: {
+          reach?: number;
+          views?: number;
+          likes?: number;
+          comments?: number;
+          shares?: number;
+          saves?: number;
+          total_interactions?: number;
+          new_followers?: number;
+          follows_and_unfollows?: number;
+          estimated_unfollows?: number;
+          net_follower_change?: number;
+        };
+        Relationships: [];
+      };
+      instagram_reports: {
+        Row: {
+          id: string;
+          period_type: string;
+          period_start: string;
+          period_end: string;
+          generated_at: string;
+          raw_metrics_json: Json;
+          interpretation_text: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          period_type: string;
+          period_start: string;
+          period_end: string;
+          generated_at?: string;
+          raw_metrics_json: Json;
+          interpretation_text?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          interpretation_text?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
