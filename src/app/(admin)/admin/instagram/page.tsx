@@ -4,6 +4,9 @@ import { Dashboard } from "./Dashboard";
 
 export const metadata: Metadata = { title: "Instagram — Lady Social" };
 export const dynamic = "force-dynamic";
+// Windsor.ai + Claude peuvent prendre plus que les 10s par défaut de Vercel — s'applique
+// aussi à la Server Action "Analyser maintenant" invoquée depuis cette page.
+export const maxDuration = 60;
 
 export default async function InstagramAnalyticsPage() {
   const status = await getDashboardStatus();
