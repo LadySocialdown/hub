@@ -2,9 +2,47 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 import type { InstagramReport, PeriodType } from "@/types/instagram";
 import { NetFollowerChart } from "./NetFollowerChart";
 import { triggerManualAnalysisAction } from "./actions";
+
+const markdownComponents = {
+  h1: (props: React.ComponentPropsWithoutRef<"h2">) => (
+    <h2
+      className="mt-6 mb-3 text-xl font-semibold text-[var(--cacao)] first:mt-0"
+      style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+      {...props}
+    />
+  ),
+  h2: (props: React.ComponentPropsWithoutRef<"h2">) => (
+    <h2
+      className="mt-6 mb-3 text-lg font-semibold text-[var(--cacao)] first:mt-0"
+      style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+      {...props}
+    />
+  ),
+  h3: (props: React.ComponentPropsWithoutRef<"h3">) => (
+    <h3
+      className="mt-5 mb-2 text-base font-semibold text-[var(--cacao)] first:mt-0"
+      style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+      {...props}
+    />
+  ),
+  p: (props: React.ComponentPropsWithoutRef<"p">) => (
+    <p className="mb-3 text-sm leading-relaxed text-[var(--noir)]" {...props} />
+  ),
+  strong: (props: React.ComponentPropsWithoutRef<"strong">) => (
+    <strong className="font-semibold text-[var(--cacao)]" {...props} />
+  ),
+  ul: (props: React.ComponentPropsWithoutRef<"ul">) => (
+    <ul className="mb-3 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[var(--noir)]" {...props} />
+  ),
+  ol: (props: React.ComponentPropsWithoutRef<"ol">) => (
+    <ol className="mb-3 list-decimal space-y-1 pl-5 text-sm leading-relaxed text-[var(--noir)]" {...props} />
+  ),
+  hr: () => <hr className="my-5 border-[var(--mocha-light)]" />,
+};
 
 function formatDate(date: string): string {
   return new Date(`${date}T00:00:00Z`).toLocaleDateString("fr-FR", {
@@ -139,8 +177,8 @@ export function Dashboard({
               Interprétation
             </h2>
             {selected?.interpretation_text ? (
-              <div className="space-y-3 whitespace-pre-wrap text-sm leading-relaxed text-[var(--noir)]">
-                {selected.interpretation_text}
+              <div>
+                <ReactMarkdown components={markdownComponents}>{selected.interpretation_text}</ReactMarkdown>
               </div>
             ) : (
               <p className="text-sm italic text-[var(--noir)] opacity-60">
