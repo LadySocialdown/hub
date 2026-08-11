@@ -26,14 +26,14 @@ export default function AdminPage() {
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {adminLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="bg-white border border-[var(--mocha-light)] rounded-2xl p-6 space-y-3 hover:border-[var(--mocha)] hover:shadow-sm transition-all"
+            className="card-lift group bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-6 space-y-3 hover:border-[var(--mocha)]"
           >
-            <div className="p-2 w-fit rounded-lg bg-[var(--mocha-light)] text-[var(--cacao)]">
+            <div className="p-2 w-fit rounded-lg bg-[var(--mocha-light)] text-[var(--cacao)] transition-colors group-hover:bg-[var(--cacao)] group-hover:text-[var(--ivoire)]">
               {link.icon}
             </div>
             <div>

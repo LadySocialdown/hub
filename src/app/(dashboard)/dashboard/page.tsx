@@ -55,9 +55,9 @@ export default async function DashboardPage() {
           <Link
             key={space.href}
             href={space.href}
-            className="group bg-white border border-[var(--mocha-light)] rounded-2xl p-6 space-y-3 hover:border-[var(--mocha)] hover:shadow-sm transition-all"
+            className="card-lift group bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-6 space-y-3 hover:border-[var(--mocha)]"
           >
-            <div className="p-2 w-fit rounded-lg bg-[var(--mocha-light)] text-[var(--cacao)]">
+            <div className="p-2 w-fit rounded-lg bg-[var(--mocha-light)] text-[var(--cacao)] transition-colors group-hover:bg-[var(--cacao)] group-hover:text-[var(--ivoire)]">
               {space.icon}
             </div>
             <div>

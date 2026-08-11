@@ -59,7 +59,7 @@ function formatPercent(value: number): string {
 
 function KpiCard({ label, value, sublabel }: { label: string; value: string; sublabel?: string }) {
   return (
-    <div className="rounded-2xl border border-[var(--mocha-light)] bg-white p-5">
+    <div className="card-lift rounded-2xl border border-[var(--mocha-light)] shadow-warm bg-white p-5">
       <p className="text-xs uppercase tracking-[0.2em] text-[var(--mocha)]">{label}</p>
       <p
         className="mt-2 text-2xl font-semibold text-[var(--cacao)]"
@@ -159,7 +159,7 @@ export function Dashboard({
             <KpiCard label="Taux de commentaire" value={formatPercent(metrics.comment_rate)} />
           </div>
 
-          <div className="rounded-2xl border border-[var(--mocha-light)] bg-white p-6">
+          <div className="rounded-2xl border border-[var(--mocha-light)] shadow-warm bg-white p-6">
             <h2
               className="mb-4 text-lg font-semibold text-[var(--cacao)]"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
@@ -169,7 +169,7 @@ export function Dashboard({
             <NetFollowerChart snapshots={metrics.daily_snapshots} />
           </div>
 
-          <div className="rounded-2xl border border-[var(--mocha-light)] bg-white p-6">
+          <div className="rounded-2xl border border-[var(--mocha-light)] shadow-warm bg-white p-6">
             <h2
               className="mb-4 text-lg font-semibold text-[var(--cacao)]"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
@@ -190,7 +190,7 @@ export function Dashboard({
         </>
       )}
 
-      <div className="rounded-2xl border border-[var(--mocha-light)] bg-white p-6">
+      <div className="rounded-2xl border border-[var(--mocha-light)] shadow-warm bg-white p-6">
         <h2
           className="mb-4 text-lg font-semibold text-[var(--cacao)]"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}

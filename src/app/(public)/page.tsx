@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-[var(--ivoire)] pt-20 pb-24 px-4">
+      <section className="bg-glow bg-[var(--ivoire)] pt-20 pb-24 px-4 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <p className="text-xs uppercase tracking-[0.3em] font-medium text-[var(--mocha)]">
             Formation · Outils · Coaching
@@ -168,7 +168,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA final */}
-      <section className="py-20 px-4 bg-[var(--cacao)] text-center">
+      <section className="bg-glow-light py-20 px-4 bg-[var(--cacao)] text-center overflow-hidden">
         <div className="max-w-2xl mx-auto space-y-6">
           <h2
             className="text-4xl font-semibold text-[var(--ivoire)] leading-tight"
@@ -210,10 +210,10 @@ function SpaceCard({
   return (
     <Link
       href={href}
-      className={`group block p-6 rounded-2xl border transition-all duration-200 hover:shadow-md ${
+      className={`card-lift group block p-6 rounded-2xl border ${
         highlight
-          ? "bg-[var(--cacao)] border-[var(--cacao)] text-[var(--ivoire)]"
-          : "bg-white border-[var(--mocha-light)] hover:border-[var(--mocha)]"
+          ? "bg-[var(--cacao)] border-[var(--cacao)] text-[var(--ivoire)] shadow-warm"
+          : "bg-white border-[var(--mocha-light)] shadow-warm hover:border-[var(--mocha)]"
       }`}
     >
       <div className="space-y-3">
@@ -274,10 +274,10 @@ function PricingCard({
 }) {
   return (
     <div
-      className={`p-6 rounded-2xl border flex flex-col gap-4 ${
+      className={`card-lift p-6 rounded-2xl border flex flex-col gap-4 ${
         highlight
-          ? "bg-[var(--cacao)] border-[var(--cacao)] text-[var(--ivoire)]"
-          : "bg-white border-[var(--mocha-light)]"
+          ? "bg-[var(--cacao)] border-[var(--cacao)] text-[var(--ivoire)] shadow-warm-lg scale-[1.02]"
+          : "bg-white border-[var(--mocha-light)] shadow-warm"
       }`}
     >
       <div>

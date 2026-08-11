@@ -42,3 +42,97 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* ============================================================
+   Depth & motion — warm shadows, lift, glow, grain
+   ============================================================ */
+
+/* Ombres chaudes (teintées cacao) plutôt que du noir plat */
+.shadow-warm {
+  box-shadow:
+    0 1px 2px rgba(90, 62, 54, 0.06),
+    0 8px 20px -8px rgba(90, 62, 54, 0.18);
+}
+.shadow-warm-lg {
+  box-shadow:
+    0 4px 8px rgba(90, 62, 54, 0.08),
+    0 24px 48px -16px rgba(90, 62, 54, 0.28);
+}
+
+/* Léger soulèvement au survol des cartes */
+.card-lift {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(90, 62, 54, 0.08),
+    0 24px 48px -16px rgba(90, 62, 54, 0.28);
+}
+
+/* Halos dégradés décoratifs pour donner du relief aux sections plates */
+.bg-glow,
+.bg-glow-light {
+  position: relative;
+  isolation: isolate;
+}
+.bg-glow::before,
+.bg-glow::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  z-index: -1;
+  pointer-events: none;
+}
+.bg-glow::before {
+  width: 30rem;
+  height: 30rem;
+  background: radial-gradient(circle, rgba(164, 120, 100, 0.3) 0%, rgba(164, 120, 100, 0) 70%);
+  top: -10rem;
+  left: -8rem;
+}
+.bg-glow::after {
+  width: 26rem;
+  height: 26rem;
+  background: radial-gradient(circle, rgba(90, 62, 54, 0.18) 0%, rgba(90, 62, 54, 0) 70%);
+  bottom: -11rem;
+  right: -6rem;
+}
+
+/* Variante claire, pour halos sur fond sombre (cacao) */
+.bg-glow-light::before,
+.bg-glow-light::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  z-index: -1;
+  pointer-events: none;
+}
+.bg-glow-light::before {
+  width: 26rem;
+  height: 26rem;
+  background: radial-gradient(circle, rgba(237, 224, 216, 0.22) 0%, rgba(237, 224, 216, 0) 70%);
+  top: -9rem;
+  right: -8rem;
+}
+.bg-glow-light::after {
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, rgba(255, 254, 248, 0.12) 0%, rgba(255, 254, 248, 0) 70%);
+  bottom: -9rem;
+  left: -6rem;
+}
+
+/* Grain très subtil sur toute l'app — chaleur "papier", pas un effet visible */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
