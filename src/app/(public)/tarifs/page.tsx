@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Tarifs & abonnements",
-  description: "Toutes les offres Lady Social — abonnements mensuels, annuels et accès à vie.",
+  description: "Toutes les offres Lady Socialdown — abonnements mensuels, annuels et accès à vie.",
 };
 
 const plans = [

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Ressources gratuites",
-  description: "Guides PDF, articles, replays — tout le contenu gratuit de Lady Social.",
+  description: "Guides PDF, articles, replays — tout le contenu gratuit de Lady Socialdown.",
 };
 
 export default function RessourcesPage() {

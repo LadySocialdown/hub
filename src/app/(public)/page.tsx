@@ -44,7 +44,7 @@ export default function HomePage() {
       <div className="bg-[var(--sable)] py-4 border-y border-[var(--mocha-light)]">
         <div className="max-w-7xl mx-auto px-4">
           <p className="text-center text-sm text-[var(--noir)] opacity-60">
-            Rejoins des centaines d&apos;entrepreneurs qui développent leur activité avec Lady Social
+            Rejoins des centaines d&apos;entrepreneurs qui développent leur activité avec Lady Socialdown
           </p>
         </div>
       </div>
@@ -177,7 +177,7 @@ export default function HomePage() {
             Prête à développer ton activité ?
           </h2>
           <p className="text-[var(--mocha-light)] text-lg opacity-90">
-            Rejoins Lady Social et accède au module 1 gratuitement dès aujourd&apos;hui.
+            Rejoins Lady Socialdown et accède au module 1 gratuitement dès aujourd&apos;hui.
           </p>
           <Link
             href="/inscription"

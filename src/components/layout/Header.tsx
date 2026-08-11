@@ -29,7 +29,7 @@ export function Header() {
               className="text-2xl font-semibold text-[var(--cacao)] tracking-wide"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
-              Lady Social
+              Lady Socialdown
             </span>
           </Link>
 

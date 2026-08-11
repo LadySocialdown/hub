@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Programmes de formation",
-  description: "Découvre tous les programmes Lady Social — du flagship 7 modules aux offres CPF.",
+  description: "Découvre tous les programmes Lady Socialdown — du flagship 7 modules aux offres CPF.",
 };
 
 export default function ProgrammesPage() {

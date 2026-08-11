@@ -28,7 +28,7 @@ export function Footer() {
               className="text-2xl font-semibold text-[var(--cacao)]"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
-              Lady Social
+              Lady Socialdown
             </span>
             <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">
               Formation aux réseaux sociaux pour entrepreneurs à Tours, France.
@@ -64,7 +64,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-[var(--mocha-light)] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[var(--noir)] opacity-50">
-          <span>© {new Date().getFullYear()} Lady Social — Tous droits réservés</span>
+          <span>© {new Date().getFullYear()} Lady Socialdown — Tous droits réservés</span>
           <div className="flex gap-4">
             <Link href="/mentions-legales" className="hover:opacity-100 transition-opacity">
               Mentions légales

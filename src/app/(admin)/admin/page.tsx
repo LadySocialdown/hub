@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Users, BookOpen, Calendar, BarChart3 } from "lucide-react";
 
-export const metadata: Metadata = { title: "Admin — Lady Social" };
+export const metadata: Metadata = { title: "Admin — Lady Socialdown" };
 
 const adminLinks = [
   { href: "/admin/eleves-cpf", icon: <Users size={18} />, label: "Élèves CPF", desc: "Gestion des dossiers et exports" },

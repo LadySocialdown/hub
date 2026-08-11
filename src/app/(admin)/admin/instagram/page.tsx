@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getDashboardStatus } from "@/lib/instagram/scheduler";
 import { Dashboard } from "./Dashboard";
 
-export const metadata: Metadata = { title: "Instagram — Lady Social" };
+export const metadata: Metadata = { title: "Instagram — Lady Socialdown" };
 export const dynamic = "force-dynamic";
 // Windsor.ai + Claude peuvent prendre plus que les 10s par défaut de Vercel — s'applique
 // aussi à la Server Action "Analyser maintenant" invoquée depuis cette page.

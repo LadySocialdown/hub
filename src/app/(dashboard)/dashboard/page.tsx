@@ -46,7 +46,7 @@ export default async function DashboardPage() {
           Bonjour, {firstName} 👋
         </h1>
         <p className="text-sm text-[var(--noir)] opacity-60 mt-1">
-          Ton espace personnel Lady Social.
+          Ton espace personnel Lady Socialdown.
         </p>
       </div>
 

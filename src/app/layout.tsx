@@ -19,8 +19,8 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lady Social — Formation Réseaux Sociaux pour Entrepreneurs",
-    template: "%s | Lady Social",
+    default: "Lady Socialdown — Formation Réseaux Sociaux pour Entrepreneurs",
+    template: "%s | Lady Socialdown",
   },
   description:
     "Développe ton activité grâce aux réseaux sociaux. Formations, outils, coaching et mentorat pensés pour les entrepreneurs.",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    siteName: "Lady Social",
+    siteName: "Lady Socialdown",
   },
 };
 
