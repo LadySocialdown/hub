@@ -140,6 +140,8 @@ async function saveReport(metrics: PeriodMetrics): Promise<InstagramReport> {
     interpretationText = await generateInterpretation(metrics);
   } catch (error) {
     console.error("[instagram] génération de l'interprétation Claude indisponible, rapport sauvegardé sans texte", error);
+    const message = error instanceof Error ? error.message : String(error);
+    interpretationText = `Erreur lors de la génération de l'interprétation (API Anthropic) : ${message}`;
   }
 
   const { data, error } = await supabase
