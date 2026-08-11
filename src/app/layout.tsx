@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   description:
     "Développe ton activité grâce aux réseaux sociaux. Formations, outils, coaching et mentorat pensés pour les entrepreneurs.",
-  metadataBase: new URL("https://ladysocialdown.com"),
+  metadataBase: new URL("https://app.ladysocialdown.com"),
   openGraph: {
     type: "website",
     locale: "fr_FR",
