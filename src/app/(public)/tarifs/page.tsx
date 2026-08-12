@@ -2,54 +2,53 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Tarifs & abonnements",
-  description: "Toutes les offres Lady Socialdown — abonnements mensuels, annuels et accès à vie.",
+  title: "Tarifs & offres",
+  description: "Toutes les offres Lady Socialdown — Next Level, Level Up et La Petite Académie.",
 };
+
+const CONSULTATION_FLASH_URL = "https://www.ladysocialdown.com/consultation-flash";
 
 const plans = [
   {
-    id: "starter",
-    name: "Starter",
-    price: "Gratuit",
-    billing: "Pour toujours",
+    id: "petite-academie",
+    name: "La Petite Académie",
+    price: "597€",
+    billing: "Payable jusqu'en 4 fois",
     features: [
-      "Accès aux ressources gratuites",
-      "Module 1 du programme flagship",
-      "Newsletter hebdomadaire",
+      "Full e-learning, à ton rythme",
+      "+ 1 session de coaching d'1h avec moi",
     ],
-    cta: "Commencer",
-    href: "/inscription",
+    cta: "Bientôt disponible",
+    href: null,
     highlight: false,
+    comingSoon: true,
   },
   {
-    id: "essentielle",
-    name: "Essentielle",
-    price: "29€",
-    billing: "par mois (ou 290€/an)",
+    id: "level-up",
+    name: "Level Up",
+    price: "Sur candidature",
+    billing: "Finançable CPF",
     features: [
-      "Programme flagship complet (7 modules)",
-      "Espace outils complet",
-      "Modules à la carte à −20%",
-      "Ressources téléchargeables illimitées",
+      "25h de formation",
+      "1 mois de mentorat inclus",
+      "Réserve ta consultation flash pour postuler",
     ],
-    cta: "Choisir Essentielle",
-    href: "/inscription?plan=essentielle",
+    cta: "Postuler via la consultation flash",
+    href: CONSULTATION_FLASH_URL,
     highlight: true,
   },
   {
-    id: "vip",
-    name: "VIP",
-    price: "59€",
-    billing: "par mois (ou 590€/an)",
+    id: "next-level",
+    name: "Next Level",
+    price: "Sur candidature",
+    billing: "Finançable CPF",
     features: [
-      "Tout ce qui est inclus dans Essentielle",
-      "1 session coaching/mois incluse",
-      "Communauté privée",
-      "Modules à la carte à −30%",
-      "Accès prioritaire aux nouveautés",
+      "35h de formation",
+      "3 mois de mentorat inclus",
+      "Réserve ta consultation flash pour postuler",
     ],
-    cta: "Choisir VIP",
-    href: "/inscription?plan=vip",
+    cta: "Postuler via la consultation flash",
+    href: CONSULTATION_FLASH_URL,
     highlight: false,
   },
 ];
@@ -65,11 +64,11 @@ export default function TarifsPage() {
           className="text-4xl font-semibold text-[var(--cacao)]"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
-          Tarifs & abonnements
+          Tarifs & offres
         </h1>
         <p className="text-[var(--noir)] opacity-70 max-w-xl mx-auto">
           Choisis la formule adaptée à ton rythme et tes ambitions.
-          Résilie quand tu veux, sans engagement.
+          Next Level et Level Up sont sur candidature, à réserver via une consultation flash.
         </p>
       </div>
 
@@ -77,10 +76,10 @@ export default function TarifsPage() {
         {plans.map((plan) => (
           <div
             key={plan.id}
-            className={`p-8 rounded-2xl border flex flex-col gap-6 ${
+            className={`card-lift p-8 rounded-2xl border flex flex-col gap-6 ${
               plan.highlight
-                ? "bg-[var(--cacao)] border-[var(--cacao)]"
-                : "bg-white border-[var(--mocha-light)]"
+                ? "bg-[var(--cacao)] border-[var(--cacao)] shadow-warm-lg"
+                : "bg-white border-[var(--mocha-light)] shadow-warm"
             }`}
           >
             <div>
@@ -126,16 +125,24 @@ export default function TarifsPage() {
               ))}
             </ul>
 
-            <Link
-              href={plan.href}
-              className={`block text-center py-3 rounded-full text-sm font-medium transition-colors ${
-                plan.highlight
-                  ? "bg-[var(--ivoire)] text-[var(--cacao)] hover:bg-[var(--mocha-light)]"
-                  : "border border-[var(--cacao)] text-[var(--cacao)] hover:bg-[var(--sable)]"
-              }`}
-            >
-              {plan.cta}
-            </Link>
+            {plan.href ? (
+              <Link
+                href={plan.href}
+                target={plan.href.startsWith("http") ? "_blank" : undefined}
+                rel={plan.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className={`block text-center py-3 rounded-full text-sm font-medium transition-colors ${
+                  plan.highlight
+                    ? "bg-[var(--ivoire)] text-[var(--cacao)] hover:bg-[var(--mocha-light)]"
+                    : "border border-[var(--cacao)] text-[var(--cacao)] hover:bg-[var(--sable)]"
+                }`}
+              >
+                {plan.cta}
+              </Link>
+            ) : (
+              <span className="block text-center py-3 rounded-full text-sm font-medium border border-[var(--mocha-light)] text-[var(--noir)] opacity-50 cursor-not-allowed">
+                {plan.cta}
+              </span>
+            )}
           </div>
         ))}
       </div>

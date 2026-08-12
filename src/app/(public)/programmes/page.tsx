@@ -23,19 +23,19 @@ export default function ProgrammesPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-8 bg-[var(--sable)] rounded-2xl border border-[var(--mocha-light)] space-y-4">
+        <div className="card-lift p-8 bg-[var(--sable)] shadow-warm rounded-2xl border border-[var(--mocha-light)] space-y-4">
           <span className="text-xs font-medium px-2.5 py-1 bg-[var(--mocha-light)] text-[var(--cacao)] rounded-full">
-            Programme flagship
+            Bientôt disponible
           </span>
           <h2
             className="text-2xl font-semibold text-[var(--cacao)]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Maîtrise les réseaux sociaux — 7 modules
+            La Petite Académie
           </h2>
           <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">
-            Un module débloqué par semaine. Player vidéo sécurisé, ressources téléchargeables,
-            progression personnelle.
+            Full e-learning à ton rythme, + 1 session de coaching d&apos;1h avec moi.
+            597€ payable jusqu&apos;en 4 fois.
           </p>
           <Link
             href="/tarifs"
@@ -45,19 +45,19 @@ export default function ProgrammesPage() {
           </Link>
         </div>
 
-        <div className="p-8 bg-[var(--sable)] rounded-2xl border border-[var(--mocha-light)] space-y-4">
+        <div className="card-lift p-8 bg-[var(--sable)] shadow-warm rounded-2xl border border-[var(--mocha-light)] space-y-4">
           <span className="text-xs font-medium px-2.5 py-1 bg-[var(--mocha-light)] text-[var(--cacao)] rounded-full">
-            CPF — Financement
+            CPF — Sur candidature
           </span>
           <h2
             className="text-2xl font-semibold text-[var(--cacao)]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Programmes CPF intensifs
+            Next Level & Level Up
           </h2>
           <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">
-            Programmes 25h et 35h finançables via Mon Compte Formation.
-            Coaching post-formation inclus.
+            35h + 3 mois de mentorat, ou 25h + 1 mois de mentorat, finançables via Mon Compte Formation.
+            Réserve ta consultation flash pour postuler.
           </p>
           <Link
             href="/cpf"

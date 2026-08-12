@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, Wrench, Calendar, Award } from "lucide-react";
 
+const CONSULTATION_FLASH_URL = "https://www.ladysocialdown.com/consultation-flash";
+
 export default function HomePage() {
   return (
     <>
@@ -74,10 +76,10 @@ export default function HomePage() {
             />
             <SpaceCard
               icon={<Award size={20} />}
-              title="Programme flagship"
-              description="7 modules pour maîtriser les réseaux sociaux. Accès progressif, player vidéo sécurisé, ressources par module."
-              href="/programmes"
-              badge="Formation"
+              title="La Petite Académie"
+              description="Full e-learning à ton rythme + 1 session de coaching d'1h avec moi. 597€ payable jusqu'en 4 fois."
+              href="/tarifs"
+              badge="Bientôt disponible"
               highlight
             />
             <SpaceCard
@@ -85,7 +87,7 @@ export default function HomePage() {
               title="Espace Outils"
               description="Bibliothèque de templates Canva, Notion, guides PDF et check-lists stratégiques filtrables."
               href="/tarifs"
-              badge="Essentielle+"
+              badge="Ressources"
             />
             <SpaceCard
               icon={<Calendar size={20} />}
@@ -96,8 +98,8 @@ export default function HomePage() {
             />
             <SpaceCard
               icon={<Award size={20} />}
-              title="Offres CPF"
-              description="Programmes intensifs finançables via Mon Compte Formation. 25h ou 35h avec coaching post-formation inclus."
+              title="Next Level & Level Up"
+              description="Formations 35h ou 25h + mentorat, finançables via Mon Compte Formation. Sur candidature, via consultation flash."
               href="/cpf"
               badge="CPF"
             />
@@ -122,39 +124,38 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <PricingCard
-              plan="Starter"
-              price="Gratuit"
+              plan="La Petite Académie"
+              price="597€"
               features={[
-                "Ressources gratuites",
-                "Module 1 offert",
-                "Newsletter hebdomadaire",
+                "Full e-learning, à ton rythme",
+                "+ 1 session de coaching d'1h",
+                "Payable jusqu'en 4 fois",
               ]}
-              cta="Commencer"
-              href="/inscription"
+              cta="Bientôt disponible"
+              href={null}
             />
             <PricingCard
-              plan="Essentielle"
-              price="À partir de 29€/mois"
+              plan="Level Up"
+              price="Sur candidature"
               features={[
-                "Programme flagship complet",
-                "Espace outils complet",
-                "Modules à la carte −20%",
+                "25h de formation",
+                "1 mois de mentorat inclus",
+                "Finançable CPF",
               ]}
-              cta="Choisir Essentielle"
-              href="/tarifs"
+              cta="Postuler via la consultation flash"
+              href={CONSULTATION_FLASH_URL}
               highlight
             />
             <PricingCard
-              plan="VIP"
-              price="À partir de 59€/mois"
+              plan="Next Level"
+              price="Sur candidature"
               features={[
-                "Tout Essentielle",
-                "1 session coaching/mois",
-                "Communauté privée",
-                "Accès prioritaire",
+                "35h de formation",
+                "3 mois de mentorat inclus",
+                "Finançable CPF",
               ]}
-              cta="Choisir VIP"
-              href="/tarifs"
+              cta="Postuler via la consultation flash"
+              href={CONSULTATION_FLASH_URL}
             />
           </div>
 
@@ -269,7 +270,7 @@ function PricingCard({
   price: string;
   features: string[];
   cta: string;
-  href: string;
+  href: string | null;
   highlight?: boolean;
 }) {
   return (
@@ -310,16 +311,28 @@ function PricingCard({
           </li>
         ))}
       </ul>
-      <Link
-        href={href}
-        className={`block text-center px-4 py-2.5 rounded-full text-sm font-medium transition-colors ${
-          highlight
-            ? "bg-[var(--ivoire)] text-[var(--cacao)] hover:bg-[var(--mocha-light)]"
-            : "border border-[var(--cacao)] text-[var(--cacao)] hover:bg-[var(--sable)]"
-        }`}
-      >
-        {cta}
-      </Link>
+      {href ? (
+        <Link
+          href={href}
+          target={href.startsWith("http") ? "_blank" : undefined}
+          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+          className={`block text-center px-4 py-2.5 rounded-full text-sm font-medium transition-colors ${
+            highlight
+              ? "bg-[var(--ivoire)] text-[var(--cacao)] hover:bg-[var(--mocha-light)]"
+              : "border border-[var(--cacao)] text-[var(--cacao)] hover:bg-[var(--sable)]"
+          }`}
+        >
+          {cta}
+        </Link>
+      ) : (
+        <span
+          className={`block text-center px-4 py-2.5 rounded-full text-sm font-medium cursor-not-allowed opacity-60 ${
+            highlight ? "border border-[var(--ivoire)]" : "border border-[var(--mocha-light)]"
+          }`}
+        >
+          {cta}
+        </span>
+      )}
     </div>
   );
 }
