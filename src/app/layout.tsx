@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | Lady Socialdown",
   },
   description:
-    "Développe ton activité grâce aux réseaux sociaux. Formations, outils, coaching et mentorat pensés pour les entrepreneurs.",
+    "Formations et mentorats CPF pour entrepreneurs qui veulent transformer leurs réseaux sociaux en vraie stratégie de vente. Next Level, Level Up, La Petite Académie.",
   metadataBase: new URL("https://app.ladysocialdown.com"),
   openGraph: {
     type: "website",

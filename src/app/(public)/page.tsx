@@ -16,20 +16,17 @@ export default function HomePage() {
             className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-[var(--cacao)] leading-[1.1]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Développe ton activité
-            <br />
-            <em className="italic font-light">grâce aux réseaux sociaux</em>
+            Tu postes, tu t&apos;épuises, mais les clients ne viennent pas
           </h1>
           <p className="text-lg text-[var(--noir)] opacity-70 max-w-2xl mx-auto leading-relaxed">
-            La plateforme tout-en-un pour les entrepreneurs qui veulent maîtriser
-            leur présence en ligne — sans se perdre dans le bruit.
+            3 chemins pour transformer tes réseaux en vraie machine à clients
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
             <Link
-              href="/inscription"
+              href="/tarifs"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--cacao)] text-[var(--ivoire)] rounded-full text-sm font-medium hover:bg-[var(--mocha)] transition-colors"
             >
-              Commencer gratuitement
+              Trouver mon chemin
               <ArrowRight size={16} />
             </Link>
             <Link
@@ -62,7 +59,7 @@ export default function HomePage() {
               className="text-4xl font-semibold text-[var(--cacao)]"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
-              Une plateforme, cinq espaces
+              Une plateforme, six espaces
             </h2>
           </div>
 
@@ -77,9 +74,9 @@ export default function HomePage() {
             <SpaceCard
               icon={<Award size={20} />}
               title="La Petite Académie"
-              description="Full e-learning à ton rythme + 1 session de coaching d'1h avec moi. 597€ payable jusqu'en 4 fois."
+              description="Pose ta stratégie, construis un système de contenu qui vend pour toi, 7j/7"
               href="/tarifs"
-              badge="Bientôt disponible"
+              badge="En autonomie"
               highlight
             />
             <SpaceCard
@@ -98,10 +95,17 @@ export default function HomePage() {
             />
             <SpaceCard
               icon={<Award size={20} />}
-              title="Next Level & Level Up"
-              description="Formations 35h ou 25h + mentorat, finançables via Mon Compte Formation. Sur candidature, via consultation flash."
+              title="Level Up"
+              description="Le déclic peut arriver cette semaine. 25h de formation 100% individualisée, suivies d'1 mois de mentorat pour ancrer les résultats. 0€ à avancer grâce au CPF."
               href="/cpf"
-              badge="CPF"
+              badge="CPF · 100% finançable"
+            />
+            <SpaceCard
+              icon={<Award size={20} />}
+              title="Next Level"
+              description="Arrête de deviner. Ici, on regarde TON business, on identifie ce qui bloque, et on ne te lâche pas tant que ça ne marche pas. 35h de formation 100% individualisée, suivies de 3 mois de mentorat pour transformer durablement ton business. 0€ à avancer grâce au CPF."
+              href="/cpf"
+              badge="CPF · 100% finançable"
             />
           </div>
         </div>
@@ -138,11 +142,12 @@ export default function HomePage() {
               plan="Level Up"
               price="Sur candidature"
               features={[
-                "25h de formation",
-                "1 mois de mentorat inclus",
-                "Finançable CPF",
+                "25h de formation 100% individualisée. Pas de théorie générique, on travaille sur TON activité",
+                "1 mois de mentorat pour ancrer les résultats et éviter de retomber dans les vieux réflexes",
+                "0€ à avancer : financé à 100% par ton CPF",
               ]}
-              cta="Postuler via la consultation flash"
+              tagline="Le déclic peut arriver cette semaine."
+              cta="Je réserve mon appel découverte"
               href={CONSULTATION_FLASH_URL}
               highlight
             />
@@ -150,11 +155,12 @@ export default function HomePage() {
               plan="Next Level"
               price="Sur candidature"
               features={[
-                "35h de formation",
-                "3 mois de mentorat inclus",
-                "Finançable CPF",
+                "35h de formation 100% individualisée. Ta stratégie, ton offre, ton business, retournés dans tous les sens jusqu'à ce que ça tienne",
+                "3 mois de mentorat pour transformer durablement ton business, pas juste tes réseaux",
+                "0€ à avancer : financé à 100% par ton CPF",
               ]}
-              cta="Postuler via la consultation flash"
+              tagline="Tu peux continuer à deviner. Ou tu peux enfin avancer."
+              cta="Je réserve mon appel découverte"
               href={CONSULTATION_FLASH_URL}
             />
           </div>
@@ -175,16 +181,13 @@ export default function HomePage() {
             className="text-4xl font-semibold text-[var(--ivoire)] leading-tight"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Prête à développer ton activité ?
+            Tu peux continuer à deviner. Ou tu peux enfin avancer.
           </h2>
-          <p className="text-[var(--mocha-light)] text-lg opacity-90">
-            Rejoins Lady Socialdown et accède au module 1 gratuitement dès aujourd&apos;hui.
-          </p>
           <Link
-            href="/inscription"
+            href="/tarifs"
             className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--ivoire)] text-[var(--cacao)] rounded-full text-sm font-semibold hover:bg-[var(--mocha-light)] transition-colors"
           >
-            Démarrer gratuitement
+            Découvrir les 3 offres
             <ArrowRight size={16} />
           </Link>
         </div>
@@ -262,6 +265,7 @@ function PricingCard({
   plan,
   price,
   features,
+  tagline,
   cta,
   href,
   highlight = false,
@@ -269,6 +273,7 @@ function PricingCard({
   plan: string;
   price: string;
   features: string[];
+  tagline?: string;
   cta: string;
   href: string | null;
   highlight?: boolean;
@@ -311,6 +316,15 @@ function PricingCard({
           </li>
         ))}
       </ul>
+      {tagline && (
+        <p
+          className={`text-sm italic font-medium ${
+            highlight ? "text-[var(--ivoire)]" : "text-[var(--cacao)]"
+          }`}
+        >
+          {tagline}
+        </p>
+      )}
       {href ? (
         <Link
           href={href}
