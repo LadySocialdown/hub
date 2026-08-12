@@ -174,6 +174,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* À propos / Expertise */}
+      <section className="bg-[var(--cacao)] py-20 px-4">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto md:mx-0 rounded-2xl overflow-hidden bg-[var(--mocha)]/40 flex items-center justify-center">
+            {/* TODO: remplacer par le portrait de Sania (fichier à fournir) */}
+            <span className="text-xs text-[var(--mocha-light)] text-center px-6 opacity-70">
+              Photo de Sania à venir
+            </span>
+          </div>
+          <div className="space-y-5 text-center md:text-left">
+            <h2
+              className="text-4xl sm:text-5xl italic font-light text-[var(--ivoire)]"
+              style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+            >
+              Salut, moi c&apos;est Sania !
+            </h2>
+            <p className="text-[var(--mocha-light)] leading-relaxed">
+              J&apos;ai débuté comme Social Media Manager, puis j&apos;ai travaillé en tant que
+              cheffe de projet digital chez France Télévisions. Après ça, direction Rosielabsglobal
+              pour lancer leur agence française. Franchement, quelle aventure !
+            </p>
+            <p className="text-[var(--mocha-light)] leading-relaxed">
+              J&apos;ai aussi travaillé avec Wunite, une app et communauté incroyable, et Madero France,
+              le n°1 francophone des soins drainants et remodelants. Toutes ces expériences m&apos;ont
+              fait comprendre que chaque business a ses propres défis sur les réseaux.
+            </p>
+            <p className="text-[var(--mocha-light)] leading-relaxed">
+              Ça fait plusieurs années que je partage mes astuces sur les réseaux sociaux, et en 2025,
+              j&apos;ai eu envie de passer au niveau supérieur : accompagner directement les
+              entrepreneures qui galèrent avec leur stratégie social media.
+            </p>
+            <p className="text-[var(--mocha-light)] leading-relaxed">
+              Parce que franchement, il n&apos;y a rien de mieux que de voir une entrepreneuse passer
+              de « je suis perdue » à « j&apos;y arrive enfin » !
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA final */}
       <section className="bg-glow-light py-20 px-4 bg-[var(--cacao)] text-center overflow-hidden">
         <div className="max-w-2xl mx-auto space-y-6">
