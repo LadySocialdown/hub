@@ -15,6 +15,7 @@ export type ResourceType = "article" | "pdf" | "video";
 export type CpfProgram = "25h" | "35h";
 export type InstallmentCount = 3 | 4;
 export type InstallmentStatus = "active" | "completed" | "failed" | "canceled";
+export type PreinscriptionStatut = "en_attente" | "contactee" | "convertie";
 
 export interface Database {
   public: {
@@ -325,6 +326,26 @@ export interface Database {
           next_payment_date?: string | null;
           stripe_setup_intent_id?: string | null;
           status?: InstallmentStatus;
+        };
+        Relationships: [];
+      };
+      preinscriptions_academie: {
+        Row: {
+          id: string;
+          prenom: string;
+          email: string;
+          date: string;
+          statut: PreinscriptionStatut;
+        };
+        Insert: {
+          id?: string;
+          prenom: string;
+          email: string;
+          date?: string;
+          statut?: PreinscriptionStatut;
+        };
+        Update: {
+          statut?: PreinscriptionStatut;
         };
         Relationships: [];
       };

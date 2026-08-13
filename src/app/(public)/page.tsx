@@ -110,8 +110,9 @@ export default function HomePage() {
                 "+ 1 session de coaching d'1h",
                 "Payable jusqu'en 4 fois",
               ]}
-              cta="Bientôt disponible"
-              href={null}
+              tagline="Préinscris-toi pour 497€ au lieu de 597€"
+              cta="Je me préinscris"
+              href="/la-petite-academie"
             />
             <PricingCard
               plan="Level Up"

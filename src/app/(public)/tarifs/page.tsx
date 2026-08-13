@@ -18,10 +18,9 @@ const plans = [
       "Full e-learning, à ton rythme",
       "+ 1 session de coaching d'1h avec moi",
     ],
-    cta: "Bientôt disponible",
-    href: null,
+    cta: "Je me préinscris",
+    href: "/la-petite-academie",
     highlight: false,
-    comingSoon: true,
   },
   {
     id: "level-up",
