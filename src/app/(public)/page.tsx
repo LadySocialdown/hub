@@ -10,7 +10,7 @@ export default function HomePage() {
       <section className="bg-glow bg-[var(--ivoire)] pt-20 pb-24 px-4 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <p className="text-xs uppercase tracking-[0.3em] font-medium text-[var(--mocha)]">
-            Formation · Outils · Coaching
+            De France Télévisions à tes réseaux sociaux
           </p>
           <h1
             className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-[var(--cacao)] leading-[1.1]"
@@ -19,7 +19,7 @@ export default function HomePage() {
             Tu postes, tu t&apos;épuises, mais les clients ne viennent pas
           </h1>
           <p className="text-lg text-[var(--noir)] opacity-70 max-w-2xl mx-auto leading-relaxed">
-            3 chemins pour transformer tes réseaux en vraie machine à clients
+            3 options pour transformer tes réseaux en vraie machine à clients
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
             <Link
