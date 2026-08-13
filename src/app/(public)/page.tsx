@@ -115,11 +115,12 @@ export default function HomePage() {
             />
             <PricingCard
               plan="Level Up"
-              price="Sur candidature"
+              price="2000€"
               features={[
                 "25h de formation 100% individualisée. Pas de théorie générique, on travaille sur TON activité",
                 "1 mois de mentorat pour ancrer les résultats et éviter de retomber dans les vieux réflexes",
-                "0€ à avancer : financé à 100% par ton CPF",
+                "0€ à avancer : financé à 100% par ton CPF, FAFCEA ou OPCO",
+                "Paiement jusqu'en 4x",
               ]}
               tagline="Le déclic peut arriver cette semaine."
               cta="Je réserve mon appel découverte"
@@ -128,11 +129,12 @@ export default function HomePage() {
             />
             <PricingCard
               plan="Next Level"
-              price="Sur candidature"
+              price="2800€"
               features={[
                 "35h de formation 100% individualisée. Ta stratégie, ton offre, ton business, retournés dans tous les sens jusqu'à ce que ça tienne",
                 "3 mois de mentorat pour transformer durablement ton business, pas juste tes réseaux",
-                "0€ à avancer : financé à 100% par ton CPF",
+                "0€ à avancer : financé à 100% par ton CPF, FAFCEA ou OPCO",
+                "Paiement jusqu'en 4x",
               ]}
               tagline="Tu peux continuer à deviner. Ou tu peux enfin avancer."
               cta="Je réserve mon appel découverte"

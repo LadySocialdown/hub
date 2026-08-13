@@ -26,12 +26,13 @@ const plans = [
   {
     id: "level-up",
     name: "Level Up",
-    price: "Sur candidature",
-    billing: "Finançable CPF",
+    price: "2000€",
+    billing: "Finançable CPF, FAFCEA ou OPCO",
     features: [
       "25h de formation",
       "1 mois de mentorat inclus",
       "Réserve ta consultation flash pour postuler",
+      "Paiement jusqu'en 4x",
     ],
     cta: "Postuler via la consultation flash",
     href: CONSULTATION_FLASH_URL,
@@ -40,12 +41,13 @@ const plans = [
   {
     id: "next-level",
     name: "Next Level",
-    price: "Sur candidature",
-    billing: "Finançable CPF",
+    price: "2800€",
+    billing: "Finançable CPF, FAFCEA ou OPCO",
     features: [
       "35h de formation",
       "3 mois de mentorat inclus",
       "Réserve ta consultation flash pour postuler",
+      "Paiement jusqu'en 4x",
     ],
     cta: "Postuler via la consultation flash",
     href: CONSULTATION_FLASH_URL,

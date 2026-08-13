@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Next Level & Level Up — Formation finançable CPF",
+  title: "Next Level & Level Up — Formation finançable CPF, FAFCEA, OPCO",
   description:
-    "Level Up (25h + 1 mois de mentorat) et Next Level (35h + 3 mois de mentorat), finançables via Mon Compte Formation. Sur candidature.",
+    "Level Up (25h + 1 mois de mentorat) et Next Level (35h + 3 mois de mentorat), finançables via CPF, FAFCEA ou OPCO. Sur candidature.",
 };
 
 const CONSULTATION_FLASH_URL = "https://www.ladysocialdown.com/consultation-flash";
@@ -13,6 +13,7 @@ const programs = [
   {
     id: "level-up",
     name: "Level Up",
+    price: "2000€",
     duration: "25h de formation",
     coaching: "1 mois de mentorat inclus",
     content: [
@@ -21,6 +22,7 @@ const programs = [
       "Développement de ta communauté",
       "Conversion & vente via les réseaux",
       "Analytics & pilotage de performance",
+      "Paiement jusqu'en 4x",
     ],
     forWho:
       "Pour les entrepreneurs qui veulent poser des bases solides et développer leur visibilité.",
@@ -28,6 +30,7 @@ const programs = [
   {
     id: "next-level",
     name: "Next Level",
+    price: "2800€",
     duration: "35h de formation",
     coaching: "3 mois de mentorat inclus",
     content: [
@@ -37,6 +40,7 @@ const programs = [
       "Collaboration & partenariats stratégiques",
       "Automatisation & systèmes",
       "Lancement de produits / services",
+      "Paiement jusqu'en 4x",
     ],
     forWho:
       "Pour les entrepreneurs qui veulent aller plus loin et structurer une présence en ligne rentable.",
@@ -49,7 +53,7 @@ export default function CpfPage() {
       {/* Hero */}
       <div className="text-center mb-14 space-y-4">
         <span className="inline-block text-xs font-medium px-3 py-1 bg-[var(--mocha-light)] text-[var(--cacao)] rounded-full uppercase tracking-widest">
-          Finançable CPF
+          Finançable CPF, FAFCEA ou OPCO
         </span>
         <h1
           className="text-4xl sm:text-5xl font-semibold text-[var(--cacao)] leading-tight"
@@ -61,7 +65,8 @@ export default function CpfPage() {
         </h1>
         <p className="text-[var(--noir)] opacity-70 max-w-xl mx-auto text-lg">
           Level Up et Next Level sont sur candidature : réserve ta consultation flash pour postuler.
-          Utilise tes droits CPF pour financer ta formation, paiement fractionné 3x ou 4x disponible pour le reste à charge.
+          Utilise ton CPF, ton FAFCEA ou ton OPCO pour financer ta formation, paiement jusqu&apos;en 4x
+          disponible pour le reste à charge.
         </p>
       </div>
 
@@ -76,12 +81,20 @@ export default function CpfPage() {
               <span className="text-xs font-medium px-2.5 py-1 bg-[var(--sable)] text-[var(--mocha)] rounded-full">
                 {prog.duration} · {prog.coaching}
               </span>
-              <h2
-                className="text-2xl font-semibold text-[var(--cacao)] mt-3"
-                style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-              >
-                {prog.name}
-              </h2>
+              <div className="flex items-baseline gap-3 mt-3">
+                <h2
+                  className="text-2xl font-semibold text-[var(--cacao)]"
+                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                >
+                  {prog.name}
+                </h2>
+                <span
+                  className="text-lg font-semibold text-[var(--mocha)]"
+                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                >
+                  {prog.price}
+                </span>
+              </div>
               <p className="text-sm text-[var(--noir)] opacity-60">{prog.forWho}</p>
             </div>
 
