@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Wrench, Calendar, Award } from "lucide-react";
+import { ArrowRight, BookOpen, Wrench, Calendar } from "lucide-react";
 
 const CONSULTATION_FLASH_URL = "https://www.ladysocialdown.com/consultation-flash";
 
@@ -59,53 +59,28 @@ export default function HomePage() {
               className="text-4xl font-semibold text-[var(--cacao)]"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
-              Une plateforme, six espaces
+              1 plateforme, 3 espaces
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <SpaceCard
               icon={<BookOpen size={20} />}
-              title="Ressources gratuites"
-              description="Guides PDF, articles SEO, replays de lives et capsules vidéo. Accès libre, sans compte requis."
-              href="/ressources"
-              badge="Gratuit"
-            />
-            <SpaceCard
-              icon={<Award size={20} />}
-              title="La Petite Académie"
-              description="Pose ta stratégie, construis un système de contenu qui vend pour toi, 7j/7"
-              href="/tarifs"
-              badge="En autonomie"
-              highlight
+              title="Espace Formation"
+              description="Des programmes complets et un accompagnement pour structurer ta stratégie et créer du contenu qui vend, jusqu'à l'action concrète."
+              href="/programmes"
             />
             <SpaceCard
               icon={<Wrench size={20} />}
-              title="Espace Outils"
-              description="Bibliothèque de templates Canva, Notion, guides PDF et check-lists stratégiques filtrables."
-              href="/tarifs"
-              badge="Ressources"
+              title="Ta boîte à ressources"
+              description="Guides, templates et outils en libre accès pour avancer à ton rythme, gratuits ou approfondis."
+              href="/ressources"
             />
             <SpaceCard
               icon={<Calendar size={20} />}
-              title="Coaching & Mentorat"
-              description="Sessions 1:1 ponctuelles ou accompagnement long terme. Réservation en ligne, paiement sécurisé avant confirmation."
-              href="/tarifs#coaching"
-              badge="Sur réservation"
-            />
-            <SpaceCard
-              icon={<Award size={20} />}
-              title="Level Up"
-              description="Le déclic peut arriver cette semaine. 25h de formation 100% individualisée, suivies d'1 mois de mentorat pour ancrer les résultats. 0€ à avancer grâce au CPF."
-              href="/cpf"
-              badge="CPF · 100% finançable"
-            />
-            <SpaceCard
-              icon={<Award size={20} />}
-              title="Next Level"
-              description="Arrête de deviner. Ici, on regarde TON business, on identifie ce qui bloque, et on ne te lâche pas tant que ça ne marche pas. 35h de formation 100% individualisée, suivies de 3 mois de mentorat pour transformer durablement ton business. 0€ à avancer grâce au CPF."
-              href="/cpf"
-              badge="CPF · 100% finançable"
+              title="Mentorat & suivi"
+              description="Un accompagnement humain qui ne s'arrête pas à la fin de la formation, pour ancrer les résultats dans la durée."
+              href="/tarifs#mentorat"
             />
           </div>
         </div>
@@ -247,7 +222,7 @@ function SpaceCard({
   title: string;
   description: string;
   href: string;
-  badge: string;
+  badge?: string;
   highlight?: boolean;
 }) {
   return (
@@ -270,15 +245,17 @@ function SpaceCard({
           >
             {icon}
           </div>
-          <span
-            className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-              highlight
-                ? "bg-[var(--mocha-light)]/20 text-[var(--mocha-light)]"
-                : "bg-[var(--sable)] text-[var(--mocha)]"
-            }`}
-          >
-            {badge}
-          </span>
+          {badge && (
+            <span
+              className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                highlight
+                  ? "bg-[var(--mocha-light)]/20 text-[var(--mocha-light)]"
+                  : "bg-[var(--sable)] text-[var(--mocha)]"
+              }`}
+            >
+              {badge}
+            </span>
+          )}
         </div>
         <h3
           className={`text-lg font-semibold ${
