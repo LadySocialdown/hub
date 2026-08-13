@@ -10,7 +10,7 @@ export default function HomePage() {
       <section className="bg-glow bg-[var(--ivoire)] pt-20 pb-24 px-4 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <p className="text-xs uppercase tracking-[0.3em] font-medium text-[var(--mocha)]">
-            De France Télévisions à tes réseaux sociaux
+            Stratégie · Contenu · Conversion
           </p>
           <h1
             className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-[var(--cacao)] leading-[1.1]"
@@ -26,7 +26,7 @@ export default function HomePage() {
               href="/tarifs"
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--cacao)] text-[var(--ivoire)] rounded-full text-sm font-medium hover:bg-[var(--mocha)] transition-colors"
             >
-              Trouver mon chemin
+              Je veux enfin avancer
               <ArrowRight size={16} />
             </Link>
             <Link
