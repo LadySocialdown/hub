@@ -1,9 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { Resend } from "resend";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { pushPreinscriptionToSystemeIo } from "@/lib/systemeio";
+
+const SYSTEME_IO_TAG_NAME = "Préinscrite Petite Académie";
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!);
+}
+
+function precommandeConfirmationEmailHtml(prenom: string): string {
+  return `
+    <div style="font-family: sans-serif; color: #1A1410; max-width: 480px; margin: 0 auto;">
+      <p style="font-size: 20px; color: #5A3E36;">Salut ${prenom} !</p>
+      <p>C'est confirmé : ton paiement de <strong>497€</strong> a bien été reçu, ta place est réservée pour
+      <strong>La Petite Académie</strong>.</p>
+      <ul>
+        <li>Accès complet à partir du <strong>21 septembre 2026</strong></li>
+        <li>Module complémentaire « Les bases du marketing à connaître avant de commencer » offert</li>
+      </ul>
+      <p>Conformément à la loi, tu disposes d'un <strong>droit de rétractation de 14 jours</strong> à compter
+      de ton paiement. Pour l'exercer, il te suffit de répondre à cet email.</p>
+      <p>À très vite,<br />Sania — Lady Socialdown</p>
+    </div>
+  `;
+}
+
+async function handlePrecommandeAcademie(
+  supabase: ReturnType<typeof createServerSupabaseClient>,
+  session: Stripe.Checkout.Session
+) {
+  if (session.payment_status !== "paid") return;
+
+  const email = (session.metadata?.email ?? session.customer_details?.email ?? "").toLowerCase();
+  const prenom = session.metadata?.prenom ?? "";
+  if (!email) return;
+
+  const { data: existing } = await supabase
+    .from("precommandes_academie")
+    .select("id")
+    .eq("stripe_session_id", session.id)
+    .maybeSingle();
+  if (existing) return; // déjà traité (retry webhook Stripe)
+
+  const { error } = await supabase.from("precommandes_academie").insert({
+    prenom,
+    email,
+    montant: (session.amount_total ?? 49700) / 100,
+    stripe_session_id: session.id,
+  });
+
+  if (error) {
+    console.error("[precommande] échec de l'enregistrement Supabase", error);
+    return;
+  }
+
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: "Lady Socialdown <hello@ladysocialdown.com>",
+        to: email,
+        subject: "Ta place est réservée pour La Petite Académie",
+        html: precommandeConfirmationEmailHtml(prenom),
+      });
+    } catch (error) {
+      console.error("[precommande] échec de l'email de confirmation", error);
+    }
+  }
+
+  if (process.env.SYSTEME_IO_API_KEY) {
+    try {
+      await pushPreinscriptionToSystemeIo(email, prenom, SYSTEME_IO_TAG_NAME);
+    } catch (error) {
+      console.error("[precommande] échec de la synchro Systeme.io", error);
+    }
+  }
 }
 
 function getPlanMap(): Record<string, "starter" | "essentielle" | "vip"> {
@@ -41,6 +114,12 @@ export async function POST(req: NextRequest) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
+
+      if (session.metadata?.type === "academie_precommande") {
+        await handlePrecommandeAcademie(supabase, session);
+        break;
+      }
+
       const userId = session.metadata?.clerk_user_id;
       if (!userId) break;
 

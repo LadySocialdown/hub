@@ -1,37 +1,21 @@
 "use server";
 
-import { Resend } from "resend";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { pushPreinscriptionToSystemeIo } from "@/lib/systemeio";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getStripe, getOrCreatePrecommandeAcademiePrice } from "@/lib/stripe";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const SYSTEME_IO_TAG_NAME = "La petite Académie Promo Lancement";
+const FALLBACK_ORIGIN = "https://app.ladysocialdown.com";
 
-export interface PreinscriptionState {
+export interface PrecommandeState {
   ok: boolean;
   message: string;
 }
 
-function confirmationEmailHtml(prenom: string): string {
-  return `
-    <div style="font-family: sans-serif; color: #1A1410; max-width: 480px; margin: 0 auto;">
-      <p style="font-size: 20px; color: #5A3E36;">Salut ${prenom} !</p>
-      <p>C'est confirmé : ta place est réservée pour <strong>La Petite Académie</strong>.</p>
-      <p>En tant que préinscrite, tu es garantie de bénéficier :</p>
-      <ul>
-        <li>du tarif de lancement à <strong>497€</strong> au lieu de 597€</li>
-        <li>du module complémentaire « Les bases du marketing à connaître avant de commencer » offert</li>
-      </ul>
-      <p>On te préviendra en priorité dès l'ouverture, avec ton tarif préférentiel garanti. Aucun engagement, aucun paiement pour l'instant.</p>
-      <p>À très vite,<br />Sania — Lady Socialdown</p>
-    </div>
-  `;
-}
-
-export async function submitPreinscription(
-  _prevState: PreinscriptionState | null,
+export async function createPrecommandeCheckout(
+  _prevState: PrecommandeState | null,
   formData: FormData
-): Promise<PreinscriptionState> {
+): Promise<PrecommandeState> {
   const prenom = String(formData.get("prenom") ?? "").trim();
   const email = String(formData.get("email") ?? "")
     .trim()
@@ -44,42 +28,34 @@ export async function submitPreinscription(
     return { ok: false, message: "Cet email ne semble pas valide." };
   }
 
-  const supabase = createServerSupabaseClient();
-  const { error } = await supabase
-    .from("preinscriptions_academie")
-    .upsert({ prenom, email, date: new Date().toISOString() }, { onConflict: "email" });
+  const origin = (await headers()).get("origin") ?? FALLBACK_ORIGIN;
 
-  if (error) {
-    console.error("[preinscription] échec de l'enregistrement Supabase", error);
+  let checkoutUrl: string | null;
+  try {
+    const stripe = getStripe();
+    const priceId = await getOrCreatePrecommandeAcademiePrice();
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      customer_email: email,
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${origin}/la-petite-academie/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/la-petite-academie`,
+      metadata: {
+        type: "academie_precommande",
+        prenom,
+        email,
+      },
+    });
+    checkoutUrl = session.url;
+  } catch (error) {
+    console.error("[precommande] échec de la création de la session Stripe", error);
     return { ok: false, message: "Une erreur est survenue, réessaie dans un instant." };
   }
 
-  if (process.env.SYSTEME_IO_API_KEY) {
-    try {
-      await pushPreinscriptionToSystemeIo(email, prenom, SYSTEME_IO_TAG_NAME);
-    } catch (error) {
-      // L'échec de la synchro Systeme.io ne doit pas faire échouer la préinscription elle-même.
-      console.error("[preinscription] échec de la synchro Systeme.io", error);
-    }
+  if (!checkoutUrl) {
+    return { ok: false, message: "Une erreur est survenue, réessaie dans un instant." };
   }
 
-  if (process.env.RESEND_API_KEY) {
-    try {
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      await resend.emails.send({
-        from: "Lady Socialdown <hello@ladysocialdown.com>",
-        to: email,
-        subject: "Ta place est réservée pour La Petite Académie",
-        html: confirmationEmailHtml(prenom),
-      });
-    } catch (error) {
-      // L'échec de l'email ne doit pas faire échouer la préinscription elle-même.
-      console.error("[preinscription] échec de l'email de confirmation", error);
-    }
-  }
-
-  return {
-    ok: true,
-    message: "C'est fait ! Vérifie ta boîte mail pour la confirmation de ta préinscription.",
-  };
+  redirect(checkoutUrl);
 }

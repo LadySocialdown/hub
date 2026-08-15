@@ -1,20 +1,12 @@
 "use client";
 
 import { useActionState } from "react";
-import { submitPreinscription, type PreinscriptionState } from "./actions";
+import { createPrecommandeCheckout, type PrecommandeState } from "./actions";
 
-const initialState: PreinscriptionState = { ok: false, message: "" };
+const initialState: PrecommandeState = { ok: false, message: "" };
 
-export function PreinscriptionForm() {
-  const [state, formAction, isPending] = useActionState(submitPreinscription, initialState);
-
-  if (state.ok) {
-    return (
-      <div className="rounded-2xl bg-[var(--ivoire)]/10 border border-[var(--mocha-light)]/40 p-6 text-center">
-        <p className="text-lg font-semibold text-[var(--ivoire)]">{state.message}</p>
-      </div>
-    );
-  }
+export function PrecommandeForm() {
+  const [state, formAction, isPending] = useActionState(createPrecommandeCheckout, initialState);
 
   return (
     <form action={formAction} className="space-y-4">
@@ -39,14 +31,15 @@ export function PreinscriptionForm() {
         disabled={isPending}
         className="w-full sm:w-auto px-8 py-3 bg-[var(--ivoire)] text-[var(--cacao)] rounded-full text-sm font-semibold hover:bg-[var(--mocha-light)] transition-colors disabled:opacity-60"
       >
-        {isPending ? "Envoi en cours…" : "Je me préinscris"}
+        {isPending ? "Redirection vers le paiement…" : "Je réserve ma place, 497€"}
       </button>
       {!state.ok && state.message && (
         <p className="text-sm text-[var(--ivoire)] bg-red-900/30 rounded-lg px-3 py-2">{state.message}</p>
       )}
       <p className="text-xs text-[var(--mocha-light)] opacity-80">
-        Aucun engagement, aucun paiement maintenant. Tu seras contactée dès l&apos;ouverture, avec ton
-        tarif préférentiel garanti.
+        Paiement sécurisé par Stripe. Accès complet à La Petite Académie à partir du 21 septembre 2026.
+        Conformément à la loi, tu disposes d&apos;un droit de rétractation de 14 jours à compter de ton
+        paiement.
       </p>
     </form>
   );

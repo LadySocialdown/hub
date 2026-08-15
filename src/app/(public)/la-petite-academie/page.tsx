@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { PreinscriptionForm } from "./PreinscriptionForm";
+import { PrecommandeForm } from "./PrecommandeForm";
 
 export const metadata: Metadata = {
   title: "La Petite Académie",
   description:
-    "La Petite Académie ouvre bientôt : préinscris-toi pour bénéficier du tarif de lancement à 497€ au lieu de 597€.",
+    "La Petite Académie ouvre le 21 septembre 2026 : réserve ta place dès maintenant au tarif de lancement à 497€ au lieu de 597€.",
 };
 
 // TODO: le reste de la page (piliers, modules, FAQ) sera ajouté au fur et à mesure
 // que le contenu de La Petite Académie est finalisé. Pour l'instant, seule la
-// section de préinscription (section 8 du brief) est en place.
+// section de précommande est en place.
 
 export default function LaPetiteAcademiePage() {
   return (
@@ -31,28 +31,26 @@ export default function LaPetiteAcademiePage() {
         </div>
       </section>
 
-      {/* Préinscription */}
+      {/* Précommande */}
       <section className="bg-glow-light bg-[var(--cacao)] py-20 px-4 overflow-hidden">
         <div className="max-w-2xl mx-auto text-center space-y-6">
           <h2
             className="text-3xl sm:text-4xl font-semibold text-[var(--ivoire)]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Sois parmi les premières à y accéder
+            Réserve ta place maintenant
           </h2>
           <p className="text-[var(--mocha-light)] leading-relaxed">
-            La Petite Académie ouvre bientôt. Préinscris-toi dès maintenant pour bénéficier du tarif de
-            lancement à 497€ au lieu de 597€, réservé aux premières inscrites, et repars avec le module
-            complémentaire « Les bases du marketing à connaître avant de commencer » offert. Sois aussi
-            prévenue en priorité dès l&apos;ouverture.
+            La Petite Académie ouvre le 21 septembre 2026. Réserve ta place dès maintenant au tarif de
+            lancement à 497€ au lieu de 597€, et repars avec le module complémentaire « Les bases du
+            marketing à connaître avant de commencer » offert.
           </p>
           <p className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-[var(--ivoire)]/10 border border-[var(--mocha-light)]/40 text-[var(--ivoire)]">
-            497€ au lieu de 597€ + module « Les bases du marketing à connaître avant de commencer »
-            offert · Offre réservée aux préinscrites
+            Ouverture le 21 septembre 2026 · 497€ au lieu de 597€ + module offert
           </p>
 
           <div className="pt-2 max-w-md mx-auto">
-            <PreinscriptionForm />
+            <PrecommandeForm />
           </div>
         </div>
       </section>

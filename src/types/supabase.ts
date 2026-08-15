@@ -16,6 +16,7 @@ export type CpfProgram = "25h" | "35h";
 export type InstallmentCount = 3 | 4;
 export type InstallmentStatus = "active" | "completed" | "failed" | "canceled";
 export type PreinscriptionStatut = "en_attente" | "contactee" | "convertie";
+export type PrecommandeStatut = "paye";
 
 export interface Database {
   public: {
@@ -346,6 +347,30 @@ export interface Database {
         };
         Update: {
           statut?: PreinscriptionStatut;
+        };
+        Relationships: [];
+      };
+      precommandes_academie: {
+        Row: {
+          id: string;
+          prenom: string;
+          email: string;
+          montant: number;
+          stripe_session_id: string;
+          paid_at: string;
+          statut: PrecommandeStatut;
+        };
+        Insert: {
+          id?: string;
+          prenom: string;
+          email: string;
+          montant: number;
+          stripe_session_id: string;
+          paid_at?: string;
+          statut?: PrecommandeStatut;
+        };
+        Update: {
+          statut?: PrecommandeStatut;
         };
         Relationships: [];
       };
