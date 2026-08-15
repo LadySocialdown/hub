@@ -2,8 +2,10 @@
 
 import { Resend } from "resend";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { pushPreinscriptionToSystemeIo } from "@/lib/systemeio";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SYSTEME_IO_TAG_NAME = "La petite Académie Promo Lancement";
 
 export interface PreinscriptionState {
   ok: boolean;
@@ -50,6 +52,15 @@ export async function submitPreinscription(
   if (error) {
     console.error("[preinscription] échec de l'enregistrement Supabase", error);
     return { ok: false, message: "Une erreur est survenue, réessaie dans un instant." };
+  }
+
+  if (process.env.SYSTEME_IO_API_KEY) {
+    try {
+      await pushPreinscriptionToSystemeIo(email, prenom, SYSTEME_IO_TAG_NAME);
+    } catch (error) {
+      // L'échec de la synchro Systeme.io ne doit pas faire échouer la préinscription elle-même.
+      console.error("[preinscription] échec de la synchro Systeme.io", error);
+    }
   }
 
   if (process.env.RESEND_API_KEY) {
