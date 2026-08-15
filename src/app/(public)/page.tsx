@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Wrench, Calendar } from "lucide-react";
 
@@ -155,11 +156,15 @@ export default function HomePage() {
       {/* À propos / Expertise */}
       <section className="bg-[var(--cacao)] py-20 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto md:mx-0 rounded-2xl overflow-hidden bg-[var(--mocha)]/40 flex items-center justify-center">
-            {/* TODO: remplacer par le portrait de Sania (fichier à fournir) */}
-            <span className="text-xs text-[var(--mocha-light)] text-center px-6 opacity-70">
-              Photo de Sania à venir
-            </span>
+          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto md:mx-0 rounded-2xl overflow-hidden bg-[var(--mocha)]/40">
+            <Image
+              src="/sania-portrait.jpg"
+              alt="Sania, fondatrice de Lady Socialdown"
+              fill
+              sizes="(min-width: 768px) 384px, 100vw"
+              className="object-cover"
+              priority
+            />
           </div>
           <div className="space-y-5 text-center md:text-left">
             <h2
