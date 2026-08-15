@@ -105,13 +105,15 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <PricingCard
               plan="La Petite Académie"
-              price="597€"
+              price="497€"
+              oldPrice="597€"
+              badge="Offre de lancement"
               features={[
                 "Full e-learning, à ton rythme",
                 "+ 1 session de coaching d'1h",
                 "Payable jusqu'en 4 fois",
               ]}
-              tagline="Préinscris-toi pour 497€ au lieu de 597€"
+              tagline="Réservé aux premières inscrites, places limitées"
               cta="Je me préinscris"
               href="/la-petite-academie"
             />
@@ -288,6 +290,8 @@ function SpaceCard({
 function PricingCard({
   plan,
   price,
+  oldPrice,
+  badge,
   features,
   tagline,
   cta,
@@ -296,6 +300,8 @@ function PricingCard({
 }: {
   plan: string;
   price: string;
+  oldPrice?: string;
+  badge?: string;
   features: string[];
   tagline?: string;
   cta: string;
@@ -304,12 +310,19 @@ function PricingCard({
 }) {
   return (
     <div
-      className={`card-lift p-6 rounded-2xl border flex flex-col gap-4 ${
+      className={`card-lift p-6 rounded-2xl border flex flex-col gap-4 relative ${
         highlight
           ? "bg-[var(--cacao)] border-[var(--cacao)] text-[var(--ivoire)] shadow-warm-lg scale-[1.02]"
+          : badge
+          ? "bg-white border-[var(--cacao)] border-2 shadow-warm-lg"
           : "bg-white border-[var(--mocha-light)] shadow-warm"
       }`}
     >
+      {badge && (
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[var(--cacao)] text-[var(--ivoire)] text-xs font-semibold uppercase tracking-[0.15em] shadow-warm whitespace-nowrap">
+          {badge}
+        </span>
+      )}
       <div>
         <p
           className={`text-xs uppercase tracking-[0.2em] font-medium mb-1 ${
@@ -318,14 +331,25 @@ function PricingCard({
         >
           {plan}
         </p>
-        <p
-          className={`text-xl font-semibold ${
-            highlight ? "text-[var(--ivoire)]" : "text-[var(--cacao)]"
-          }`}
-          style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-        >
-          {price}
-        </p>
+        <div className="flex items-baseline gap-2 flex-wrap">
+          <p
+            className={`text-3xl font-bold ${
+              highlight ? "text-[var(--ivoire)]" : "text-[var(--cacao)]"
+            }`}
+            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+          >
+            {price}
+          </p>
+          {oldPrice && (
+            <p
+              className={`text-base line-through ${
+                highlight ? "text-[var(--mocha-light)] opacity-70" : "text-[var(--noir)] opacity-40"
+              }`}
+            >
+              {oldPrice}
+            </p>
+          )}
+        </div>
       </div>
       <ul className="space-y-2 flex-1">
         {features.map((f) => (
