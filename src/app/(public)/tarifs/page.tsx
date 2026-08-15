@@ -8,17 +8,33 @@ export const metadata: Metadata = {
 
 const CONSULTATION_FLASH_URL = "https://www.ladysocialdown.com/consultation-flash";
 
-const plans = [
+interface Plan {
+  id: string;
+  name: string;
+  price: string;
+  oldPrice?: string;
+  badge?: string;
+  billing: string;
+  features: string[];
+  cta: string;
+  href: string;
+  highlight: boolean;
+}
+
+const plans: Plan[] = [
   {
     id: "petite-academie",
     name: "La Petite Académie",
-    price: "597€",
-    billing: "Payable jusqu'en 4 fois",
+    price: "497€",
+    oldPrice: "597€",
+    badge: "Offre de lancement",
+    billing: "Précommande — accès dès le 21 septembre 2026",
     features: [
       "Full e-learning, à ton rythme",
       "+ 1 session de coaching d'1h avec moi",
+      "Module « Les bases du marketing à connaître avant de commencer » offert",
     ],
-    cta: "Je me préinscris",
+    cta: "Je réserve ma place, 497€",
     href: "/la-petite-academie",
     highlight: false,
   },
@@ -77,12 +93,19 @@ export default function TarifsPage() {
         {plans.map((plan) => (
           <div
             key={plan.id}
-            className={`card-lift p-8 rounded-2xl border flex flex-col gap-6 ${
+            className={`card-lift p-8 rounded-2xl border flex flex-col gap-6 relative ${
               plan.highlight
                 ? "bg-[var(--cacao)] border-[var(--cacao)] shadow-warm-lg"
+                : plan.badge
+                ? "bg-white border-[var(--cacao)] border-2 shadow-warm-lg"
                 : "bg-white border-[var(--mocha-light)] shadow-warm"
             }`}
           >
+            {plan.badge && (
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[var(--cacao)] text-[var(--ivoire)] text-xs font-semibold uppercase tracking-[0.15em] shadow-warm whitespace-nowrap">
+                {plan.badge}
+              </span>
+            )}
             <div>
               <p
                 className={`text-xs uppercase tracking-[0.25em] font-medium mb-2 ${
@@ -91,14 +114,27 @@ export default function TarifsPage() {
               >
                 {plan.name}
               </p>
-              <p
-                className={`text-3xl font-semibold ${
-                  plan.highlight ? "text-[var(--ivoire)]" : "text-[var(--cacao)]"
-                }`}
-                style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-              >
-                {plan.price}
-              </p>
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <p
+                  className={`text-3xl font-bold ${
+                    plan.highlight ? "text-[var(--ivoire)]" : "text-[var(--cacao)]"
+                  }`}
+                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                >
+                  {plan.price}
+                </p>
+                {plan.oldPrice && (
+                  <p
+                    className={`text-base line-through ${
+                      plan.highlight
+                        ? "text-[var(--mocha-light)] opacity-70"
+                        : "text-[var(--noir)] opacity-40"
+                    }`}
+                  >
+                    {plan.oldPrice}
+                  </p>
+                )}
+              </div>
               <p
                 className={`text-sm mt-1 ${
                   plan.highlight
