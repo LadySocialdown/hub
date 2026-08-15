@@ -9,6 +9,7 @@ const isPublicRoute = createRouteMatcher([
   "/cpf(.*)",
   "/connexion(.*)",
   "/inscription(.*)",
+  "/la-petite-academie(.*)",
   "/api/webhooks/(.*)",
 ]);
 
