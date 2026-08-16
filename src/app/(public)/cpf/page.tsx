@@ -22,6 +22,7 @@ const programs = [
       "Développement de ta communauté",
       "Conversion & vente via les réseaux",
       "Analytics & pilotage de performance",
+      "Accès au Cercle Social, un rendez-vous live avec toutes les élèves chaque mois",
       "Paiement jusqu'en 4x",
     ],
     forWho:
@@ -40,6 +41,7 @@ const programs = [
       "Collaboration & partenariats stratégiques",
       "Automatisation & systèmes",
       "Lancement de produits / services",
+      "Accès au Cercle Social, un rendez-vous live avec toutes les élèves chaque mois",
       "Paiement jusqu'en 4x",
     ],
     forWho:
