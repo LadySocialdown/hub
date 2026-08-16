@@ -193,18 +193,21 @@ export default function TarifsPage() {
             className="text-2xl font-semibold text-[var(--cacao)]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Session coaching 1:1
+            Coaching à la carte
           </h2>
           <p className="text-sm text-[var(--noir)] opacity-70 max-w-md">
-            60 minutes, paiement avant confirmation. Annulation possible jusqu&apos;à 48h avant.
+            150€ les 2h, paiement intégral à la réservation. Annulation à 4 jours ou plus avant la
+            séance : remboursée à 70%. À moins de 4 jours : non remboursable.
           </p>
         </div>
-        <Link
-          href="/dashboard/coaching"
+        <a
+          href="https://calendly.com/contact-ladysocialdown/coaching-a-la-carte"
+          target="_blank"
+          rel="noopener noreferrer"
           className="shrink-0 px-6 py-3 bg-[var(--cacao)] text-[var(--ivoire)] rounded-full text-sm font-medium hover:bg-[var(--mocha)] transition-colors"
         >
           Réserver une session
-        </Link>
+        </a>
       </div>
 
       <p className="text-center mt-8 text-sm text-[var(--noir)] opacity-50">
