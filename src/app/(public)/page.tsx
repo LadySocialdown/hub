@@ -80,7 +80,7 @@ export default function HomePage() {
             <SpaceCard
               icon={<Calendar size={20} />}
               title="Mentorat & suivi"
-              description="Un accompagnement humain qui ne s'arrête pas à la fin de la formation, pour ancrer les résultats dans la durée."
+              description="Du coaching 1:1 exclusivement, jamais en groupe : on va à fond sur TON projet, avec un suivi qui continue après la formation pour ancrer les résultats."
               href="/tarifs#mentorat"
             />
           </div>
