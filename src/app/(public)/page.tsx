@@ -80,7 +80,7 @@ export default function HomePage() {
             <SpaceCard
               icon={<Calendar size={20} />}
               title="Mentorat & suivi"
-              description="Du coaching 1:1 exclusivement, jamais en groupe : on va à fond sur TON projet, avec un suivi qui continue après la formation pour ancrer les résultats. Et une fois par mois, retrouve toutes les élèves lors du Cercle Social."
+              description="Du coaching 1:1 exclusivement, jamais en groupe : on va à fond sur TON projet, avec un suivi qui continue après la formation pour ancrer les résultats. Et une fois par mois, retrouve tous les élèves lors du Cercle Social."
               href="/tarifs#mentorat"
             />
           </div>
