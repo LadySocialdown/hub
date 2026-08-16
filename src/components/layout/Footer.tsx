@@ -12,7 +12,7 @@ const footerLinks = {
     { href: "/ressources#newsletter", label: "Newsletter" },
   ],
   "Coaching": [
-    { href: "/dashboard/coaching", label: "Réserver une session" },
+    { href: "https://calendly.com/contact-ladysocialdown/coaching-a-la-carte", label: "Réserver une session" },
     { href: "/tarifs#mentorat", label: "Programme mentorat" },
   ],
 };
@@ -52,6 +52,8 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       className="text-sm text-[var(--noir)] opacity-70 hover:opacity-100 hover:text-[var(--mocha)] transition-colors"
                     >
                       {link.label}
