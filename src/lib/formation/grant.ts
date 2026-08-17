@@ -39,6 +39,15 @@ export async function grantFormationAccess(params: {
   const existingUser = existingUsers[0];
 
   if (existingUser) {
+    // `public.users` n'est peuplée que par le webhook Clerk : un compte créé avant sa mise
+    // en place (ou une synchro manquée) peut exister côté Clerk sans exister ici. On se
+    // resynchronise nous-mêmes pour ne pas dépendre de l'ordre d'exécution du webhook.
+    const name = [existingUser.firstName, existingUser.lastName].filter(Boolean).join(" ") || null;
+    const { error: userSyncError } = await supabase
+      .from("users")
+      .upsert({ id: existingUser.id, email, name }, { onConflict: "id" });
+    if (userSyncError) throw userSyncError;
+
     const { error } = await supabase
       .from("course_enrollments")
       .upsert(
