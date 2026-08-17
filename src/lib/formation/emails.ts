@@ -6,6 +6,11 @@ function requireResend(): Resend {
   return new Resend(apiKey);
 }
 
+/** resend.emails.send() ne lève pas d'exception en cas d'échec : il renvoie { error }. */
+function assertSent(result: { error: { message: string } | null }): void {
+  if (result.error) throw new Error(`Échec de l'envoi de l'email (Resend) : ${result.error.message}`);
+}
+
 function emailShell(bodyHtml: string): string {
   return `
     <div style="font-family: sans-serif; color: #1A1410; max-width: 480px; margin: 0 auto;">
@@ -24,7 +29,7 @@ export async function sendFormationInvitationEmail(params: {
   const { to, courseTitle, invitationUrl } = params;
   const resend = requireResend();
 
-  await resend.emails.send({
+  const result = await resend.emails.send({
     from: "Lady Socialdown <hello@ladysocialdown.com>",
     to,
     subject: `Ton accès à ${courseTitle} est prêt`,
@@ -40,6 +45,7 @@ export async function sendFormationInvitationEmail(params: {
       <p style="font-size: 13px; opacity: 0.7;">Ce lien est personnel, ne le partage pas.</p>
     `),
   });
+  assertSent(result);
 }
 
 /** Élève ayant déjà un compte : accès direct à l'espace formation. */
@@ -51,7 +57,7 @@ export async function sendFormationAccessReadyEmail(params: {
   const { to, courseTitle, dashboardUrl } = params;
   const resend = requireResend();
 
-  await resend.emails.send({
+  const result = await resend.emails.send({
     from: "Lady Socialdown <hello@ladysocialdown.com>",
     to,
     subject: `Ton accès à ${courseTitle} est prêt`,
@@ -65,4 +71,5 @@ export async function sendFormationAccessReadyEmail(params: {
       </p>
     `),
   });
+  assertSent(result);
 }
