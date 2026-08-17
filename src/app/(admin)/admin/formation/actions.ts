@@ -26,7 +26,15 @@ export async function grantManualFormationAccessAction(
     });
     return { ok: true };
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Erreur inconnue.";
-    return { ok: false, message };
+    return { ok: false, message: formatError(error) };
   }
+}
+
+/** Les erreurs Supabase (PostgrestError) ne sont pas des instances d'Error mais exposent `message`. */
+function formatError(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  if (error && typeof error === "object" && "message" in error) {
+    return String((error as { message: unknown }).message);
+  }
+  return "Erreur inconnue.";
 }
