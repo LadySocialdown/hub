@@ -38,10 +38,8 @@ export async function generateInterpretation(
   try {
     const client = new Anthropic({ apiKey });
     const response = await client.messages.create({
-      model: "claude-opus-5",
+      model: "claude-sonnet-5",
       max_tokens: 4096,
-      thinking: { type: "adaptive" },
-      output_config: { effort: "medium" },
       system: SYSTEM_PROMPT,
       messages: [
         {
