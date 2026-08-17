@@ -80,3 +80,47 @@ la route de cron et la Server Action déclarent toutes les deux `maxDuration = 6
 Le solde net d'abonnés est une **estimation** reconstruite à partir de
 `follows_and_unfollows` et `follower_count_1d` — Instagram/Windsor.ai ne fournit pas les
 désabonnements bruts.
+
+## Espace formation élèves (3 zones cloisonnées)
+
+Trois formations étanches (`/dashboard/formation/[slug]`) : `petite-academie`, `level-up`,
+`next-level`. Une élève ne voit que la formation qu'elle a payée — l'accès est vérifié via
+la table `course_enrollments` (jamais côté client). Voir
+`supabase/migrations/005_espace_formation.sql` pour le schéma et `src/lib/formation/` pour
+la logique d'octroi d'accès.
+
+### Déclencheurs d'accès
+
+- **La Petite Académie** : automatique, dès `checkout.session.completed` confirmé côté
+  Stripe (`src/app/api/webhooks/stripe/route.ts` → `handlePrecommandeAcademie`).
+- **Next Level / Level Up** : manuel, via `/admin/formation` (après l'appel découverte).
+
+Dans les deux cas, `grantFormationAccess()` (`src/lib/formation/grant.ts`) :
+1. Si un compte Clerk existe déjà pour l'email → accès immédiat (`course_enrollments`) +
+   email avec lien direct vers l'espace.
+2. Sinon → invitation Clerk (le slug de la formation voyage dans `publicMetadata`, reporté
+   automatiquement sur l'utilisateur à la création du compte) + email avec le lien
+   d'inscription. Le webhook Clerk (`user.created`) finalise l'accès dès que le compte est
+   créé.
+
+⚠️ **À vérifier dans le dashboard Clerk** : le champ *Paths → Sign-up* doit pointer vers
+`/inscription` (page `<SignUp/>` de l'app) pour que le lien d'invitation ouvre le
+formulaire de création de compte de l'app plutôt que l'Account Portal Clerk par défaut.
+
+### Contenu vidéo
+
+Vidéos YouTube non répertoriées, intégrées en iframe via l'API officielle
+(`modules.youtube_video_id` — pas de champ Mux, malgré les dépendances `@mux/*` toujours
+présentes dans `package.json`). La progression (`user_progress`) est calculée
+automatiquement à la fin de la vidéo (événement `ENDED` de l'IFrame API), jamais par case à
+cocher manuelle. Les `youtube_video_id` sont à renseigner manuellement en base une fois les
+vidéos uploadées — la structure est prête mais aucune vidéo n'est encore associée.
+
+Ressources téléchargeables par module : `modules.resources` (jsonb, `{title, url}[]`).
+
+### Coaching post-formation
+
+Sessions Calendly auto-réservables par l'élève depuis son espace (Level Up : 1 mois,
+Next Level : 3 mois) — liens en dur dans `src/lib/formation/constants.ts`
+(`FORMATION_COACHING_CALENDLY_URL`). La formation intensive initiale (28h/18h) et le
+coaching La Petite Académie restent programmés manuellement par Sania, hors de l'app.

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Users, BookOpen, Calendar, BarChart3 } from "lucide-react";
+import { Users, BookOpen, Calendar, BarChart3, GraduationCap } from "lucide-react";
 
 export const metadata: Metadata = { title: "Admin — Lady Socialdown" };
 
 const adminLinks = [
   { href: "/admin/eleves-cpf", icon: <Users size={18} />, label: "Élèves CPF", desc: "Gestion des dossiers et exports" },
+  { href: "/admin/formation", icon: <GraduationCap size={18} />, label: "Accès formation", desc: "Octroyer l'accès Next Level / Level Up" },
   { href: "/admin/contenus", icon: <BookOpen size={18} />, label: "Contenus", desc: "Modules, outils, ressources" },
   { href: "/admin/reservations", icon: <Calendar size={18} />, label: "Réservations", desc: "Vue globale des sessions coaching" },
   { href: "/admin/instagram", icon: <BarChart3 size={18} />, label: "Instagram", desc: "Analyse automatisée @ladysocialdown" },

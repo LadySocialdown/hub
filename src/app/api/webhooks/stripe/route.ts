@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { pushPreinscriptionToSystemeIo } from "@/lib/systemeio";
+import { grantFormationAccess } from "@/lib/formation/grant";
 
 const SYSTEME_IO_TAG_NAME = "Préinscrite Petite Académie";
 
@@ -76,6 +77,12 @@ async function handlePrecommandeAcademie(
     } catch (error) {
       console.error("[precommande] échec de la synchro Systeme.io", error);
     }
+  }
+
+  try {
+    await grantFormationAccess({ email, courseSlug: "petite-academie", grantedBy: "stripe" });
+  } catch (error) {
+    console.error("[precommande] échec de l'octroi d'accès à l'espace formation", error);
   }
 }
 

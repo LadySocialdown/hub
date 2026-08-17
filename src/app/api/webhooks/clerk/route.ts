@@ -10,8 +10,50 @@ type ClerkUserEvent = {
     primary_email_address_id: string;
     first_name: string | null;
     last_name: string | null;
+    public_metadata?: { pendingCourseSlug?: string };
   };
 };
+
+/**
+ * Finalise l'accès formation d'une élève invitée : le slug de la formation voyage dans
+ * publicMetadata de l'invitation Clerk et se retrouve automatiquement sur l'utilisateur
+ * créé (comportement natif Clerk). On active l'accès et on solde l'invitation en attente.
+ */
+async function finalizeFormationAccess(
+  supabase: ReturnType<typeof createServerSupabaseClient>,
+  userId: string,
+  email: string,
+  pendingCourseSlug: string
+) {
+  const { data: course } = await supabase
+    .from("courses")
+    .select("id")
+    .eq("slug", pendingCourseSlug)
+    .maybeSingle();
+  if (!course) return;
+
+  const { data: invitation } = await supabase
+    .from("formation_invitations")
+    .select("id, granted_by")
+    .eq("email", email.toLowerCase())
+    .eq("course_id", course.id)
+    .eq("status", "pending")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  await supabase.from("course_enrollments").upsert(
+    { user_id: userId, course_id: course.id, granted_by: invitation?.granted_by ?? "admin" },
+    { onConflict: "user_id,course_id" }
+  );
+
+  if (invitation) {
+    await supabase
+      .from("formation_invitations")
+      .update({ status: "accepted", accepted_at: new Date().toISOString() })
+      .eq("id", invitation.id);
+  }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -54,6 +96,11 @@ export async function POST(req: NextRequest) {
       { id, email: primaryEmail, name },
       { onConflict: "id" }
     );
+
+    const pendingCourseSlug = event.data.public_metadata?.pendingCourseSlug;
+    if (event.type === "user.created" && pendingCourseSlug) {
+      await finalizeFormationAccess(supabase, id, primaryEmail, pendingCourseSlug);
+    }
   }
 
   if (event.type === "user.deleted") {

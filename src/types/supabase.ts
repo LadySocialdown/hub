@@ -17,6 +17,8 @@ export type InstallmentCount = 3 | 4;
 export type InstallmentStatus = "active" | "completed" | "failed" | "canceled";
 export type PreinscriptionStatut = "en_attente" | "contactee" | "convertie";
 export type PrecommandeStatut = "paye";
+export type GrantedBy = "stripe" | "admin";
+export type FormationInvitationStatus = "pending" | "accepted";
 
 export interface Database {
   public: {
@@ -78,6 +80,7 @@ export interface Database {
         Row: {
           id: string;
           title: string;
+          slug: string;
           description: string | null;
           total_modules: number;
           is_flagship: boolean;
@@ -86,6 +89,7 @@ export interface Database {
         Insert: {
           id?: string;
           title: string;
+          slug: string;
           description?: string | null;
           total_modules?: number;
           is_flagship?: boolean;
@@ -93,6 +97,7 @@ export interface Database {
         };
         Update: {
           title?: string;
+          slug?: string;
           description?: string | null;
           total_modules?: number;
           is_flagship?: boolean;
@@ -105,7 +110,7 @@ export interface Database {
           course_id: string;
           title: string;
           unlock_week: number;
-          mux_video_id: string | null;
+          youtube_video_id: string | null;
           resources: Json;
           position: number;
           created_at: string;
@@ -115,7 +120,7 @@ export interface Database {
           course_id: string;
           title: string;
           unlock_week: number;
-          mux_video_id?: string | null;
+          youtube_video_id?: string | null;
           resources?: Json;
           position?: number;
           created_at?: string;
@@ -123,7 +128,7 @@ export interface Database {
         Update: {
           title?: string;
           unlock_week?: number;
-          mux_video_id?: string | null;
+          youtube_video_id?: string | null;
           resources?: Json;
           position?: number;
         };
@@ -462,6 +467,52 @@ export interface Database {
         };
         Update: {
           interpretation_text?: string | null;
+        };
+        Relationships: [];
+      };
+      course_enrollments: {
+        Row: {
+          id: string;
+          user_id: string;
+          course_id: string;
+          granted_by: GrantedBy;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          course_id: string;
+          granted_by: GrantedBy;
+          created_at?: string;
+        };
+        Update: Record<string, never>;
+        Relationships: [];
+      };
+      formation_invitations: {
+        Row: {
+          id: string;
+          email: string;
+          course_id: string;
+          clerk_invitation_id: string | null;
+          granted_by: GrantedBy;
+          status: FormationInvitationStatus;
+          created_at: string;
+          accepted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          course_id: string;
+          clerk_invitation_id?: string | null;
+          granted_by: GrantedBy;
+          status?: FormationInvitationStatus;
+          created_at?: string;
+          accepted_at?: string | null;
+        };
+        Update: {
+          clerk_invitation_id?: string | null;
+          status?: FormationInvitationStatus;
+          accepted_at?: string | null;
         };
         Relationships: [];
       };
