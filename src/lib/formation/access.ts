@@ -69,3 +69,34 @@ export async function getCourseWithProgress(
     })),
   };
 }
+
+/** Les 3 formations et tous leurs modules, sans vérification d'accès — usage admin uniquement. */
+export async function getAllCoursesWithModules(): Promise<FormationCourse[]> {
+  const supabase = createServerSupabaseClient();
+
+  const { data: courses } = await supabase
+    .from("courses")
+    .select("id, slug, title")
+    .order("slug", { ascending: true });
+
+  const { data: modules } = await supabase
+    .from("modules")
+    .select("id, course_id, title, position, youtube_video_id, resources")
+    .order("position", { ascending: true });
+
+  return (courses ?? []).map((course) => ({
+    id: course.id,
+    slug: course.slug,
+    title: course.title,
+    modules: (modules ?? [])
+      .filter((m) => m.course_id === course.id)
+      .map((m) => ({
+        id: m.id,
+        title: m.title,
+        position: m.position,
+        youtube_video_id: m.youtube_video_id,
+        resources: (m.resources as unknown as ModuleResource[] | null) ?? [],
+        completed: false,
+      })),
+  }));
+}
