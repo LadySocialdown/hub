@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Users, BookOpen, Calendar, BarChart3, GraduationCap } from "lucide-react";
+import { requireAdminPage } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Admin — Lady Socialdown" };
 
@@ -12,7 +13,9 @@ const adminLinks = [
   { href: "/admin/instagram", icon: <BarChart3 size={18} />, label: "Instagram", desc: "Analyse automatisée @ladysocialdown" },
 ];
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  await requireAdminPage();
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">

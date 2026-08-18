@@ -1,4 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export type UserRole = "user" | "admin";
 
@@ -28,6 +29,17 @@ export async function requireAuth() {
 export async function requireAdmin() {
   const user = await getAuthUser();
   if (!user || user.role !== "admin") throw new Error("Forbidden");
+  return user;
+}
+
+/**
+ * Garde d'accès pour les pages admin (Server Components) : redirige au lieu de planter.
+ * Le middleware ne fait qu'un premier filtrage par rôle Clerk (edge-safe, sans appel
+ * réseau) — c'est ici, en runtime Node, que l'email est vérifié strictement.
+ */
+export async function requireAdminPage() {
+  const user = await getAuthUser();
+  if (!user || user.role !== "admin") redirect("/dashboard");
   return user;
 }
 

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { requireAdminPage } from "@/lib/auth";
 import { GrantAccessForm } from "./GrantAccessForm";
 
 export const metadata: Metadata = { title: "Accès formation — Admin" };
 
-export default function AdminFormationPage() {
+export default async function AdminFormationPage() {
+  await requireAdminPage();
+
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       <div>

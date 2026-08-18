@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getDashboardStatus } from "@/lib/instagram/scheduler";
+import { requireAdminPage } from "@/lib/auth";
 import { Dashboard } from "./Dashboard";
 
 export const metadata: Metadata = { title: "Instagram — Lady Socialdown" };
@@ -9,6 +10,7 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 export default async function InstagramAnalyticsPage() {
+  await requireAdminPage();
   const status = await getDashboardStatus();
 
   return (
