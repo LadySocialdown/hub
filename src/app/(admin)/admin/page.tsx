@@ -6,7 +6,7 @@ import { requireAdminPage } from "@/lib/auth";
 export const metadata: Metadata = { title: "Admin — Lady Socialdown" };
 
 const adminLinks = [
-  { href: "/admin/eleves-cpf", icon: <Users size={18} />, label: "Élèves CPF", desc: "Gestion des dossiers et exports" },
+  { href: "/admin/eleves", icon: <Users size={18} />, label: "Élèves", desc: "CPF et fonds propres, tous statuts" },
   { href: "/admin/formation", icon: <GraduationCap size={18} />, label: "Accès formation", desc: "Octroyer l'accès Next Level / Level Up" },
   { href: "/admin/contenus", icon: <BookOpen size={18} />, label: "Contenus", desc: "Modules, outils, ressources" },
   { href: "/admin/reservations", icon: <Calendar size={18} />, label: "Réservations", desc: "Vue globale des sessions coaching" },
