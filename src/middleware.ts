@@ -1,5 +1,6 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { isAdminEmail } from "@/lib/auth";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -21,9 +22,9 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   if (isAdminRoute(req)) {
-    const { sessionClaims } = await auth();
-    const role = (sessionClaims?.metadata as { role?: string } | undefined)?.role;
-    if (role !== "admin") {
+    const user = await currentUser();
+    const email = user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress;
+    if (!isAdminEmail(email)) {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
   }

@@ -2,10 +2,20 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 
 export type UserRole = "user" | "admin";
 
+/** Seul cet email (compte Sania) a accès aux pages et actions admin — aucun autre. */
+export function isAdminEmail(email: string | null | undefined): boolean {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  return !!email && !!adminEmail && email.toLowerCase() === adminEmail.toLowerCase();
+}
+
 export async function getAuthUser() {
-  const { userId, sessionClaims } = await auth();
+  const { userId } = await auth();
   if (!userId) return null;
-  const role = ((sessionClaims?.metadata as { role?: string } | undefined)?.role ?? "user") as UserRole;
+
+  const user = await currentUser();
+  const email = user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress;
+  const role: UserRole = isAdminEmail(email) ? "admin" : "user";
+
   return { userId, role };
 }
 
