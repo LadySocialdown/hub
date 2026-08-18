@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { requireAdminPage } from "@/lib/auth";
 import { getAllCoursesWithModules } from "@/lib/formation/access";
-import { ModuleEditor } from "./ModuleEditor";
+import { ContenusManager } from "./ContenusManager";
 
 export const metadata: Metadata = { title: "Contenus — Admin" };
 export const dynamic = "force-dynamic";
@@ -27,21 +27,7 @@ export default async function AdminContenusPage() {
         </p>
       </div>
 
-      {courses.map((course) => (
-        <div key={course.id} className="space-y-4">
-          <h2
-            className="text-xl font-semibold text-[var(--cacao)]"
-            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-          >
-            {course.title}
-          </h2>
-          <div className="space-y-4">
-            {course.modules.map((m) => (
-              <ModuleEditor key={m.id} module={m} />
-            ))}
-          </div>
-        </div>
-      ))}
+      <ContenusManager courses={courses} />
     </div>
   );
 }
