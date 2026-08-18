@@ -124,3 +124,18 @@ Sessions Calendly auto-réservables par l'élève depuis son espace (Level Up : 
 Next Level : 3 mois) — liens en dur dans `src/lib/formation/constants.ts`
 (`FORMATION_COACHING_CALENDLY_URL`). La formation intensive initiale (28h/18h) et le
 coaching La Petite Académie restent programmés manuellement par Sania, hors de l'app.
+
+## Ressources (`/ressources`)
+
+Catalogue géré depuis `/admin/contenus` (onglet « Ressources »), voir
+`supabase/migrations/006_ressources.sql`.
+
+- **Gratuites** (`is_free = true`) : page publique, mais le lien de téléchargement
+  (`content_url`) n'est affiché qu'aux élèves connectées — sinon un lien "Se connecter" invite
+  à créer un compte. Aucun paiement, aucun webhook impliqué.
+- **Payantes** (ebooks, outils) : achat sans compte requis, juste nom + email
+  (`src/app/(public)/ressources/actions.ts` → `createResourceCheckout`, session Stripe avec
+  `price_data` inline — pas de Price Stripe à créer/maintenir par ressource). À la
+  confirmation du paiement (`handleResourceAchat` dans le webhook Stripe), le lien de
+  livraison (`content_url`, généralement un lien Drive) est envoyé par email — pas d'espace
+  "mes ressources" côté élève, uniquement l'email.

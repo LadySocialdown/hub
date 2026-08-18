@@ -86,6 +86,78 @@ async function handlePrecommandeAcademie(
   }
 }
 
+function resourceDeliveryEmailHtml(nom: string, resourceTitle: string, driveUrl: string): string {
+  return `
+    <div style="font-family: sans-serif; color: #1A1410; max-width: 480px; margin: 0 auto;">
+      <p style="font-size: 20px; color: #5A3E36;">Merci ${nom} !</p>
+      <p>Ton paiement pour <strong>${resourceTitle}</strong> a bien été reçu. Tu peux la télécharger dès
+      maintenant :</p>
+      <p style="margin: 24px 0;">
+        <a href="${driveUrl}" style="display: inline-block; padding: 12px 24px; background: #5A3E36; color: #FFFEF8; text-decoration: none; border-radius: 999px; font-weight: 600;">
+          Télécharger ${resourceTitle}
+        </a>
+      </p>
+      <p style="font-size: 13px; opacity: 0.7;">Garde ce lien précieusement, il n'est envoyé que par cet email.</p>
+      <p>À très vite,<br />Sania — Lady Socialdown</p>
+    </div>
+  `;
+}
+
+async function handleResourceAchat(
+  supabase: ReturnType<typeof createServerSupabaseClient>,
+  session: Stripe.Checkout.Session
+) {
+  if (session.payment_status !== "paid") return;
+
+  const resourceId = session.metadata?.resource_id;
+  const nom = session.metadata?.nom ?? "";
+  const email = (session.metadata?.email ?? session.customer_details?.email ?? "").toLowerCase();
+  if (!resourceId || !email) return;
+
+  const { data: existing } = await supabase
+    .from("resource_purchases")
+    .select("id")
+    .eq("stripe_session_id", session.id)
+    .maybeSingle();
+  if (existing) return; // déjà traité (retry webhook Stripe)
+
+  const { data: resource } = await supabase
+    .from("resources")
+    .select("title, content_url")
+    .eq("id", resourceId)
+    .maybeSingle();
+  if (!resource?.content_url) {
+    console.error(`[ressources] achat de ${resourceId} sans content_url, email non envoyé`);
+    return;
+  }
+
+  const { error } = await supabase.from("resource_purchases").insert({
+    resource_id: resourceId,
+    nom,
+    email,
+    montant: session.amount_total ?? 0,
+    stripe_session_id: session.id,
+  });
+  if (error) {
+    console.error("[ressources] échec de l'enregistrement Supabase", error);
+    return;
+  }
+
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: "Lady Socialdown <hello@ladysocialdown.com>",
+        to: email,
+        subject: `Ta ressource "${resource.title}" est prête`,
+        html: resourceDeliveryEmailHtml(nom, resource.title, resource.content_url),
+      });
+    } catch (error) {
+      console.error("[ressources] échec de l'email de livraison", error);
+    }
+  }
+}
+
 function getPlanMap(): Record<string, "starter" | "essentielle" | "vip"> {
   return {
     [process.env.STRIPE_PRICE_ESSENTIELLE_MONTHLY ?? ""]: "essentielle",
@@ -124,6 +196,11 @@ export async function POST(req: NextRequest) {
 
       if (session.metadata?.type === "academie_precommande") {
         await handlePrecommandeAcademie(supabase, session);
+        break;
+      }
+
+      if (session.metadata?.type === "resource_achat") {
+        await handleResourceAchat(supabase, session);
         break;
       }
 
