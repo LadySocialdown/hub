@@ -196,8 +196,8 @@ export default function TarifsPage() {
             Coaching à la carte
           </h2>
           <p className="text-sm text-[var(--noir)] opacity-70 max-w-md">
-            150€ les 2h, paiement intégral à la réservation. Annulation à 4 jours ou plus avant la
-            séance : remboursée à 70%. À moins de 4 jours : non remboursable.
+            150€ les 2h, un coaching individuel entièrement sur-mesure pour avancer rapidement sur
+            ton sujet.
           </p>
         </div>
         <a
