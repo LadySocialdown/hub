@@ -178,23 +178,24 @@ export default function HomePage() {
             <p className="text-[var(--mocha-light)] leading-relaxed">
               J&apos;ai débuté comme Social Media Manager, puis j&apos;ai travaillé en tant que
               cheffe de projet digital chez France Télévisions. Après ça, direction RosieLabs Global 🇺🇸
-              pour lancer leur agence française. Franchement, quelle aventure !
+              pour lancer leur agence française et le département social media & acquisition.
+              Franchement, quelle aventure !
             </p>
             <p className="text-[var(--mocha-light)] leading-relaxed">
               J&apos;ai aussi travaillé avec Wunite, une app et communauté incroyable de femmes de
-              footballeurs et Madero France, le n°1 francophone des soins drainants et remodelants.
+              footballeurs, et MaderoFrance, le n°1 francophone des soins drainants et remodelants.
               Toutes ces expériences m&apos;ont fait comprendre que chaque business a ses propres défis
-              sur les réseaux.
+              sur les réseaux : acquisition clients, visibilité, autorité de marque, conversion...
             </p>
             <p className="text-[var(--mocha-light)] leading-relaxed">
-              Ça fait plusieurs années que je partage mes astuces sur les réseaux sociaux, et en 2025,
+              Ça fait plusieurs années que je partage mes astuces sur les réseaux sociaux et en 2025,
               j&apos;ai eu envie de passer au niveau supérieur : accompagner directement les
               entrepreneurs qui galèrent avec leur stratégie social media à créer de vrais écosystèmes
               pour un business durable et rentable.
             </p>
             <p className="text-[var(--mocha-light)] leading-relaxed">
-              Parce que franchement, il n&apos;y a rien de mieux que de voir un entrepreneur passer
-              de « je suis perdue » à « j&apos;y arrive enfin » et « je vis de mon activité » !
+              Parce qu&apos;il n&apos;y a rien de mieux que de voir un entrepreneur passer de « je
+              suis perdu » à « j&apos;y arrive enfin » et « je vis de mon activité » !
             </p>
           </div>
         </div>
