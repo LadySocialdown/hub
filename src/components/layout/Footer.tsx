@@ -31,7 +31,8 @@ export function Footer() {
               Lady Socialdown
             </span>
             <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">
-              Formation aux réseaux sociaux pour entrepreneurs à Tours, France.
+              On n&apos;apprend pas à poster pour poster. Ici, les réseaux sociaux n&apos;ont
+              qu&apos;un seul objectif : te ramener des clients.
             </p>
             <a
               href="mailto:Contact@ladysocialdown.com"

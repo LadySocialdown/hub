@@ -207,13 +207,15 @@ export default function HomePage() {
             className="text-4xl font-semibold text-[var(--ivoire)] leading-tight"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            Tu peux continuer à deviner. Ou tu peux enfin avancer.
+            Tu peux continuer à deviner.
+            <br />
+            Ou tu peux enfin avancer.
           </h2>
           <Link
             href="/tarifs"
             className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--ivoire)] text-[var(--cacao)] rounded-full text-sm font-semibold hover:bg-[var(--mocha-light)] transition-colors"
           >
-            Découvrir les 3 offres
+            Découvrir
             <ArrowRight size={16} />
           </Link>
         </div>
