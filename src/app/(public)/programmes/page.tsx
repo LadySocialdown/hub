@@ -35,8 +35,9 @@ export default function ProgrammesPage() {
           </h2>
           <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">
             Full e-learning à ton rythme, + 1 session de coaching d&apos;1h avec moi. Module «
-            Les bases du marketing à connaître avant de commencer » offert. Précommande à 497€
-            au lieu de 597€, accès dès le 21 septembre 2026.
+            Les bases du marketing à connaître avant de commencer » offert, et accès au Cercle
+            Social (live mensuel transversal). Précommande à 497€ au lieu de 597€, accès dès le
+            21 septembre 2026.
           </p>
           <Link
             href="/la-petite-academie"

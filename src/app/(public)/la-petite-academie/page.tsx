@@ -43,7 +43,8 @@ export default function LaPetiteAcademiePage() {
           <p className="text-[var(--mocha-light)] leading-relaxed">
             La Petite Académie ouvre le 21 septembre 2026. Réserve ta place dès maintenant au tarif de
             lancement à 497€ au lieu de 597€, et repars avec le module complémentaire « Les bases du
-            marketing à connaître avant de commencer » offert.
+            marketing à connaître avant de commencer » offert, ainsi que l&apos;accès au Cercle Social,
+            un live mensuel transversal avec toutes les élèves.
           </p>
           <p className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-[var(--ivoire)]/10 border border-[var(--mocha-light)]/40 text-[var(--ivoire)]">
             Ouverture le 21 septembre 2026 · 497€ au lieu de 597€ + module offert

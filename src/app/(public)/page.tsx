@@ -112,6 +112,7 @@ export default function HomePage() {
                 "Full e-learning, à ton rythme",
                 "+ 1 session de coaching d'1h avec moi",
                 "Module « Les bases du marketing à connaître avant de commencer » offert",
+                "Accès au Cercle Social, un live mensuel transversal avec toutes les élèves",
               ]}
               tagline="Précommande — accès dès le 21 septembre 2026"
               cta="Je réserve ma place, 497€"
