@@ -25,7 +25,7 @@ export default function ProgrammesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="card-lift p-8 bg-[var(--sable)] shadow-warm rounded-2xl border border-[var(--mocha-light)] space-y-4">
           <span className="text-xs font-medium px-2.5 py-1 bg-[var(--mocha-light)] text-[var(--cacao)] rounded-full">
-            Préinscription ouverte
+            Offre de lancement
           </span>
           <h2
             className="text-2xl font-semibold text-[var(--cacao)]"
@@ -34,14 +34,15 @@ export default function ProgrammesPage() {
             La Petite Académie
           </h2>
           <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">
-            Full e-learning à ton rythme, + 1 session de coaching d&apos;1h avec moi.
-            597€ payable jusqu&apos;en 4 fois. Préinscris-toi pour 497€ au lieu de 597€.
+            Full e-learning à ton rythme, + 1 session de coaching d&apos;1h avec moi. Module «
+            Les bases du marketing à connaître avant de commencer » offert. Précommande à 497€
+            au lieu de 597€, accès dès le 21 septembre 2026.
           </p>
           <Link
             href="/la-petite-academie"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--cacao)] hover:text-[var(--mocha)] transition-colors"
           >
-            Je me préinscris <ArrowRight size={14} />
+            Je réserve ma place, 497€ <ArrowRight size={14} />
           </Link>
         </div>
 
