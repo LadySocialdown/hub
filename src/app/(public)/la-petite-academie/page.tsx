@@ -250,31 +250,6 @@ export default function LaPetiteAcademiePage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-[var(--ivoire)] py-20 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.3em] font-medium text-[var(--mocha)] mb-2">
-              Questions fréquentes
-            </p>
-            <h2
-              className="text-3xl font-semibold text-[var(--cacao)]"
-              style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-            >
-              FAQ
-            </h2>
-          </div>
-          <div className="space-y-6">
-            {FAQ.map((item) => (
-              <div key={item.q} className="border-b border-[var(--mocha-light)] pb-6">
-                <h3 className="text-base font-semibold text-[var(--cacao)] mb-1.5">{item.q}</h3>
-                <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">{item.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Précommande */}
       <section className="bg-glow-light bg-[var(--cacao)] py-20 px-4 overflow-hidden">
         <div className="max-w-2xl mx-auto text-center space-y-6">
@@ -296,6 +271,31 @@ export default function LaPetiteAcademiePage() {
 
           <div className="pt-2 max-w-md mx-auto">
             <PrecommandeForm />
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-[var(--ivoire)] py-20 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-[0.3em] font-medium text-[var(--mocha)] mb-2">
+              Questions fréquentes
+            </p>
+            <h2
+              className="text-3xl font-semibold text-[var(--cacao)]"
+              style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+            >
+              FAQ
+            </h2>
+          </div>
+          <div className="space-y-6">
+            {FAQ.map((item) => (
+              <div key={item.q} className="border-b border-[var(--mocha-light)] pb-6">
+                <h3 className="text-base font-semibold text-[var(--cacao)] mb-1.5">{item.q}</h3>
+                <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">{item.a}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
