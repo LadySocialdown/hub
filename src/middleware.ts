@@ -10,6 +10,9 @@ const isPublicRoute = createRouteMatcher([
   "/connexion(.*)",
   "/inscription(.*)",
   "/la-petite-academie(.*)",
+  "/mentions-legales(.*)",
+  "/cgv(.*)",
+  "/confidentialite(.*)",
   "/api/webhooks/(.*)",
 ]);
 
