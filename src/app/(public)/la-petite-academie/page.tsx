@@ -42,11 +42,11 @@ const FAQ = [
   },
   {
     q: "Il y a de l'accompagnement ou c'est 100% seule ?",
-    a: "E-learning + Le Cercle Social : un live collectif mensuel transversal, ouvert à toutes les élèves.",
+    a: "E-learning + Le Cercle Social + 1h de coaching en 1:1 avec moi : un live collectif mensuel transversal, ouvert à toutes les élèves. Réserve ta session de coaching à tout moment.",
   },
   {
     q: "Le paiement peut être échelonné ?",
-    a: "Non, le paiement est intégral à la précommande (497€).",
+    a: "Oui, le paiement peut se faire en 3 fois. En cas de précommande, le paiement est intégral (497€).",
   },
   {
     q: "Puis-je ajouter les modules complémentaires plus tard ?",
