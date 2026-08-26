@@ -11,7 +11,7 @@ export type SubscriptionStatus = "active" | "past_due" | "canceled" | "trialing"
 export type SessionType = "coaching" | "mentorat";
 export type BookingStatus = "pending" | "confirmed" | "canceled" | "completed";
 export type ToolType = "template" | "guide" | "video";
-export type ResourceType = "article" | "pdf" | "video" | "ebook" | "outil";
+export type ResourceType = "article" | "pdf" | "video" | "ebook" | "outil" | "template";
 export type CpfProgram = "25h" | "35h";
 export type InstallmentCount = 3 | 4;
 export type InstallmentStatus = "active" | "completed" | "failed" | "canceled";
@@ -239,6 +239,7 @@ export interface Database {
           id: string;
           title: string;
           type: ResourceType;
+          description: string | null;
           is_free: boolean;
           price: number | null;
           content_url: string | null;
@@ -249,6 +250,7 @@ export interface Database {
           id?: string;
           title: string;
           type: ResourceType;
+          description?: string | null;
           is_free?: boolean;
           price?: number | null;
           content_url?: string | null;
@@ -258,6 +260,7 @@ export interface Database {
         Update: {
           title?: string;
           type?: ResourceType;
+          description?: string | null;
           is_free?: boolean;
           price?: number | null;
           content_url?: string | null;

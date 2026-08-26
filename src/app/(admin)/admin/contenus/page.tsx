@@ -14,7 +14,7 @@ export default async function AdminContenusPage() {
   const supabase = createServerSupabaseClient();
   const { data: resources } = await supabase
     .from("resources")
-    .select("id, title, type, is_free, price, content_url, tags")
+    .select("id, title, type, description, is_free, price, content_url, tags")
     .order("created_at", { ascending: false });
 
   return (

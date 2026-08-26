@@ -14,6 +14,7 @@ export interface ResourceItem {
   id: string;
   title: string;
   type: ResourceType;
+  description: string | null;
   is_free: boolean;
   price: number | null; // centimes
   content_url: string | null;
@@ -21,11 +22,12 @@ export interface ResourceItem {
 }
 
 const TYPE_OPTIONS: Array<{ value: ResourceType; label: string }> = [
+  { value: "pdf", label: "Guide PDF" },
+  { value: "template", label: "Template" },
+  { value: "video", label: "Replay" },
   { value: "article", label: "Article" },
-  { value: "pdf", label: "PDF" },
-  { value: "video", label: "Vidéo" },
-  { value: "ebook", label: "Ebook" },
-  { value: "outil", label: "Outil" },
+  { value: "ebook", label: "Ebook (payant)" },
+  { value: "outil", label: "Outil (payant)" },
 ];
 
 function ResourceForm({
@@ -37,6 +39,7 @@ function ResourceForm({
 }) {
   const [title, setTitle] = useState(resource?.title ?? "");
   const [type, setType] = useState<ResourceType>(resource?.type ?? "pdf");
+  const [description, setDescription] = useState(resource?.description ?? "");
   const [isFree, setIsFree] = useState(resource?.is_free ?? true);
   const [priceEuros, setPriceEuros] = useState(resource?.price ? String(resource.price / 100) : "");
   const [contentUrl, setContentUrl] = useState(resource?.content_url ?? "");
@@ -49,6 +52,7 @@ function ResourceForm({
     const input: ResourceInput = {
       title,
       type,
+      description,
       is_free: isFree,
       price: isFree ? null : Math.round(parseFloat(priceEuros || "0") * 100),
       content_url: contentUrl,
@@ -70,6 +74,7 @@ function ResourceForm({
       setFeedback({ ok: true, message: "Enregistré." });
       if (!resource) {
         setTitle("");
+        setDescription("");
         setContentUrl("");
         setTags("");
         setPriceEuros("");
@@ -109,6 +114,14 @@ function ResourceForm({
           ))}
         </select>
       </div>
+
+      <textarea
+        placeholder="Description (affichée sur la page publique)"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        rows={2}
+        className="w-full rounded-2xl border border-[var(--mocha-light)] px-4 py-2 text-sm focus:border-[var(--cacao)] focus:outline-none resize-none"
+      />
 
       <div className="flex flex-wrap items-center gap-3">
         <label className="flex items-center gap-1.5 text-sm text-[var(--noir)]">

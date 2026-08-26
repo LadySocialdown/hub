@@ -8,6 +8,7 @@ import type { ResourceType } from "@/types/supabase";
 export interface ResourceInput {
   title: string;
   type: ResourceType;
+  description: string;
   is_free: boolean;
   price: number | null; // centimes
   content_url: string;
@@ -34,6 +35,7 @@ export async function createResourceAction(
   const { error: dbError } = await supabase.from("resources").insert({
     title: input.title.trim(),
     type: input.type,
+    description: input.description.trim() || null,
     is_free: input.is_free,
     price: input.is_free ? null : input.price,
     content_url: input.content_url.trim() || null,
@@ -61,6 +63,7 @@ export async function updateResourceAction(
     .update({
       title: input.title.trim(),
       type: input.type,
+      description: input.description.trim() || null,
       is_free: input.is_free,
       price: input.is_free ? null : input.price,
       content_url: input.content_url.trim() || null,
