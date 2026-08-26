@@ -33,7 +33,7 @@ const plans: Plan[] = [
       "Full e-learning, à ton rythme",
       "+ 1 session de coaching d'1h avec moi",
       "Module « Les bases du marketing à connaître avant de commencer » offert",
-      "Accès au Cercle Social, un live mensuel transversal avec toutes les élèves",
+      "Accès au Cercle Social, un live mensuel transversal avec tous les élèves",
     ],
     cta: "Je réserve ma place, 497€",
     href: "/la-petite-academie",

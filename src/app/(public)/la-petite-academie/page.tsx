@@ -42,7 +42,7 @@ const FAQ = [
   },
   {
     q: "Il y a de l'accompagnement ou c'est 100% seule ?",
-    a: "E-learning + Le Cercle Social + 1h de coaching en 1:1 avec moi : un live collectif mensuel transversal, ouvert à toutes les élèves. Réserve ta session de coaching à tout moment.",
+    a: "E-learning + Le Cercle Social + 1h de coaching en 1:1 avec moi : un live collectif mensuel transversal, ouvert à tous les élèves. Réserve ta session de coaching à tout moment.",
   },
   {
     q: "Le paiement peut être échelonné ?",
@@ -263,7 +263,7 @@ export default function LaPetiteAcademiePage() {
             La Petite Académie ouvre le 21 septembre 2026. Réserve ta place dès maintenant au tarif de
             lancement à 497€ au lieu de 597€, et repars avec le module complémentaire « Les bases du
             marketing à connaître avant de commencer » offert, ainsi que l&apos;accès au Cercle Social,
-            un live mensuel transversal avec toutes les élèves.
+            un live mensuel transversal avec tous les élèves.
           </p>
           <p className="inline-block text-sm font-medium px-4 py-2 rounded-full bg-[var(--ivoire)]/10 border border-[var(--mocha-light)]/40 text-[var(--ivoire)]">
             Ouverture le 21 septembre 2026 · 497€ au lieu de 597€ + module offert
