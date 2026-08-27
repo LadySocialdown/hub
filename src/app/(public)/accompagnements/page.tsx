@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, CheckCircle, XCircle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Accompagnements — Next Level & Level Up, finançables CPF, FAFCEA, OPCO",
@@ -16,6 +17,7 @@ const programs = [
     price: "2000€",
     duration: "25h de formation",
     coaching: "1 mois de mentorat inclus",
+    hook: "Le déclic peut arriver cette semaine. Pas de théorie générique : on travaille sur TON activité, du premier jour à la fin du mentorat.",
     content: [
       "Stratégie réseaux sociaux complète",
       "Création de contenu & calendrier éditorial",
@@ -34,6 +36,7 @@ const programs = [
     price: "2800€",
     duration: "35h de formation",
     coaching: "3 mois de mentorat inclus",
+    hook: "Ta stratégie, ton offre, ton business : retournés dans tous les sens jusqu'à ce que ça tienne. Le format le plus complet pour une transformation durable.",
     content: [
       "Tout le contenu de Level Up",
       "Stratégie avancée & positionnement premium",
@@ -49,6 +52,31 @@ const programs = [
   },
 ];
 
+const TESTIMONIALS = [
+  "J'ai avancé plus en une semaine qu'en un an toute seule.",
+  "J'ai arrêté de me sentir seule face à mes choix business.",
+  "Le format intensif a été un déclic. Je ne pensais pas qu'on pouvait avancer aussi vite.",
+];
+
+const FAQ = [
+  {
+    q: "Quelle est la différence entre Level Up et Next Level ?",
+    a: "Next Level va plus loin : plus d'heures de formation individualisée (35h vs 25h) et un mentorat post-formation plus long (3 mois vs 1 mois), pour un accompagnement en profondeur jusqu'à la transformation complète de ton business. Level Up est plus concentré, pour débloquer une situation précise rapidement.",
+  },
+  {
+    q: "Combien de temps dure la formation intensive ?",
+    a: "Elle est concentrée sur 5 à 7 jours consécutifs, en visio ou en présentiel selon les disponibilités.",
+  },
+  {
+    q: "Qu'est-ce qui se passe après le mentorat post-formation ?",
+    a: "Tu repars autonome, avec une stratégie posée et les outils pour continuer à l'appliquer seule. Un accompagnement plus long peut être proposé si tu le souhaites.",
+  },
+  {
+    q: "Le paiement peut-il être échelonné ?",
+    a: "Oui, le reste à charge après financement CPF/FAFCEA/OPCO est payable jusqu'en 4 fois sans frais.",
+  },
+];
+
 export default function AccompagnementsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -58,17 +86,38 @@ export default function AccompagnementsPage() {
           Mentorat 1:1 — Sur candidature
         </span>
         <h1
-          className="text-4xl sm:text-5xl font-semibold text-[var(--cacao)] leading-tight"
+          className="text-4xl sm:text-5xl font-semibold text-[var(--cacao)] leading-tight max-w-3xl mx-auto"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
-          Un accompagnement personnalisé
-          <br />
-          <em className="font-light italic">pour structurer ton business</em>
+          Tu n&apos;as pas besoin d&apos;un cours de plus. Tu as besoin que quelqu&apos;un
+          s&apos;assoie à côté de toi et ne te lâche pas tant que ça ne marche pas.
         </h1>
         <p className="text-[var(--noir)] opacity-70 max-w-xl mx-auto text-lg">
           Level Up et Next Level sont sur candidature : réserve ta consultation flash pour postuler.
           Financés par ton CPF, ton FAFCEA ou ton OPCO, avec paiement jusqu&apos;en 4x disponible pour
           le reste à charge.
+        </p>
+      </div>
+
+      {/* Le problème */}
+      <div className="max-w-2xl mx-auto text-center space-y-4 mb-14">
+        <h2
+          className="text-3xl font-semibold text-[var(--cacao)]"
+          style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+        >
+          Tu as déjà tout essayé. Et ça n&apos;a pas suffi.
+        </h2>
+        <p className="text-[var(--noir)] opacity-70 leading-relaxed">
+          Les formations en ligne. Les posts « conseils ». Les lives gratuits à minuit parce que
+          « c&apos;est là que ça convertit, paraît-il ». Tu as tout fait comme il fallait, et tu
+          doutes encore à chaque publication.
+        </p>
+        <p className="text-[var(--noir)] opacity-70 leading-relaxed">
+          La vérité ? Ce n&apos;est pas un problème de stratégie. C&apos;est un problème de
+          solitude. Personne ne regarde vraiment TON activité, TES chiffres, TES blocages.
+        </p>
+        <p className="text-[var(--cacao)] font-semibold text-lg">
+          Level Up et Next Level, c&apos;est la fin de cette solitude.
         </p>
       </div>
 
@@ -100,6 +149,8 @@ export default function AccompagnementsPage() {
               <p className="text-sm text-[var(--noir)] opacity-60">{prog.forWho}</p>
             </div>
 
+            <p className="text-sm text-[var(--cacao)] font-medium leading-relaxed">{prog.hook}</p>
+
             <ul className="space-y-2">
               {prog.content.map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-[var(--noir)] opacity-70">
@@ -122,8 +173,89 @@ export default function AccompagnementsPage() {
         ))}
       </div>
 
+      {/* Pour qui / pas pour qui */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+        <div className="bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-4">
+          <h3
+            className="text-xl font-semibold text-[var(--cacao)]"
+            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+          >
+            C&apos;est fait pour toi si...
+          </h3>
+          <ul className="space-y-3 text-sm text-[var(--noir)]">
+            <li className="flex items-start gap-2.5">
+              <CheckCircle size={18} className="shrink-0 mt-0.5 text-[var(--cacao)]" />
+              Tu as une activité déjà lancée (même débutante)
+            </li>
+            <li className="flex items-start gap-2.5">
+              <CheckCircle size={18} className="shrink-0 mt-0.5 text-[var(--cacao)]" />
+              Tu veux un accompagnement en profondeur, pas juste des conseils généraux
+            </li>
+            <li className="flex items-start gap-2.5">
+              <CheckCircle size={18} className="shrink-0 mt-0.5 text-[var(--cacao)]" />
+              Tu es prête à investir du temps et de l&apos;énergie sur une période intensive
+            </li>
+            <li className="flex items-start gap-2.5">
+              <CheckCircle size={18} className="shrink-0 mt-0.5 text-[var(--cacao)]" />
+              Tu veux que ta stratégie serve un vrai objectif business, pas juste « être visible »
+            </li>
+          </ul>
+        </div>
+        <div className="bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-4">
+          <h3
+            className="text-xl font-semibold text-[var(--cacao)]"
+            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+          >
+            Ce n&apos;est probablement pas pour toi si...
+          </h3>
+          <ul className="space-y-3 text-sm text-[var(--noir)]">
+            <li className="flex items-start gap-2.5">
+              <XCircle size={18} className="shrink-0 mt-0.5 opacity-50" />
+              <span>
+                Tu cherches une formation 100% autonome sans accompagnement (
+                <Link href="/la-petite-academie" className="text-[var(--mocha)] underline">
+                  voir La Petite Académie
+                </Link>
+                )
+              </span>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <XCircle size={18} className="shrink-0 mt-0.5 opacity-50" />
+              Tu n&apos;as pas encore d&apos;activité définie du tout
+            </li>
+            <li className="flex items-start gap-2.5">
+              <XCircle size={18} className="shrink-0 mt-0.5 opacity-50" />
+              Tu cherches un format plus léger et rapide (regarde plutôt Level Up si tu hésites
+              avec Next Level)
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Témoignages */}
+      <div className="mb-14">
+        <div className="text-center mb-8">
+          <h2
+            className="text-3xl font-semibold text-[var(--cacao)]"
+            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+          >
+            Elles ont arrêté d&apos;avancer seules
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {TESTIMONIALS.map((quote) => (
+            <blockquote
+              key={quote}
+              className="bg-[var(--sable)] rounded-2xl border border-[var(--mocha-light)] p-6 text-[var(--noir)] italic leading-relaxed text-sm"
+            >
+              « {quote} »
+            </blockquote>
+          ))}
+        </div>
+      </div>
+
       {/* Financement CPF : comment ça marche */}
-      <div className="bg-[var(--sable)] rounded-2xl border border-[var(--mocha-light)] p-8">
+      <div className="bg-[var(--sable)] rounded-2xl border border-[var(--mocha-light)] p-8 mb-14">
         <p className="text-xs uppercase tracking-[0.25em] font-medium text-[var(--mocha)] mb-2">
           Financement
         </p>
@@ -149,6 +281,29 @@ export default function AccompagnementsPage() {
             </li>
           ))}
         </ol>
+      </div>
+
+      {/* FAQ */}
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="text-xs uppercase tracking-[0.3em] font-medium text-[var(--mocha)] mb-2">
+            Questions fréquentes
+          </p>
+          <h2
+            className="text-3xl font-semibold text-[var(--cacao)]"
+            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+          >
+            FAQ
+          </h2>
+        </div>
+        <div className="space-y-6">
+          {FAQ.map((item) => (
+            <div key={item.q} className="border-b border-[var(--mocha-light)] pb-6">
+              <h3 className="text-base font-semibold text-[var(--cacao)] mb-1.5">{item.q}</h3>
+              <p className="text-sm text-[var(--noir)] opacity-70 leading-relaxed">{item.a}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
