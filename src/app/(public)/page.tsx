@@ -149,7 +149,7 @@ export default function HomePage() {
 
           <p className="text-center mt-8 text-sm text-[var(--noir)] opacity-60">
             Tu peux aussi financer ta formation via le CPF.{" "}
-            <Link href="/cpf" className="text-[var(--mocha)] hover:text-[var(--cacao)] transition-colors">
+            <Link href="/accompagnements" className="text-[var(--mocha)] hover:text-[var(--cacao)] transition-colors">
               En savoir plus →
             </Link>
           </p>

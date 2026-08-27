@@ -181,7 +181,7 @@ export default function LaPetiteAcademiePage() {
                 <XCircle size={18} className="shrink-0 mt-0.5 opacity-50" />
                 <span>
                   Tu as besoin d&apos;un accompagnement 1:1 poussé (
-                  <Link href="/cpf" className="text-[var(--mocha)] underline">
+                  <Link href="/accompagnements" className="text-[var(--mocha)] underline">
                     voir Level Up / Next Level
                   </Link>
                   )

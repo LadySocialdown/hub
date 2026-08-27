@@ -213,8 +213,8 @@ export default function TarifsPage() {
 
       <p className="text-center mt-8 text-sm text-[var(--noir)] opacity-50">
         Tu peux aussi financer ta formation via le CPF.{" "}
-        <Link href="/cpf" className="text-[var(--mocha)] hover:text-[var(--cacao)] transition-colors">
-          Voir les offres CPF →
+        <Link href="/accompagnements" className="text-[var(--mocha)] hover:text-[var(--cacao)] transition-colors">
+          Voir les accompagnements →
         </Link>
       </p>
     </div>

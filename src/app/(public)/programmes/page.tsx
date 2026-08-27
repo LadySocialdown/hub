@@ -62,10 +62,10 @@ export default function ProgrammesPage() {
             FAFCEA ou OPCO. Paiement jusqu&apos;en 4x. Réserve ta consultation flash pour postuler.
           </p>
           <Link
-            href="/cpf"
+            href="/accompagnements"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--cacao)] hover:text-[var(--mocha)] transition-colors"
           >
-            Découvrir les offres CPF <ArrowRight size={14} />
+            Découvrir les accompagnements <ArrowRight size={14} />
           </Link>
         </div>
       </div>

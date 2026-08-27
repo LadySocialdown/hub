@@ -4,7 +4,7 @@ const footerLinks = {
   "Formation": [
     { href: "/programmes", label: "Tous les programmes" },
     { href: "/tarifs", label: "Tarifs & abonnements" },
-    { href: "/cpf", label: "Financement CPF" },
+    { href: "/accompagnements", label: "Accompagnements & financement CPF" },
   ],
   "Ressources": [
     { href: "/ressources", label: "Guides gratuits" },

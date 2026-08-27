@@ -8,10 +8,10 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
+  { href: "/accompagnements", label: "Accompagnements" },
+  { href: "/la-petite-academie", label: "La Petite Académie" },
   { href: "/ressources", label: "La Boîte à outils" },
-  { href: "/programmes", label: "Programmes" },
   { href: "/tarifs", label: "Tarifs" },
-  { href: "/cpf", label: "CPF" },
 ];
 
 export function Header() {

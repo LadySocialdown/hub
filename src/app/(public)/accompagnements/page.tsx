@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Next Level & Level Up — Formation finançable CPF, FAFCEA, OPCO",
+  title: "Accompagnements — Next Level & Level Up, finançables CPF, FAFCEA, OPCO",
   description:
     "Level Up (25h + 1 mois de mentorat) et Next Level (35h + 3 mois de mentorat), finançables via CPF, FAFCEA ou OPCO. Sur candidature.",
 };
@@ -49,26 +49,26 @@ const programs = [
   },
 ];
 
-export default function CpfPage() {
+export default function AccompagnementsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Hero */}
       <div className="text-center mb-14 space-y-4">
         <span className="inline-block text-xs font-medium px-3 py-1 bg-[var(--mocha-light)] text-[var(--cacao)] rounded-full uppercase tracking-widest">
-          Finançable CPF, FAFCEA ou OPCO
+          Mentorat 1:1 — Sur candidature
         </span>
         <h1
           className="text-4xl sm:text-5xl font-semibold text-[var(--cacao)] leading-tight"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
-          Des programmes finançables
+          Un accompagnement personnalisé
           <br />
-          <em className="font-light italic">via Mon Compte Formation</em>
+          <em className="font-light italic">pour structurer ton business</em>
         </h1>
         <p className="text-[var(--noir)] opacity-70 max-w-xl mx-auto text-lg">
           Level Up et Next Level sont sur candidature : réserve ta consultation flash pour postuler.
-          Utilise ton CPF, ton FAFCEA ou ton OPCO pour financer ta formation, paiement jusqu&apos;en 4x
-          disponible pour le reste à charge.
+          Financés par ton CPF, ton FAFCEA ou ton OPCO, avec paiement jusqu&apos;en 4x disponible pour
+          le reste à charge.
         </p>
       </div>
 
@@ -122,13 +122,16 @@ export default function CpfPage() {
         ))}
       </div>
 
-      {/* Comment ça marche */}
+      {/* Financement CPF : comment ça marche */}
       <div className="bg-[var(--sable)] rounded-2xl border border-[var(--mocha-light)] p-8">
+        <p className="text-xs uppercase tracking-[0.25em] font-medium text-[var(--mocha)] mb-2">
+          Financement
+        </p>
         <h2
           className="text-2xl font-semibold text-[var(--cacao)] mb-6"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
-          Comment ça marche ?
+          Comment financer ta formation via ton CPF ?
         </h2>
         <ol className="space-y-4">
           {[
