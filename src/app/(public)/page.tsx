@@ -156,8 +156,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* À propos / Expertise */}
-      <section className="bg-[var(--cacao)] py-20 px-4">
+      {/* À propos / Expertise + CTA final — un seul bloc cacao continu, pour éviter
+          tout liseré de rendu entre deux sections adjacentes de même couleur */}
+      <section className="bg-glow-light bg-[var(--cacao)] py-20 px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div className="relative aspect-[3/4] w-full max-w-sm mx-auto md:mx-0 rounded-2xl overflow-hidden bg-[var(--mocha)]/40">
             <Image
@@ -200,11 +201,9 @@ export default function HomePage() {
             </p>
           </div>
         </div>
-      </section>
 
-      {/* CTA final */}
-      <section className="bg-glow-light py-20 px-4 bg-[var(--cacao)] text-center overflow-hidden">
-        <div className="max-w-2xl mx-auto space-y-6">
+        {/* CTA final */}
+        <div className="max-w-2xl mx-auto space-y-6 text-center mt-20">
           <h2
             className="text-4xl font-semibold text-[var(--ivoire)] leading-tight"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
