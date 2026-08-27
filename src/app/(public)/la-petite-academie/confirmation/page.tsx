@@ -46,6 +46,10 @@ export default async function ConfirmationPage({
               marketing à connaître avant de commencer » offert.
             </p>
             <p className="text-sm text-[var(--noir)] opacity-50">
+              Pense à vérifier tes courriers indésirables si tu ne le vois pas dans les prochaines
+              minutes.
+            </p>
+            <p className="text-sm text-[var(--noir)] opacity-50">
               Conformément à la loi, tu disposes d&apos;un droit de rétractation de 14 jours à compter de
               ton paiement.
             </p>

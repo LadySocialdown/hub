@@ -133,6 +133,14 @@ export default function LaPetiteAcademiePage() {
               </div>
             ))}
           </div>
+          <div className="text-center mt-10">
+            <a
+              href="#precommande"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--cacao)] text-[var(--ivoire)] rounded-full text-sm font-semibold hover:bg-[var(--mocha)] transition-colors"
+            >
+              Je réserve ma place, 497€
+            </a>
+          </div>
         </div>
       </section>
 
@@ -251,7 +259,7 @@ export default function LaPetiteAcademiePage() {
       </section>
 
       {/* Précommande */}
-      <section className="bg-glow-light bg-[var(--cacao)] py-20 px-4 overflow-hidden">
+      <section id="precommande" className="bg-glow-light bg-[var(--cacao)] py-20 px-4 overflow-hidden">
         <div className="max-w-2xl mx-auto text-center space-y-6">
           <h2
             className="text-3xl sm:text-4xl font-semibold text-[var(--ivoire)]"
