@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const footerLinks = {
   "Formation": [
-    { href: "/programmes", label: "Tous les programmes" },
     { href: "/tarifs", label: "Tarifs & abonnements" },
     { href: "/accompagnements", label: "Accompagnements & financement CPF" },
+    { href: "/la-petite-academie", label: "La Petite Académie" },
   ],
   "Ressources": [
     { href: "/ressources", label: "Guides gratuits" },

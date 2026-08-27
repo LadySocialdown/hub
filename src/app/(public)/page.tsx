@@ -31,7 +31,7 @@ export default function HomePage() {
               <ArrowRight size={16} />
             </Link>
             <Link
-              href="/programmes"
+              href="/tarifs"
               className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--mocha-light)] text-[var(--noir)] rounded-full text-sm font-medium hover:bg-[var(--sable)] transition-colors"
             >
               Voir les programmes
@@ -69,7 +69,7 @@ export default function HomePage() {
               icon={<BookOpen size={20} />}
               title="Espace Formation"
               description="Des programmes complets et un accompagnement pour structurer ta stratégie et créer du contenu qui vend, jusqu'à l'action concrète."
-              href="/programmes"
+              href="/tarifs"
             />
             <SpaceCard
               icon={<Wrench size={20} />}

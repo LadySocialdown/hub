@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         destination: "/accompagnements",
         permanent: true,
       },
+      {
+        source: "/programmes",
+        destination: "/tarifs",
+        permanent: true,
+      },
+      {
+        source: "/programmes/:path*",
+        destination: "/tarifs",
+        permanent: true,
+      },
     ];
   },
 };
