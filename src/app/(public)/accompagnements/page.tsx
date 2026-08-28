@@ -89,8 +89,7 @@ export default function AccompagnementsPage() {
           className="text-4xl sm:text-5xl font-semibold text-[var(--cacao)] leading-tight max-w-3xl mx-auto"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
-          Tu n&apos;as pas besoin d&apos;un cours de plus. Tu as besoin que quelqu&apos;un
-          s&apos;assoie à côté de toi et ne te lâche pas tant que ça ne marche pas.
+          Arrête d&apos;avancer seul.
         </h1>
         <p className="text-[var(--noir)] opacity-70 max-w-xl mx-auto text-lg">
           Level Up et Next Level sont sur candidature : réserve ta consultation flash pour postuler.
