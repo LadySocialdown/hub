@@ -122,7 +122,7 @@ export default function AccompagnementsPage() {
 
       {/* Pour qui / pas pour qui */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
-        <div className="bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-4">
+        <div className="bg-[var(--sable)] border border-[var(--mocha-light)] rounded-2xl p-8 space-y-4">
           <h3
             className="text-xl font-semibold text-[var(--cacao)]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
@@ -148,7 +148,7 @@ export default function AccompagnementsPage() {
             </li>
           </ul>
         </div>
-        <div className="bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-4">
+        <div className="bg-[var(--sable)] border border-[var(--mocha-light)] rounded-2xl p-8 space-y-4">
           <h3
             className="text-xl font-semibold text-[var(--cacao)]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
