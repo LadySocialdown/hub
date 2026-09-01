@@ -120,58 +120,6 @@ export default function AccompagnementsPage() {
         </p>
       </div>
 
-      {/* Programmes */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
-        {programs.map((prog) => (
-          <div
-            key={prog.id}
-            className="card-lift bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-6"
-          >
-            <div className="space-y-1">
-              <span className="text-xs font-medium px-2.5 py-1 bg-[var(--sable)] text-[var(--mocha)] rounded-full">
-                {prog.duration} · {prog.coaching}
-              </span>
-              <div className="flex items-baseline gap-3 mt-3">
-                <h2
-                  className="text-2xl font-semibold text-[var(--cacao)]"
-                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                >
-                  {prog.name}
-                </h2>
-                <span
-                  className="text-lg font-semibold text-[var(--mocha)]"
-                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                >
-                  {prog.price}
-                </span>
-              </div>
-              <p className="text-sm text-[var(--noir)] opacity-60">{prog.forWho}</p>
-            </div>
-
-            <p className="text-sm text-[var(--cacao)] font-medium leading-relaxed">{prog.hook}</p>
-
-            <ul className="space-y-2">
-              {prog.content.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-[var(--noir)] opacity-70">
-                  <CheckCircle size={14} className="shrink-0 mt-0.5 text-[var(--mocha)]" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            <a
-              href={CONSULTATION_FLASH_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--cacao)] text-[var(--ivoire)] rounded-full text-sm font-medium hover:bg-[var(--mocha)] transition-colors"
-            >
-              Postuler via la consultation flash
-              <ArrowRight size={14} />
-            </a>
-          </div>
-        ))}
-      </div>
-
       {/* Pour qui / pas pour qui */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
         <div className="bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-4">
@@ -229,6 +177,58 @@ export default function AccompagnementsPage() {
             </li>
           </ul>
         </div>
+      </div>
+
+      {/* Programmes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
+        {programs.map((prog) => (
+          <div
+            key={prog.id}
+            className="card-lift bg-white border border-[var(--mocha-light)] shadow-warm rounded-2xl p-8 space-y-6"
+          >
+            <div className="space-y-1">
+              <span className="text-xs font-medium px-2.5 py-1 bg-[var(--sable)] text-[var(--mocha)] rounded-full">
+                {prog.duration} · {prog.coaching}
+              </span>
+              <div className="flex items-baseline gap-3 mt-3">
+                <h2
+                  className="text-2xl font-semibold text-[var(--cacao)]"
+                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                >
+                  {prog.name}
+                </h2>
+                <span
+                  className="text-lg font-semibold text-[var(--mocha)]"
+                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                >
+                  {prog.price}
+                </span>
+              </div>
+              <p className="text-sm text-[var(--noir)] opacity-60">{prog.forWho}</p>
+            </div>
+
+            <p className="text-sm text-[var(--cacao)] font-medium leading-relaxed">{prog.hook}</p>
+
+            <ul className="space-y-2">
+              {prog.content.map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-[var(--noir)] opacity-70">
+                  <CheckCircle size={14} className="shrink-0 mt-0.5 text-[var(--mocha)]" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={CONSULTATION_FLASH_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--cacao)] text-[var(--ivoire)] rounded-full text-sm font-medium hover:bg-[var(--mocha)] transition-colors"
+            >
+              Postuler via la consultation flash
+              <ArrowRight size={14} />
+            </a>
+          </div>
+        ))}
       </div>
 
       {/* Témoignages */}
