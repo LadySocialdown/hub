@@ -1,5 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import type { ModuleResource, FormationCourse } from "@/types/formation";
+import type { ModuleResource, FormationCourse, FormationModule } from "@/types/formation";
 
 /** Formations (slug + titre) auxquelles l'élève a accès. Normalement une seule. */
 export async function getEnrolledCourses(
@@ -18,7 +18,52 @@ export async function getEnrolledCourses(
   return rows.map((row) => row.courses).filter((c): c is { slug: string; title: string } => c !== null);
 }
 
-/** Formation + modules + progression de l'élève, uniquement si elle y a accès. */
+/** Modules d'une formation avec leurs leçons (vidéos), et la progression fournie. */
+async function loadModulesWithLessons(
+  courseId: string,
+  completedLessonIds: Set<string>
+): Promise<FormationModule[]> {
+  const supabase = createServerSupabaseClient();
+
+  const { data: modules } = await supabase
+    .from("modules")
+    .select("id, title, position, resources")
+    .eq("course_id", courseId)
+    .order("position", { ascending: true });
+
+  const moduleIds = (modules ?? []).map((m) => m.id);
+  const { data: lessons } =
+    moduleIds.length > 0
+      ? await supabase
+          .from("lessons")
+          .select("id, module_id, title, position, youtube_video_id")
+          .in("module_id", moduleIds)
+          .order("position", { ascending: true })
+      : { data: [] };
+
+  return (modules ?? []).map((m) => {
+    const moduleLessons = (lessons ?? [])
+      .filter((l) => l.module_id === m.id)
+      .map((l) => ({
+        id: l.id,
+        title: l.title,
+        position: l.position,
+        youtube_video_id: l.youtube_video_id,
+        completed: completedLessonIds.has(l.id),
+      }));
+
+    return {
+      id: m.id,
+      title: m.title,
+      position: m.position,
+      lessons: moduleLessons,
+      resources: (m.resources as unknown as ModuleResource[] | null) ?? [],
+      completed: moduleLessons.length > 0 && moduleLessons.every((l) => l.completed),
+    };
+  });
+}
+
+/** Formation + modules/leçons + progression de l'élève, uniquement si elle y a accès. */
 export async function getCourseWithProgress(
   userId: string,
   slug: string
@@ -40,37 +85,24 @@ export async function getCourseWithProgress(
     .maybeSingle();
   if (!enrollment) return null;
 
-  const { data: modules } = await supabase
-    .from("modules")
-    .select("id, title, position, youtube_video_id, resources")
-    .eq("course_id", course.id)
-    .order("position", { ascending: true });
-
   const { data: progress } = await supabase
-    .from("user_progress")
-    .select("module_id, completed")
+    .from("lesson_progress")
+    .select("lesson_id, completed")
     .eq("user_id", userId);
 
-  const completedModuleIds = new Set(
-    (progress ?? []).filter((p) => p.completed).map((p) => p.module_id)
+  const completedLessonIds = new Set(
+    (progress ?? []).filter((p) => p.completed).map((p) => p.lesson_id)
   );
 
   return {
     id: course.id,
     slug: course.slug,
     title: course.title,
-    modules: (modules ?? []).map((m) => ({
-      id: m.id,
-      title: m.title,
-      position: m.position,
-      youtube_video_id: m.youtube_video_id,
-      resources: (m.resources as unknown as ModuleResource[] | null) ?? [],
-      completed: completedModuleIds.has(m.id),
-    })),
+    modules: await loadModulesWithLessons(course.id, completedLessonIds),
   };
 }
 
-/** Les 3 formations et tous leurs modules, sans vérification d'accès — usage admin uniquement. */
+/** Les 3 formations et tous leurs modules/leçons, sans vérification d'accès — usage admin uniquement. */
 export async function getAllCoursesWithModules(): Promise<FormationCourse[]> {
   const supabase = createServerSupabaseClient();
 
@@ -79,24 +111,14 @@ export async function getAllCoursesWithModules(): Promise<FormationCourse[]> {
     .select("id, slug, title")
     .order("slug", { ascending: true });
 
-  const { data: modules } = await supabase
-    .from("modules")
-    .select("id, course_id, title, position, youtube_video_id, resources")
-    .order("position", { ascending: true });
-
-  return (courses ?? []).map((course) => ({
-    id: course.id,
-    slug: course.slug,
-    title: course.title,
-    modules: (modules ?? [])
-      .filter((m) => m.course_id === course.id)
-      .map((m) => ({
-        id: m.id,
-        title: m.title,
-        position: m.position,
-        youtube_video_id: m.youtube_video_id,
-        resources: (m.resources as unknown as ModuleResource[] | null) ?? [],
-        completed: false,
-      })),
-  }));
+  const result: FormationCourse[] = [];
+  for (const course of courses ?? []) {
+    result.push({
+      id: course.id,
+      slug: course.slug,
+      title: course.title,
+      modules: await loadModulesWithLessons(course.id, new Set()),
+    });
+  }
+  return result;
 }

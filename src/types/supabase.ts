@@ -110,7 +110,6 @@ export interface Database {
           course_id: string;
           title: string;
           unlock_week: number;
-          youtube_video_id: string | null;
           resources: Json;
           position: number;
           created_at: string;
@@ -120,7 +119,6 @@ export interface Database {
           course_id: string;
           title: string;
           unlock_week: number;
-          youtube_video_id?: string | null;
           resources?: Json;
           position?: number;
           created_at?: string;
@@ -128,24 +126,47 @@ export interface Database {
         Update: {
           title?: string;
           unlock_week?: number;
-          youtube_video_id?: string | null;
           resources?: Json;
           position?: number;
         };
         Relationships: [];
       };
-      user_progress: {
+      lessons: {
+        Row: {
+          id: string;
+          module_id: string;
+          title: string;
+          position: number;
+          youtube_video_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          module_id: string;
+          title: string;
+          position: number;
+          youtube_video_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          title?: string;
+          position?: number;
+          youtube_video_id?: string | null;
+        };
+        Relationships: [];
+      };
+      lesson_progress: {
         Row: {
           id: string;
           user_id: string;
-          module_id: string;
+          lesson_id: string;
           completed: boolean;
           completed_at: string | null;
         };
         Insert: {
           id?: string;
           user_id: string;
-          module_id: string;
+          lesson_id: string;
           completed?: boolean;
           completed_at?: string | null;
         };
