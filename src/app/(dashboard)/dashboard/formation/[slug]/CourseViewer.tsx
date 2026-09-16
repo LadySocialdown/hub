@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, useTransition } from "react";
-import { CheckCircle2, Circle, Download, Calendar, ChevronDown, ChevronRight } from "lucide-react";
+import { CheckCircle2, Circle, Download, Calendar, ChevronDown, ChevronRight, Lock } from "lucide-react";
 import type { FormationCourse, FormationModule } from "@/types/formation";
 import { YouTubePlayer } from "./YouTubePlayer";
 import { markLessonCompleteAction } from "../actions";
@@ -26,6 +26,16 @@ export function CourseViewer({
   const allLessons = modules.flatMap((m) => m.lessons);
   const completedCount = allLessons.filter((l) => l.completed).length;
   const progressPercent = allLessons.length > 0 ? Math.round((completedCount / allLessons.length) * 100) : 0;
+
+  // Une leçon se débloque uniquement quand la précédente (dans l'ordre du programme) est terminée.
+  const isLessonUnlocked = useCallback(
+    (lessonId: string) => {
+      const idx = allLessons.findIndex((l) => l.id === lessonId);
+      if (idx <= 0) return true;
+      return allLessons[idx - 1].completed;
+    },
+    [allLessons]
+  );
 
   const selectLesson = useCallback((moduleId: string, lessonId: string) => {
     setActiveModuleId(moduleId);
@@ -110,25 +120,33 @@ export function CourseViewer({
                         Aucune vidéo pour l&apos;instant.
                       </li>
                     ) : (
-                      m.lessons.map((l) => (
-                        <li key={l.id}>
-                          <button
-                            onClick={() => selectLesson(m.id, l.id)}
-                            className={`flex w-full items-center gap-2.5 px-4 py-2.5 pl-11 text-left text-xs transition-colors hover:bg-white ${
-                              l.id === activeLessonId
-                                ? "bg-white text-[var(--cacao)] font-medium"
-                                : "text-[var(--noir)] opacity-80"
-                            }`}
-                          >
-                            {l.completed ? (
-                              <CheckCircle2 size={14} className="shrink-0 text-[var(--cacao)]" />
-                            ) : (
-                              <Circle size={14} className="shrink-0 opacity-40" />
-                            )}
-                            <span>{l.title}</span>
-                          </button>
-                        </li>
-                      ))
+                      m.lessons.map((l) => {
+                        const unlocked = isLessonUnlocked(l.id);
+                        return (
+                          <li key={l.id}>
+                            <button
+                              onClick={() => unlocked && selectLesson(m.id, l.id)}
+                              disabled={!unlocked}
+                              className={`flex w-full items-center gap-2.5 px-4 py-2.5 pl-11 text-left text-xs transition-colors ${
+                                !unlocked
+                                  ? "text-[var(--noir)] opacity-40 cursor-not-allowed"
+                                  : l.id === activeLessonId
+                                    ? "bg-white text-[var(--cacao)] font-medium"
+                                    : "text-[var(--noir)] opacity-80 hover:bg-white"
+                              }`}
+                            >
+                              {l.completed ? (
+                                <CheckCircle2 size={14} className="shrink-0 text-[var(--cacao)]" />
+                              ) : unlocked ? (
+                                <Circle size={14} className="shrink-0 opacity-40" />
+                              ) : (
+                                <Lock size={14} className="shrink-0" />
+                              )}
+                              <span>{l.title}</span>
+                            </button>
+                          </li>
+                        );
+                      })
                     )}
                   </ul>
                 )}
