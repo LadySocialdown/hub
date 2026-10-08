@@ -565,6 +565,42 @@ export interface Database {
         };
         Relationships: [];
       };
+      resource_attempts: {
+        Row: {
+          id: string;
+          user_id: string;
+          resource_id: string;
+          resource_version: number;
+          attempt: number;
+          answers: import("./ressource").Answers;
+          computed: Record<string, Record<string, number | null>>;
+          current_step: string | null;
+          completed_at: string | null;
+          updated_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          resource_id: string;
+          resource_version?: number;
+          attempt?: number;
+          answers?: import("./ressource").Answers;
+          computed?: Record<string, Record<string, number | null>>;
+          current_step?: string | null;
+          completed_at?: string | null;
+          updated_at?: string;
+          created_at?: string;
+        };
+        Update: {
+          answers?: import("./ressource").Answers;
+          computed?: Record<string, Record<string, number | null>>;
+          current_step?: string | null;
+          completed_at?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

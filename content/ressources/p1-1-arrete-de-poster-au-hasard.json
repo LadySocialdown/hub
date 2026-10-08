@@ -1,0 +1,135 @@
+{
+  "id": "p1-1-arrete-de-poster-au-hasard",
+  "version": 1,
+  "programme": "la-petite-academie",
+  "pilier": 1,
+  "point": 1,
+  "title": "Arrête de poster au hasard",
+  "subtitle": "Donne une mission à chacun de tes contenus, relie tes publications à ton chiffre d'affaires et découvre ce qui manque vraiment à ta communication.",
+  "duration": "1 h",
+  "videos": ["1.1 A", "1.1 B", "1.1 C", "1.1 D"],
+  "intro": {
+    "path": [
+      { "title": "Le constat", "text": "Tu audites tes 9 dernières publications pour voir ce qu'elles font vraiment." },
+      { "title": "La destination", "text": "Tu calcules combien de demandes tes réseaux doivent t'apporter chaque semaine." },
+      { "title": "Le plan", "text": "Tu répartis tes 4 prochaines semaines de contenu selon ton vrai blocage." }
+    ],
+    "prepare": [
+      "Ton téléphone avec Instagram en compte professionnel",
+      "Tes messages, mails et devis des 3 à 6 derniers mois",
+      "Une heure au calme, sans notifications",
+      "La vidéo tuto 1.1 D ouverte, pour l'étape 1"
+    ],
+    "quote": "Tes réseaux ne sont pas une vitrine. C'est un système pour trouver des clientes."
+  },
+  "steps": [
+    {
+      "id": "audit",
+      "title": "L'audit de tes 9 publications",
+      "duration": "25 min",
+      "video": "1.1 D",
+      "why": "On croit souvent savoir ce que fait notre contenu. Les chiffres racontent parfois une autre histoire. Cet audit te montre si ton compte attire, convainc ou fidélise, et ce qui lui manque pour t'apporter des clientes.",
+      "howto": [
+        "Choisis tes 9 dernières publications de plus de 7 jours.",
+        "Ouvre « Voir les statistiques » sous chaque publication.",
+        "Sans objectif en publiant ? Choisis « Aucun ». Personne ne verra ta grille."
+      ],
+      "grid": {
+        "id": "posts",
+        "rows": 9,
+        "minFilled": 5,
+        "columns": [
+          { "id": "sujet", "label": "Format et sujet", "type": "text", "wide": true },
+          { "id": "vise", "label": "Objectif visé", "type": "objective", "allowNone": true },
+          { "id": "vues", "label": "Vues", "type": "number" },
+          { "id": "nonabo", "label": "% non-abonnés", "type": "number" },
+          { "id": "partages", "label": "Partages", "type": "number" },
+          { "id": "enreg", "label": "Enregistrements", "type": "number" },
+          { "id": "visites", "label": "Visites profil", "type": "number" },
+          { "id": "abos", "label": "Abonnements", "type": "number" },
+          { "id": "messages", "label": "Messages reçus", "type": "number" },
+          { "id": "atteint", "label": "Objectif atteint", "type": "objective", "allowNone": false }
+        ],
+        "example": { "sujet": "Carrousel « préparer sa séance naissance »", "vise": "C", "vues": 1240, "nonabo": 62, "partages": 18, "enreg": 9, "visites": 31, "abos": 14, "messages": 0, "atteint": "A" },
+        "help": {
+          "A": "Il a attiré si la part de non-abonnés est forte, s'il a été partagé et s'il a généré des abonnements.",
+          "C": "Il a convaincu s'il a été enregistré, s'il a déclenché des messages, des visites du profil ou des clics.",
+          "F": "Il a fidélisé si tes abonnées habituelles ont commenté, répondu, échangé avec toi."
+        }
+      },
+      "computed": {
+        "nbAucun": { "op": "countEq", "grid": "posts", "col": "vise", "value": "0" },
+        "nbA": { "op": "countEq", "grid": "posts", "col": "atteint", "value": "A" },
+        "nbC": { "op": "countEq", "grid": "posts", "col": "atteint", "value": "C" },
+        "nbF": { "op": "countEq", "grid": "posts", "col": "atteint", "value": "F" },
+        "nbEcarts": { "op": "countDiff", "grid": "posts", "colA": "vise", "colB": "atteint", "ignore": "0" }
+      },
+      "diagnostics": [
+        { "id": "hasard", "when": { "var": "nbAucun", "gt": 3 }, "title": "Tu publiais au hasard", "text": "Plus de 3 publications sur 9 n'avaient pas d'objectif. C'est la première chose que ce guide va corriger." },
+        { "id": "attire-sans-convaincre", "when": { "var": "nbA", "gteVar": "nbC", "plus": 2 }, "title": "Ton compte attire, mais ne convainc pas", "text": "Il fait venir des gens, mais ne leur donne pas de raison de passer à l'action. C'est souvent l'explication d'un compte qui grandit sans demandes." },
+        { "id": "convainc-sans-attirer", "when": { "var": "nbC", "gteVar": "nbA", "plus": 2 }, "title": "Ta communauté ne se renouvelle pas", "text": "Elle te fait confiance, mais tu parles toujours aux mêmes personnes. Il te faut des contenus pensés pour être découverts." },
+        { "id": "lien-fragile", "when": { "var": "nbF", "lte": 1 }, "title": "Le lien avec ta communauté est fragile", "text": "Tes clientes passent, mais ne reviennent pas et ne te recommandent pas. Pense coulisses, échanges et stories interactives." },
+        { "id": "ecarts", "when": { "var": "nbEcarts", "gte": 3 }, "title": "Tes contenus ne font pas ce que tu leur demandes", "text": "Quand tu veux convaincre et que tu attires, le sujet est souvent trop large, ou il manque une preuve et un appel à l'action clair." }
+      ],
+      "fallbackDiagnostic": { "title": "Ton contenu est plutôt équilibré", "text": "Pas de déséquilibre marqué. Concentre-toi sur l'objectif qui sert ton calcul à l'envers : en général, convaincre." },
+      "warning": "Ne juge pas ton audit aux likes. Instagram raisonne en proportions : temps de visionnage, partages en message privé et « j'aime » rapportés au nombre de personnes touchées (Adam Mosseri, 2025).",
+      "reflection": { "id": "phraseDiagnostic", "label": "Ton diagnostic en une phrase", "placeholder": "Exemple : Mon compte attire, mais il ne convainc presque jamais. Je n'ai mis un appel à l'action que sur 1 publication sur 9." }
+    },
+    {
+      "id": "calcul",
+      "title": "Ton calcul à l'envers",
+      "duration": "20 min",
+      "video": "1.1 C",
+      "why": "« Plus de visibilité » n'est pas un objectif. Un nombre de demandes par semaine, si. C'est l'étape la plus importante du pilier : elle transforme ta communication en système mesurable.",
+      "fields": [
+        { "id": "ca", "label": "Ton chiffre d'affaires mensuel visé", "type": "number", "unit": "€", "example": 3000 },
+        { "id": "panier", "label": "Ton panier moyen", "type": "number", "unit": "€", "example": 350 },
+        { "id": "taux", "label": "Ton taux de conversion (ventes ÷ demandes)", "type": "number", "unit": "%", "example": 50, "help": "Reprends tes messages, mails et devis des 3 à 6 derniers mois. Compte les demandes, compte les ventes, divise. Tu démarres ? Pars sur 25 à 33 % et note que c'est une hypothèse." },
+        { "id": "part", "label": "Part de tes demandes qui doit venir des réseaux", "type": "number", "unit": "%", "example": 50 },
+        { "id": "service", "label": "Ces demandes concernent…", "type": "text", "placeholder": "Exemple : ma séance Premiers Jours" }
+      ],
+      "computed": {
+        "clientes": { "op": "divCeil", "a": "ca", "b": "panier" },
+        "demandes": { "op": "divPctCeil", "a": "clientes", "pct": "taux" },
+        "demandesReseaux": { "op": "mulPctCeil", "a": "demandes", "pct": "part" },
+        "parSemaine": { "op": "perWeek", "a": "demandesReseaux" }
+      },
+      "objectiveSentence": "Chaque semaine, mes réseaux doivent m'apporter {parSemaine} demandes pour {service}.",
+      "note": "On parle ici de chiffre d'affaires, pas de ce qu'il te reste après tes charges et tes cotisations."
+    },
+    {
+      "id": "planning",
+      "title": "Tes 4 prochaines semaines",
+      "duration": "15 min",
+      "why": "Ton audit t'a montré ce qui manque. Ton calcul t'a donné ta destination. Il reste à choisir, en conscience, ce que tu vas publier.",
+      "priority": {
+        "id": "priorite",
+        "options": [
+          { "value": "A", "label": "Attirer", "when": "Mon audience est petite ou ne me ressemble pas", "text": "Environ la moitié de tes contenus pour faire entrer les bonnes personnes." },
+          { "value": "C", "label": "Convaincre", "when": "J'ai une audience mais peu de demandes", "text": "Environ la moitié de tes contenus pour donner les preuves qui déclenchent les demandes." },
+          { "value": "F", "label": "Fidéliser", "when": "Mes clientes ne reviennent pas", "text": "Renforce le lien : coulisses, échanges, stories interactives." }
+        ],
+        "suggestFrom": "audit"
+      },
+      "rhythm": { "id": "rythme", "label": "Publications par semaine que tu peux tenir sans t'épuiser", "min": 1, "max": 5, "default": 3, "help": "Mieux vaut 2 publications tenues pendant 3 mois que 5 abandonnées au bout de 3 semaines." },
+      "plan": { "id": "plan", "weeks": 4, "columns": ["objectif", "sujet", "cta", "fait"], "example": { "objectif": "C", "sujet": "Témoignage d'Amandine, qui ne voulait pas poser", "cta": "Écris-moi PREMIERS JOURS" } }
+    }
+  ],
+  "checklist": [
+    "Je connais l'objectif principal de ce contenu : attirer, convaincre ou fidéliser.",
+    "Je sais ce que je veux que la personne ressente, comprenne ou fasse après l'avoir vu.",
+    "Ce contenu parle à ma cliente idéale, pas à tout le monde.",
+    "Il y a un appel à l'action adapté à l'objectif.",
+    "Je sais quel signal je regarderai dans 7 jours pour savoir s'il a fonctionné."
+  ],
+  "report": {
+    "title": "Mon rapport · Arrête de poster au hasard",
+    "sections": ["diagnostic", "objectif", "priorite", "planning", "checklist"],
+    "closing": "Moins de likes, plus de clientes."
+  },
+  "followups": [
+    { "id": "planning-hebdo", "type": "weekly", "text": "Coche tes publications de la semaine dans ton planning." },
+    { "id": "reaudit", "type": "retake", "afterDays": 30, "step": "audit", "text": "Refais ton audit : compare-le au premier et vois ce qui a changé." }
+  ],
+  "next": { "pilier": 1, "point": 2, "title": "Dans la tête de ta cliente" }
+}
