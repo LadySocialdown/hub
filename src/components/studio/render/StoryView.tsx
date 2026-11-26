@@ -60,7 +60,7 @@ export function StoryView({
   return (
     <div ref={boxRef} style={box} onPointerDown={edit ? () => edit.onSelect(null) : undefined}>
       {hasImg && <img src={frame.photo_url!} alt="Fond de la story" crossOrigin="anonymous" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
-      {isPhotoBg && !hasImg && (
+      {isPhotoBg && !hasImg && !exp && (
         <span style={{ position: "absolute", left: 16, right: 16, bottom: exp ? 16 : 56, textAlign: "center", fontSize: 10, lineHeight: 1.35, opacity: 0.6 }}>
           {frame.bg === "gen" ? "Visuel généré : " + (frame.photo_label || frame.title) : "Ta photo : " + (frame.photo_label || "à ajouter")}
         </span>

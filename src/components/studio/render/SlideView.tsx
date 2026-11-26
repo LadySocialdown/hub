@@ -94,14 +94,14 @@ export function SlideView({
             padding: hasImg ? 0 : 12,
             fontSize: 13,
             overflow: "hidden",
-            border: hasImg ? "none" : `1px dashed ${t[2]}`,
+            border: hasImg || variant === "export" ? "none" : `1px dashed ${t[2]}`,
             background: t[0] === look.colors.principale ? "rgba(251,247,240,0.08)" : "rgba(47,74,58,0.06)",
           }}
         >
           {hasImg ? (
             <img src={slide.photo_url!} alt={slide.photo_label || "Photo de la slide"} crossOrigin="anonymous" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
           ) : (
-            <span>{slide.generated ? "Visuel généré : " : "Ta photo : "}{slide.photo_label}</span>
+            {variant !== "export" && <span>{slide.generated ? "Visuel généré : " : "Ta photo : "}{slide.photo_label}</span>}
           )}
         </div>
       )}
