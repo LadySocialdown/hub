@@ -60,7 +60,7 @@ export async function POST(req: Request) {
         .eq("id", pub.id);
       if (error) throw new Error(error.message);
     }
-    return NextResponse.json({ ok: true, balance: await getBalance(userId) });
+    return NextResponse.json({ ok: true, publication: await getPublication(userId, pub.id), balance: await getBalance(userId) });
   } catch (e) {
     if (e instanceof InsufficientCreditsError) {
       return NextResponse.json({ error: "credits", needed: e.needed, available: e.available }, { status: 402 });

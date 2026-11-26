@@ -154,7 +154,7 @@ export function useIsMobile() {
 export function useGenerate() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const run = useCallback(async (id: string, frames?: number): Promise<"ok" | "credits" | "error"> => {
+  const run = useCallback(async (id: string, frames?: number, onDone?: (json: unknown) => void): Promise<"ok" | "credits" | "error"> => {
     setBusy(true);
     setError(null);
     try {
@@ -165,6 +165,7 @@ export function useGenerate() {
         setError(json.error ?? "La création n'a pas abouti.");
         return "error";
       }
+      onDone?.(json);
       return "ok";
     } catch {
       setError("La création n'a pas abouti. Vérifie ta connexion.");
