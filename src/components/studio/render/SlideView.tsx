@@ -101,7 +101,7 @@ export function SlideView({
           {hasImg ? (
             <img src={slide.photo_url!} alt={slide.photo_label || "Photo de la slide"} crossOrigin="anonymous" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
           ) : (
-            {variant !== "export" && <span>{slide.generated ? "Visuel généré : " : "Ta photo : "}{slide.photo_label}</span>}
+            variant !== "export" && <span>{slide.generated ? "Visuel généré : " : "Ta photo : "}{slide.photo_label}</span>
           )}
         </div>
       )}
