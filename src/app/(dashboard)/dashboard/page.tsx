@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { BookOpen, Wrench, Calendar, Receipt } from "lucide-react";
+import { BookOpen, Wrench, Calendar, Receipt, Sparkles } from "lucide-react";
 
 export default async function DashboardPage() {
   const user = await currentUser();
@@ -30,6 +30,12 @@ export default async function DashboardPage() {
       icon: <Receipt size={20} />,
       title: "Factures",
       description: "Historique de tes paiements et factures Stripe.",
+    },
+    {
+      href: "/dashboard/studio",
+      icon: <Sparkles size={20} />,
+      title: "Studio de création",
+      description: "Crée tes carrousels et tes stories à ta charte.",
     },
   ];
 
