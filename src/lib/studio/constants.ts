@@ -128,3 +128,8 @@ export function googleFontsHref(families: string[]): string {
     .join("&");
   return `https://fonts.googleapis.com/css2?${q}&display=swap`;
 }
+
+/** Pile CSS d'une police de l'élève (Google Fonts ou police importée). */
+export function fontStack(name: string): string {
+  return SERIF_FONTS.includes(name) ? `'${name}', serif` : `'${name}', sans-serif`;
+}
