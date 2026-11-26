@@ -9,10 +9,11 @@ import type { StickerKind, StoryFrame, StudioStyleId } from "@/types/studio";
 import { CreditsDialog } from "../CreditsDialog";
 import { FontLoader } from "../FontLoader";
 import { StoryThumb, StoryView } from "../render/StoryView";
+import { Scaled } from "../render/Scaled";
 import { card, field, muted, textarea, uploadFile } from "../ui";
 import type { CarouselEditorProps } from "./CarouselEditor";
 import {
-  EditorTitle, KpiChip, ObjectiveAlert, ObjectiveSelect, PillarChip, SaveState,
+  EditorTitle, KpiChip, MobileEditorTitle, ObjectiveAlert, ObjectiveSelect, PillarChip, SaveState,
   dayLabel, useAutosave, useGenerate, useIsMobile,
 } from "./common";
 import { downloadAll, exportNodes, slugify } from "./exportImages";
@@ -130,6 +131,19 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
           onReset={() => { setObjective(pub.planned_objective); setAdapted(false); }} onAdapt={adapt} adapting={adapting} adapted={adapted || !created} />
       )}
     </EditorTitle>
+  );
+  const mobileHeader = (
+    <MobileEditorTitle kind="Story" pub={pub}>
+      <div className="mt-1 flex flex-wrap gap-1.5">
+        <PillarChip pub={pub} settings={settings} />
+        <ObjectiveSelect id="st-obj" value={objective} onChange={(v) => { setObjective(v); setAdapted(false); }} />
+        <KpiChip format="story" objective={objective} />
+      </div>
+      {objChanged && (
+        <ObjectiveAlert pub={pub} objective={objective} count={objectiveCounts[objective] ?? 0}
+          onReset={() => { setObjective(pub.planned_objective); setAdapted(false); }} onAdapt={adapt} adapting={adapting} adapted={adapted || !created} />
+      )}
+        </MobileEditorTitle>
   );
   const dialog = creditsOpen && <CreditsDialog title={pub.title} remainingPlanned={remainingPlanned} onClose={() => setCreditsOpen(false)} />;
 
@@ -286,6 +300,13 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
     </div>
   );
 
+  const hints = (
+    <>
+      <span className={`text-center text-[13px] ${muted}`}>{n} visuel{n > 1 ? "s" : ""} dans cette séquence, soit {n} crédit{n > 1 ? "s" : ""}.</span>
+      <span className={`text-center text-xs ${muted}`}>Les éléments interactifs sont exportés comme repères : recrée-les dans Instagram au moment de publier.</span>
+    </>
+  );
+
   const validateBlock = (
     <div className="flex flex-col gap-2.5">
       {programmed && (
@@ -306,8 +327,7 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
           Télécharger mes images
         </button>
       )}
-      <span className={`text-center text-[13px] ${muted}`}>{n} visuel{n > 1 ? "s" : ""} dans cette séquence, soit {n} crédit{n > 1 ? "s" : ""}.</span>
-      <span className={`text-center text-xs ${muted}`}>Les éléments interactifs sont exportés comme repères : recrée-les dans Instagram au moment de publier.</span>
+      {!isMobile && hints}
       <SaveState state={saveState} />
     </div>
   );
@@ -329,10 +349,15 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
   if (isMobile) {
     const tabs = ["Textes", "1. Style", "2. Interactif", "3. Fond"];
     return (
-      <div className="flex flex-col gap-3 px-4 pb-48 pt-4">
+      <div className="flex flex-col gap-3 px-4 pb-44 pt-4">
         {shared}
-        {header}
-        <div className="flex justify-center">{preview}</div>
+        {mobileHeader}
+        <div className="flex flex-col items-center gap-1.5">
+          <Scaled base={270} width={200} ratio={16 / 9}>
+            <StoryView frame={f} index={i} total={n} style={style} look={look} vote={votes[i]} onVote={(k) => setVotes((v) => ({ ...v, [i]: k }))} />
+          </Scaled>
+          <span className="text-[13px]">Visuel {i + 1} / {n}</span>
+        </div>
         {strip}
         <div role="tablist" aria-label="Réglages" className="flex gap-1.5 overflow-x-auto pb-1">
           {tabs.map((t, k) => (
@@ -343,7 +368,8 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
           ))}
         </div>
         <div role="tabpanel">{[texts, stylePanel, stickerPanel, bgPanel][mtab]}</div>
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--mocha-light)] bg-[var(--ivoire)] px-4 py-3">{validateBlock}</div>
+        {hints}
+        <div className="fixed inset-x-0 bottom-14 z-40 max-h-[45vh] overflow-y-auto border-t border-[var(--mocha-light)] bg-[var(--ivoire)] px-4 py-2.5">{validateBlock}</div>
       </div>
     );
   }

@@ -11,9 +11,10 @@ import type { ReferenceStyle, Slide, StudioPublication, StudioSettings, StudioSt
 import { CreditsDialog } from "../CreditsDialog";
 import { FontLoader } from "../FontLoader";
 import { InstaPost, LAYOUT_NAME, SlideThumb, SlideView } from "../render/SlideView";
+import { Scaled } from "../render/Scaled";
 import { card, field, muted, textarea, uploadFile } from "../ui";
 import {
-  EditorTitle, KpiChip, ObjectiveAlert, ObjectiveSelect, PillarChip, SaveState, ViewToggle,
+  EditorTitle, KpiChip, MobileEditorTitle, ObjectiveAlert, ObjectiveSelect, PillarChip, SaveState, ViewToggle,
   dayLabel, useAutosave, useGenerate, useIsMobile,
 } from "./common";
 import { downloadAll, exportNodes, slugify } from "./exportImages";
@@ -231,6 +232,18 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
         <ObjectiveAlert pub={pub} objective={objective} count={objectiveCounts[objective] ?? 0} onReset={() => changeObjective(pub.planned_objective)} onAdapt={adapt} adapting={adapting} adapted={adapted} />
       )}
     </EditorTitle>
+  );
+  const mobileHeader = (
+    <MobileEditorTitle kind="Carrousel" pub={pub}>
+      <div className="mt-1 flex flex-wrap gap-1.5">
+        <PillarChip pub={pub} settings={settings} />
+        <ObjectiveSelect id="car-obj" value={objective} onChange={changeObjective} />
+        <KpiChip format="carrousel" objective={objective} />
+      </div>
+      {objChanged && (
+        <ObjectiveAlert pub={pub} objective={objective} count={objectiveCounts[objective] ?? 0} onReset={() => changeObjective(pub.planned_objective)} onAdapt={adapt} adapting={adapting} adapted={adapted} />
+      )}
+        </MobileEditorTitle>
   );
 
   if (!created || !cs) {
@@ -504,7 +517,7 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
           Télécharger mes images
         </button>
       )}
-      <span className={`text-center text-[13px] ${muted}`}>Ce carrousel utilise 1 crédit, quel que soit le nombre de slides.</span>
+      {!isMobile && <span className={`text-center text-[13px] ${muted}`}>Ce carrousel utilise 1 crédit, quel que soit le nombre de slides.</span>}
       <SaveState state={saveState} />
     </div>
   );
@@ -531,11 +544,13 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
   if (isMobile) {
     const tabs = ["Textes", "1. Style", "2. Mise en page", "3. Visuel", "Légende"];
     return (
-      <div className="flex flex-col gap-3 px-4 pb-32 pt-4">
+      <div className="flex flex-col gap-3 px-4 pb-44 pt-4">
         {shared}
-        {header}
+        {mobileHeader}
         <div className="flex flex-col items-center gap-2.5">
-          <div className="w-full max-w-[300px]">{preview}</div>
+          {view === "insta" ? <div className="w-full max-w-[300px]">{preview}</div> : (
+            <Scaled base={360} width={240} ratio={1.25}><SlideView slide={cs} index={i} total={n} style={style} look={look} /></Scaled>
+          )}
           <ViewToggle view={view} setView={setView} />
         </div>
         {strip}
@@ -548,7 +563,8 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
           ))}
         </div>
         <div role="tabpanel">{[texts, stylePanel, layoutPanel, visualPanel, captionBlock][mtab]}</div>
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--mocha-light)] bg-[var(--ivoire)] px-4 py-3">{validateBlock}</div>
+        <span className={`text-center text-[13px] ${muted}`}>Ce carrousel utilise 1 crédit, quel que soit le nombre de slides.</span>
+        <div className="fixed inset-x-0 bottom-14 z-40 max-h-[45vh] overflow-y-auto border-t border-[var(--mocha-light)] bg-[var(--ivoire)] px-4 py-2.5">{validateBlock}</div>
       </div>
     );
   }

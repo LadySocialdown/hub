@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DAY_NAMES, DAY_SHORT, MONTH_NAMES, OBJECTIVES, kpiFor, parseDate } from "@/lib/studio/constants";
 import { pillarColor } from "@/lib/studio/theme";
@@ -99,6 +100,24 @@ export function EditorTitle({ kind, pub, children }: { kind: string; pub: Studio
       <h1 className="m-0 font-serif text-[36px] font-semibold leading-[1.05] text-[var(--cacao)] md:text-[46px]">
         {a} {b && <span className="font-medium italic">{b}</span>}
       </h1>
+      {children}
+    </div>
+  );
+}
+
+/** En-tête compact des écrans de création sur téléphone. */
+export function MobileEditorTitle({ kind, pub, children }: { kind: string; pub: StudioPublication; children?: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <Link href="/dashboard/studio" aria-label="Retour" className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-full border border-[var(--mocha)]/40 bg-[var(--ivoire)] text-[var(--cacao)]">
+          <ChevronLeft size={20} aria-hidden="true" />
+        </Link>
+        <div className="flex min-w-0 flex-col">
+          <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--mocha)]">{kind} · {dayLabel(pub.scheduled_date, true)} · {pub.scheduled_time}</span>
+          <span className="truncate font-serif text-[22px] font-semibold leading-[1.1] text-[var(--cacao)]">{pub.title}</span>
+        </div>
+      </div>
       {children}
     </div>
   );
