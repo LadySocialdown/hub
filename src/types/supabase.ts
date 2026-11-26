@@ -601,6 +601,32 @@ export interface Database {
         };
         Relationships: [];
       };
+      studio_settings: {
+        Row: import("./studio").StudioSettings;
+        Insert: Partial<import("./studio").StudioSettings> & { user_id: string };
+        Update: Partial<import("./studio").StudioSettings>;
+        Relationships: [];
+      };
+      studio_publications: {
+        Row: import("./studio").StudioPublication;
+        Insert: Partial<import("./studio").StudioPublication> & {
+          user_id: string;
+          scheduled_date: string;
+          format: import("./studio").StudioFormat;
+        };
+        Update: Partial<import("./studio").StudioPublication>;
+        Relationships: [];
+      };
+      studio_credit_ledger: {
+        Row: import("./studio").CreditLedgerRow;
+        Insert: Partial<import("./studio").CreditLedgerRow> & {
+          user_id: string;
+          delta: number;
+          bucket: "mensuel" | "pack";
+        };
+        Update: Partial<import("./studio").CreditLedgerRow>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
