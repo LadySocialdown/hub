@@ -148,7 +148,7 @@ export function StoryThumb({ frame, n, style, look, on, onClick, stickerName }: 
       }}
     >
       <span style={titleCss(style, look, 9)}>{frame.title}</span>
-      {!!stickerName && <span style={{ fontSize: 7, fontWeight: 700, opacity: 0.8 }}>{stickerName}</span>}
+      {!!stickerName && <span style={{ fontSize: 9, fontWeight: 700, opacity: 0.85 }}>{stickerName}</span>}
       <span style={{ marginTop: "auto", alignSelf: "flex-end", fontSize: 9, fontWeight: 700, opacity: 0.75 }}>{n}</span>
     </button>
   );

@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { KPIS, MAX_FRAMES, MAX_SLIDES, OBJECTIVES } from "@/lib/studio/constants";
+import { InsufficientCreditsError, consumeCredits, creditsUsedFor } from "@/lib/studio/credits";
 import { cleanFrame, cleanSlide } from "@/lib/studio/generate";
 import { getPublication } from "@/lib/studio/publications";
 import type { StudioPublication } from "@/types/studio";
@@ -40,6 +41,22 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   }
   if (Array.isArray(b.export_urls)) patch.export_urls = b.export_urls.filter((u) => typeof u === "string").slice(0, 10);
   if (typeof b.status === "string" && STATUSES.includes(b.status) && pub.status !== "a_creer") patch.status = b.status;
+
+  // Story : chaque visuel ajouté après la création consomme 1 crédit, à la validation.
+  if (patch.status === "programme" && pub.format === "story") {
+    const frames = (patch.content?.frames ?? pub.content.frames ?? []).length;
+    const extra = frames - (await creditsUsedFor(userId, pub.id));
+    if (extra > 0) {
+      try {
+        await consumeCredits(userId, extra, pub.id, `Story (${extra} visuel${extra > 1 ? "s" : ""} ajouté${extra > 1 ? "s" : ""})`);
+      } catch (e) {
+        if (e instanceof InsufficientCreditsError) {
+          return NextResponse.json({ error: "credits", needed: e.needed, available: e.available }, { status: 402 });
+        }
+        throw e;
+      }
+    }
+  }
 
   const supabase = createServerSupabaseClient();
   const { error } = await supabase.from("studio_publications").update(patch).eq("id", id).eq("user_id", userId);

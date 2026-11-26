@@ -116,3 +116,15 @@ export async function consumeCredits(userId: string, count: number, publicationI
   const { error } = await supabase.from("studio_credit_ledger").insert(rows);
   if (error) throw new Error(error.message);
 }
+
+/** Crédits déjà débités pour une publication. */
+export async function creditsUsedFor(userId: string, publicationId: string) {
+  const supabase = createServerSupabaseClient();
+  const { data, error } = await supabase
+    .from("studio_credit_ledger")
+    .select("delta")
+    .eq("user_id", userId)
+    .eq("publication_id", publicationId);
+  if (error) throw new Error(error.message);
+  return -(data ?? []).filter((r) => r.delta < 0).reduce((a, r) => a + r.delta, 0);
+}
