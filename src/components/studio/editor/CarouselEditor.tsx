@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FREE_REWRITES, LAYOUTS, MAX_SLIDES, MIN_SLIDES, REFERENCE_STYLE, STYLES } from "@/lib/studio/constants";
 import { styleSwatch, titleCss, type Look } from "@/lib/studio/look";
 import { STRIP_BG, STRIP_FG } from "@/lib/studio/theme";
-import type { ReferenceStyle, Slide, StudioPublication, StudioSettings, StudioStyleId } from "@/types/studio";
+import type { ElementKey, ElementStyle, ReferenceStyle, Slide, StudioPublication, StudioSettings, StudioStyleId } from "@/types/studio";
 import { CreditsDialog } from "../CreditsDialog";
 import { FontLoader } from "../FontLoader";
 import { InstaPost, LAYOUT_NAME, SlideThumb, SlideView } from "../render/SlideView";
@@ -18,6 +18,7 @@ import {
   dayLabel, useAutosave, useGenerate, useIsMobile,
 } from "./common";
 import { ColorRow } from "./ColorRow";
+import { ElementToolbar } from "./ElementToolbar";
 import { downloadAll, exportNodes, slugify } from "./exportImages";
 
 const panel = `${card} flex flex-col p-5`;
@@ -69,6 +70,7 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
   const [error, setError] = useState<string | null>(null);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [mtab, setMtab] = useState(0);
+  const [selEl, setSelEl] = useState<ElementKey | null>(null);
   const gen = useGenerate();
   const exportRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -88,7 +90,24 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
   const programmed = status === "programme" || status === "publie";
 
   const upd = (patch: Partial<Slide>) => setSlides((a) => a.map((x, k) => (k === i ? { ...x, ...patch } : x)));
-  const setAll = (a: Slide[], s: number) => { setSlides(a); setSel(s); };
+  const setAll = (a: Slide[], s: number) => { setSlides(a); setSel(s); setSelEl(null); };
+  const updEl = (k: ElementKey, patch: Partial<ElementStyle>) =>
+    setSlides((a) => a.map((x, j) => (j === i ? { ...x, elements: { ...x.elements, [k]: { ...x.elements?.[k], ...patch } } } : x)));
+  const editHandlers = { selected: selEl, onSelect: setSelEl, onMove: (k: ElementKey, pos: { x: number; y: number }) => updEl(k, pos),
+    onFreeze: (positions: Partial<Record<ElementKey, { x: number; y: number }>>) =>
+      setSlides((a) => a.map((x, j) => {
+        if (j !== i) return x;
+        const els = { ...x.elements };
+        for (const [k, p] of Object.entries(positions) as [ElementKey, { x: number; y: number }][]) {
+          if (els[k]?.x == null) els[k] = { ...els[k], ...p };
+        }
+        return { ...x, elements: els };
+      })),
+  };
+  const toolbar = (
+    <ElementToolbar selected={selEl} el={selEl ? cs?.elements?.[selEl] : undefined} look={look}
+      onChange={(patch) => selEl && updEl(selEl, patch)} onClose={() => setSelEl(null)} />
+  );
 
   async function create() {
     const r = await gen.run(pub.id);
@@ -274,16 +293,16 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
         <SlideView slide={cs} index={i} total={n} style={style} look={look} variant="insta" />
       </InstaPost>
     ) : (
-      <SlideView slide={cs} index={i} total={n} style={style} look={look} />
+      <SlideView slide={cs} index={i} total={n} style={style} look={look} edit={editHandlers} />
     );
 
   const nav = (
     <div className="flex items-center gap-2.5">
-      <button type="button" onClick={() => setSel((i - 1 + n) % n)} aria-label="Slide précédente" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mocha)]/40 bg-[var(--ivoire)] text-[var(--cacao)]">
+      <button type="button" onClick={() => { setSel((i - 1 + n) % n); setSelEl(null); }} aria-label="Slide précédente" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mocha)]/40 bg-[var(--ivoire)] text-[var(--cacao)]">
         <ChevronLeft size={16} aria-hidden="true" />
       </button>
       <span className="min-w-20 text-center text-sm">Slide {i + 1} / {n}</span>
-      <button type="button" onClick={() => setSel((i + 1) % n)} aria-label="Slide suivante" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mocha)]/40 bg-[var(--ivoire)] text-[var(--cacao)]">
+      <button type="button" onClick={() => { setSel((i + 1) % n); setSelEl(null); }} aria-label="Slide suivante" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--mocha)]/40 bg-[var(--ivoire)] text-[var(--cacao)]">
         <ChevronRight size={16} aria-hidden="true" />
       </button>
     </div>
@@ -342,7 +361,7 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
       </div>
       <div className="flex gap-2.5 overflow-x-auto pb-1">
         {slides.map((x, k) => (
-          <SlideThumb key={k} slide={x} n={k + 1} style={style} look={look} on={k === i} onClick={() => setSel(k)} />
+          <SlideThumb key={k} slide={x} n={k + 1} style={style} look={look} on={k === i} onClick={() => { setSel(k); setSelEl(null); }} />
         ))}
         <button
           type="button"
@@ -555,9 +574,10 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
         {mobileHeader}
         <div className="flex flex-col items-center gap-2.5">
           {view === "insta" ? <div className="w-full max-w-[300px]">{preview}</div> : (
-            <Scaled base={360} width={240} ratio={1.25}><SlideView slide={cs} index={i} total={n} style={style} look={look} /></Scaled>
+            <Scaled base={360} width={240} ratio={1.25}><SlideView slide={cs} index={i} total={n} style={style} look={look} edit={editHandlers} /></Scaled>
           )}
           <ViewToggle view={view} setView={setView} />
+          {view === "editor" && toolbar}
         </div>
         {strip}
         <div role="tablist" aria-label="Réglages" className="flex gap-1.5 overflow-x-auto pb-1">
@@ -588,6 +608,7 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
             <div className="flex min-w-0 flex-[0_1_360px] flex-col items-center gap-2.5">
               {preview}
               {nav}
+              {view === "editor" && toolbar}
             </div>
             {texts}
           </div>

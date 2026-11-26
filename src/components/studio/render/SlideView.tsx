@@ -1,5 +1,8 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
-import type { CSSProperties } from "react";
+import { useRef, type CSSProperties } from "react";
+import { Movable, elScale, type EditHandlers } from "./Movable";
 import { LAYOUTS } from "@/lib/studio/constants";
 import { INSTA } from "@/lib/studio/theme";
 import { bodyFont, slideTones, styleRule, titleCss, type Look } from "@/lib/studio/look";
@@ -19,6 +22,7 @@ export function SlideView({
   look,
   variant = "editor",
   ctaLabel = "Enregistre ce post",
+  edit,
 }: {
   slide: Slide;
   index: number;
@@ -27,7 +31,10 @@ export function SlideView({
   look: Look;
   variant?: SlideVariant;
   ctaLabel?: string;
+  edit?: EditHandlers;
 }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const els = slide.elements;
   const rule = styleRule(style, look);
   const t = slideTones(style, slide.tone, look, slide);
   const lay = slide.layout;
@@ -59,17 +66,21 @@ export function SlideView({
   };
 
   return (
-    <div style={box}>
+    <div ref={boxRef} style={box} onPointerDown={edit ? () => edit.onSelect(null) : undefined}>
       {showLogo && (
         <img src={look.logo_url!} alt="" crossOrigin="anonymous" style={{ width: 44, height: 44, objectFit: "contain", borderRadius: 8, background: "rgba(255,255,255,0.85)" }} />
       )}
       {!!slide.kicker && (
-        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: t[2] }}>{slide.kicker}</span>
+        <Movable k="kicker" el={els?.kicker} edit={edit} box={boxRef} flowStyle={{ color: t[2] }}>
+          <span style={{ display: "block", fontSize: 11 * elScale(els, "kicker"), fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase" }}>{slide.kicker}</span>
+        </Movable>
       )}
       {lay === "quote" && (
         <span aria-hidden="true" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 72, lineHeight: 0.6, color: t[2] }}>“</span>
       )}
-      <span style={{ ...titleCss(style, look, titleSize), whiteSpace: "pre-line" }}>{slide.title}</span>
+      <Movable k="title" el={els?.title} edit={edit} box={boxRef}>
+        <span style={{ ...titleCss(style, look, titleSize * elScale(els, "title")), display: "block", whiteSpace: "pre-line" }}>{slide.title}</span>
+      </Movable>
       {showPhoto && (
         <div
           style={{
@@ -94,10 +105,12 @@ export function SlideView({
           )}
         </div>
       )}
+      {(lay === "list" || !!slide.body) && (
+        <Movable k="body" el={els?.body} edit={edit} box={boxRef}>
       {lay === "list" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {items.map((text, k) => (
-            <span key={k} style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 16, fontWeight: 500 }}>
+            <span key={k} style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 16 * elScale(els, "body"), fontWeight: 500 }}>
               <span style={{ flex: "none", width: 26, height: 26, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, background: t[1], color: t[0] }}>{k + 1}</span>
               {text}
             </span>
@@ -105,10 +118,14 @@ export function SlideView({
         </div>
       )}
       {lay !== "list" && !!slide.body && (
-        <span style={{ fontSize: 15, lineHeight: 1.45, opacity: 0.92, whiteSpace: "pre-line" }}>{slide.body}</span>
+        <span style={{ display: "block", fontSize: 15 * elScale(els, "body"), lineHeight: 1.45, opacity: 0.92, whiteSpace: "pre-line" }}>{slide.body}</span>
+      )}
+        </Movable>
       )}
       {lay === "cta" && (
-        <span style={{ alignSelf: "flex-start", padding: "10px 18px", borderRadius: 999, fontSize: 14, fontWeight: 700, background: t[1], color: t[0] }}>{ctaLabel}</span>
+        <Movable k="cta" el={els?.cta} edit={edit} box={boxRef} flowStyle={{ alignSelf: "flex-start" }}>
+          <span style={{ display: "inline-block", padding: "10px 18px", borderRadius: 999, fontSize: 14 * elScale(els, "cta"), fontWeight: 700, background: els?.cta?.color ?? t[1], color: t[0] }}>{ctaLabel}</span>
+        </Movable>
       )}
       <span style={{ position: "absolute", left: 26, right: 26, bottom: 14, display: "flex", justifyContent: "flex-end", fontSize: 11, letterSpacing: "0.06em", opacity: 0.75 }}>
         {variant === "insta" ? `${index + 1} / ${total}` : `${look.handle ? "@" + look.handle + " · " : ""}${index + 1} / ${total}`}

@@ -1,5 +1,8 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
-import type { CSSProperties } from "react";
+import { useRef, type CSSProperties } from "react";
+import { Movable, elScale, type EditHandlers } from "./Movable";
 import { INSTA } from "@/lib/studio/theme";
 import { bodyFont, darkest, photoGradient, readable, storyTones, titleCss, type Look } from "@/lib/studio/look";
 import type { StoryFrame, StudioStyleId } from "@/types/studio";
@@ -17,6 +20,7 @@ export function StoryView({
   variant = "editor",
   vote,
   onVote,
+  edit,
 }: {
   frame: StoryFrame;
   index: number;
@@ -26,7 +30,10 @@ export function StoryView({
   variant?: "editor" | "export";
   vote?: number;
   onVote?: (k: number) => void;
+  edit?: EditHandlers;
 }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const els = frame.elements;
   const tc = storyTones(style, frame.tone, look, frame);
   const isPhotoBg = frame.bg === "photo" || frame.bg === "gen";
   const hasImg = frame.bg === "photo" && !!frame.photo_url;
@@ -51,10 +58,10 @@ export function StoryView({
   const opts = [frame.opt_a || "Réponse 1", frame.opt_b || "Réponse 2"];
 
   return (
-    <div style={box}>
+    <div ref={boxRef} style={box} onPointerDown={edit ? () => edit.onSelect(null) : undefined}>
       {hasImg && <img src={frame.photo_url!} alt="Fond de la story" crossOrigin="anonymous" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
       {isPhotoBg && !hasImg && (
-        <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: 30, fontSize: 12, opacity: 0.7 }}>
+        <span style={{ position: "absolute", left: 16, right: 16, bottom: exp ? 16 : 56, textAlign: "center", fontSize: 10, lineHeight: 1.35, opacity: 0.6 }}>
           {frame.bg === "gen" ? "Visuel généré : " + (frame.photo_label || frame.title) : "Ta photo : " + (frame.photo_label || "à ajouter")}
         </span>
       )}
@@ -71,10 +78,20 @@ export function StoryView({
           </div>
         </>
       )}
-      <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 10, marginTop: "auto", marginBottom: "auto", padding: "0 18px" }}>
-        {!!frame.title && <span style={{ ...titleCss(style, look, style === "magazine" ? 24 : 30), textAlign: "center", textShadow: shadow, whiteSpace: "pre-line" }}>{frame.title}</span>}
-        {!!frame.sub && <span style={{ fontSize: 14, textAlign: "center", opacity: 0.9, textShadow: isPhotoBg ? "0 1px 6px rgba(0,0,0,0.35)" : undefined }}>{frame.sub}</span>}
-
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: "auto", marginBottom: "auto", padding: "0 18px" }}>
+        {!!frame.title && (
+          <Movable k="title" el={els?.title} edit={edit} box={boxRef}>
+            <span style={{ ...titleCss(style, look, (style === "magazine" ? 24 : 30) * elScale(els, "title")), display: "block", textAlign: "center", textShadow: shadow, whiteSpace: "pre-line" }}>{frame.title}</span>
+          </Movable>
+        )}
+        {!!frame.sub && (
+          <Movable k="sub" el={els?.sub} edit={edit} box={boxRef}>
+            <span style={{ display: "block", fontSize: 14 * elScale(els, "sub"), textAlign: "center", opacity: 0.9, textShadow: isPhotoBg ? "0 1px 6px rgba(0,0,0,0.35)" : undefined }}>{frame.sub}</span>
+          </Movable>
+        )}
+        {frame.sticker !== "none" && (
+          <Movable k="sticker" el={els?.sticker} edit={edit} box={boxRef} flowStyle={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", zoom: elScale(els, "sticker") }}>
         {frame.sticker === "poll" && (
           <div style={{ ...sticker, padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
             {opts.map((label, k) => {
@@ -120,6 +137,9 @@ export function StoryView({
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" /><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" /></svg>
             {frame.sticker_text}
           </span>
+        )}
+            </div>
+          </Movable>
         )}
       </div>
       {!exp && (

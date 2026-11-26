@@ -9,6 +9,16 @@ export type SlideTone = "dark" | "light" | "pink";
 export type StickerKind = "none" | "poll" | "question" | "quiz" | "countdown" | "link";
 export type FrameBg = "photo" | "color" | "gen";
 
+/** Réglages d'un élément de texte posé sur le visuel : position (en % du visuel), couleur, taille. */
+export type ElementStyle = {
+  x?: number | null;
+  y?: number | null;
+  color?: string | null;
+  scale?: number;
+};
+export type ElementKey = "kicker" | "title" | "body" | "cta" | "sub" | "sticker";
+export type Elements = Partial<Record<ElementKey, ElementStyle>>;
+
 export type StudioColors = {
   principale: string;
   accent: string;
@@ -67,6 +77,7 @@ export type Slide = {
   /** Couleurs choisies par l'élève pour cette slide (sinon celles du style). */
   bg_color?: string | null;
   text_color?: string | null;
+  elements?: Elements;
 }
 
 export type StoryFrame = {
@@ -82,6 +93,7 @@ export type StoryFrame = {
   tone: SlideTone;
   bg_color?: string | null;
   text_color?: string | null;
+  elements?: Elements;
 }
 
 export type PublicationContent = {

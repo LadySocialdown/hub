@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { MAX_FRAMES, STICKERS, STYLES } from "@/lib/studio/constants";
 import { styleSwatch, titleCss, type Look } from "@/lib/studio/look";
 import { STRIP_BG, STRIP_FG } from "@/lib/studio/theme";
-import type { StickerKind, StoryFrame, StudioStyleId } from "@/types/studio";
+import type { ElementKey, ElementStyle, StickerKind, StoryFrame, StudioStyleId } from "@/types/studio";
 import { CreditsDialog } from "../CreditsDialog";
 import { FontLoader } from "../FontLoader";
 import { StoryThumb, StoryView } from "../render/StoryView";
@@ -17,6 +17,7 @@ import {
   dayLabel, useAutosave, useGenerate, useIsMobile,
 } from "./common";
 import { ColorRow } from "./ColorRow";
+import { ElementToolbar } from "./ElementToolbar";
 import { downloadAll, exportNodes, slugify } from "./exportImages";
 
 const panel = `${card} flex flex-col p-5`;
@@ -42,6 +43,7 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
   const [error, setError] = useState<string | null>(null);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [mtab, setMtab] = useState(0);
+  const [selEl, setSelEl] = useState<ElementKey | null>(null);
   const gen = useGenerate();
   const exportRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -54,7 +56,20 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
   const programmed = status === "programme" || status === "publie";
 
   const upd = (patch: Partial<StoryFrame>) => setFrames((a) => a.map((x, k) => (k === i ? { ...x, ...patch } : x)));
-  const setAll = (a: StoryFrame[], s: number) => { setFrames(a); setSel(s); };
+  const setAll = (a: StoryFrame[], s: number) => { setFrames(a); setSel(s); setSelEl(null); };
+  const updEl = (k: ElementKey, patch: Partial<ElementStyle>) =>
+    setFrames((a) => a.map((x, j) => (j === i ? { ...x, elements: { ...x.elements, [k]: { ...x.elements?.[k], ...patch } } } : x)));
+  const editHandlers = { selected: selEl, onSelect: setSelEl, onMove: (k: ElementKey, pos: { x: number; y: number }) => updEl(k, pos),
+    onFreeze: (positions: Partial<Record<ElementKey, { x: number; y: number }>>) =>
+      setFrames((a) => a.map((x, j) => {
+        if (j !== i) return x;
+        const els = { ...x.elements };
+        for (const [k, p] of Object.entries(positions) as [ElementKey, { x: number; y: number }][]) {
+          if (els[k]?.x == null) els[k] = { ...els[k], ...p };
+        }
+        return { ...x, elements: els };
+      })),
+  };
 
   async function create() {
     const r = await gen.run(pub.id, count);
@@ -171,13 +186,19 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
     );
   }
 
+  const toolbar = (
+    <ElementToolbar selected={selEl} el={selEl ? f.elements?.[selEl] : undefined} look={look} mainTitle="Texte principal"
+      onChange={(patch) => selEl && updEl(selEl, patch)} onClose={() => setSelEl(null)} />
+  );
+
   const stickerDef = STICKERS.find((s) => s.id === f.sticker) ?? STICKERS[0];
   const hasStickerText = ["question", "quiz", "countdown", "link"].includes(f.sticker);
 
   const preview = (
     <div className="flex min-w-0 flex-[0_1_300px] flex-col items-center gap-2.5">
-      <StoryView frame={f} index={i} total={n} style={style} look={look} vote={votes[i]} onVote={(k) => setVotes((v) => ({ ...v, [i]: k }))} />
+      <StoryView frame={f} index={i} total={n} style={style} look={look} vote={votes[i]} onVote={(k) => setVotes((v) => ({ ...v, [i]: k }))} edit={editHandlers} />
       <span className="text-[13px]">Visuel {i + 1} / {n}</span>
+      {toolbar}
     </div>
   );
 
@@ -226,7 +247,7 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
       </div>
       <div className="flex gap-2.5 overflow-x-auto pb-1">
         {frames.map((x, k) => (
-          <StoryThumb key={k} frame={x} n={k + 1} style={style} look={look} on={k === i} onClick={() => setSel(k)} stickerName={x.sticker === "none" ? "" : STICKER_NAME[x.sticker]} />
+          <StoryThumb key={k} frame={x} n={k + 1} style={style} look={look} on={k === i} onClick={() => { setSel(k); setSelEl(null); }} stickerName={x.sticker === "none" ? "" : STICKER_NAME[x.sticker]} />
         ))}
         <button
           type="button"
@@ -360,9 +381,10 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
         {mobileHeader}
         <div className="flex flex-col items-center gap-1.5">
           <Scaled base={270} width={200} ratio={16 / 9}>
-            <StoryView frame={f} index={i} total={n} style={style} look={look} vote={votes[i]} onVote={(k) => setVotes((v) => ({ ...v, [i]: k }))} />
+            <StoryView frame={f} index={i} total={n} style={style} look={look} vote={votes[i]} onVote={(k) => setVotes((v) => ({ ...v, [i]: k }))} edit={editHandlers} />
           </Scaled>
           <span className="text-[13px]">Visuel {i + 1} / {n}</span>
+          {toolbar}
         </div>
         {strip}
         <div role="tablist" aria-label="Réglages" className="flex gap-1.5 overflow-x-auto pb-1">

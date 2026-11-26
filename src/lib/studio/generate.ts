@@ -2,6 +2,7 @@ import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { KPIS, MAX_FRAMES, MAX_SLIDES, MIN_SLIDES } from "@/lib/studio/constants";
 import type {
+  Elements,
   ReferenceStyle,
   Slide,
   SlideLayout,
@@ -74,6 +75,19 @@ async function askJson<T>(sys: string, content: Anthropic.MessageParam["content"
 }
 
 const hexOrNull = (v: unknown) => (typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v) ? v.toUpperCase() : null);
+const EL_KEYS = ["kicker", "title", "body", "cta", "sub", "sticker"] as const;
+function cleanElements(v: unknown): Elements | undefined {
+  if (!v || typeof v !== "object") return undefined;
+  const out: Elements = {};
+  for (const k of EL_KEYS) {
+    const e = (v as Record<string, Record<string, unknown>>)[k];
+    if (!e || typeof e !== "object") continue;
+    const num = (n: unknown) => (typeof n === "number" && n >= 0 && n <= 100 ? n : null);
+    const scale = typeof e.scale === "number" ? Math.min(2.5, Math.max(0.5, e.scale)) : 1;
+    out[k] = { x: num(e.x), y: num(e.y), color: hexOrNull(e.color), scale };
+  }
+  return out;
+}
 const str = (v: unknown, max = 400) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
 export function cleanSlide(raw: Record<string, unknown>, keep?: Partial<Slide>): Slide {
@@ -89,6 +103,7 @@ export function cleanSlide(raw: Record<string, unknown>, keep?: Partial<Slide>):
     generated: keep?.generated ?? false,
     bg_color: hexOrNull(keep?.bg_color),
     text_color: hexOrNull(keep?.text_color),
+    elements: cleanElements(keep?.elements),
   };
 }
 
@@ -108,6 +123,7 @@ export function cleanFrame(raw: Record<string, unknown>, keep?: Partial<StoryFra
     tone: TONES.includes(raw.tone as SlideTone) ? (raw.tone as SlideTone) : keep?.tone ?? "dark",
     bg_color: hexOrNull(keep?.bg_color),
     text_color: hexOrNull(keep?.text_color),
+    elements: cleanElements(keep?.elements),
   };
 }
 
