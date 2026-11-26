@@ -64,6 +64,9 @@ export type Slide = {
   photo_url?: string | null;
   photo_label?: string;
   generated?: boolean;
+  /** Couleurs choisies par l'élève pour cette slide (sinon celles du style). */
+  bg_color?: string | null;
+  text_color?: string | null;
 }
 
 export type StoryFrame = {
@@ -77,6 +80,8 @@ export type StoryFrame = {
   photo_url?: string | null;
   photo_label?: string;
   tone: SlideTone;
+  bg_color?: string | null;
+  text_color?: string | null;
 }
 
 export type PublicationContent = {

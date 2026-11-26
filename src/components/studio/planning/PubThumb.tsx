@@ -14,7 +14,7 @@ export function PubThumb({ pub, look, on, onClick, appear }: { pub: StudioPublic
   const frame = pub.content.frames?.[0];
   const tone = slide?.tone ?? frame?.tone ?? "dark";
   const t: [string, string, string] =
-    pub.format === "story" ? [...storyTones(pub.style, tone, look), look.colors.accent] as [string, string, string] : slideTones(pub.style, tone, look);
+    pub.format === "story" ? [...storyTones(pub.style, tone, look, frame), look.colors.accent] as [string, string, string] : slideTones(pub.style, tone, look, slide);
   const kicker = slide?.kicker || (frame ? frame.sub : "") || pub.pillar;
   const title = slide?.title || frame?.title || pub.hook || pub.title;
   const badge = FORMAT_BADGE[pub.format];

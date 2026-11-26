@@ -17,6 +17,7 @@ import {
   EditorTitle, KpiChip, MobileEditorTitle, ObjectiveAlert, ObjectiveSelect, PillarChip, SaveState, ViewToggle,
   dayLabel, useAutosave, useGenerate, useIsMobile,
 } from "./common";
+import { ColorRow } from "./ColorRow";
 import { downloadAll, exportNodes, slugify } from "./exportImages";
 
 const panel = `${card} flex flex-col p-5`;
@@ -493,6 +494,11 @@ export function CarouselEditor({ pub, settings, objectiveCounts, remainingPlanne
           {imageGeneration ? "Générer un visuel" : "Bientôt disponible"}
         </button>
         <button type="button" onClick={() => upd({ photo_url: null, photo_label: "", generated: false })} className="min-h-11 flex-1 rounded-full border border-[var(--mocha)]/40 bg-transparent text-[13px] text-[var(--cacao)]">Sans visuel</button>
+      </div>
+      <div className="mt-2 flex flex-col gap-3 border-t border-[var(--mocha-light)] pt-3">
+        <ColorRow id="c-bg" label="Couleur de fond" value={cs.bg_color} onChange={(v) => upd({ bg_color: v })} look={look} />
+        <ColorRow id="c-fg" label="Couleur du texte" value={cs.text_color} onChange={(v) => upd({ text_color: v })} look={look} />
+        <span className={`text-xs ${muted}`}>« Auto » reprend les couleurs du style. Si un texte devient illisible sur son fond, il est corrigé automatiquement.</span>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import {
   EditorTitle, KpiChip, MobileEditorTitle, ObjectiveAlert, ObjectiveSelect, PillarChip, SaveState,
   dayLabel, useAutosave, useGenerate, useIsMobile,
 } from "./common";
+import { ColorRow } from "./ColorRow";
 import { downloadAll, exportNodes, slugify } from "./exportImages";
 
 const panel = `${card} flex flex-col p-5`;
@@ -290,12 +291,17 @@ export function StoryEditor({ pub, settings, objectiveCounts, remainingPlanned, 
       <label htmlFor="st-photo" className="flex min-h-11 cursor-pointer items-center justify-center rounded-full bg-[var(--cacao)] text-sm font-bold text-[var(--ivoire)]">Ajouter ma photo ou ma vidéo</label>
       <input id="st-photo" type="file" accept="image/*,video/*" onChange={onPhoto} className="text-xs" />
       <div className="flex gap-2">
-        <button type="button" onClick={() => upd({ bg: "color", photo_url: null, tone: f.tone === "dark" ? "pink" : f.tone === "pink" ? "light" : "dark" })}
+        <button type="button" onClick={() => upd({ bg: "color", photo_url: null, bg_color: null, tone: f.tone === "dark" ? "pink" : f.tone === "pink" ? "light" : "dark" })}
           className="min-h-11 flex-1 rounded-full border border-[var(--cacao)] bg-transparent text-[13px] text-[var(--cacao)]">Couleur de ma charte</button>
         <button type="button" disabled={!imageGeneration} aria-label={imageGeneration ? undefined : "Générer un visuel : bientôt disponible"}
           className="min-h-11 flex-1 rounded-full border border-[var(--mocha)]/40 bg-transparent text-[13px] text-[var(--cacao)] disabled:cursor-not-allowed disabled:opacity-50">
           {imageGeneration ? "Générer un visuel" : "Bientôt disponible"}
         </button>
+      </div>
+      <div className="mt-2 flex flex-col gap-3 border-t border-[var(--mocha-light)] pt-3">
+        <ColorRow id="s-bg" label="Couleur de fond" value={f.bg_color} onChange={(v) => upd({ bg_color: v, bg: "color", photo_url: v ? null : f.photo_url })} look={look} />
+        <ColorRow id="s-fg" label="Couleur du texte" value={f.text_color} onChange={(v) => upd({ text_color: v })} look={look} />
+        <span className={`text-xs ${muted}`}>« Auto » reprend les couleurs du style. Si un texte devient illisible sur son fond, il est corrigé automatiquement.</span>
       </div>
     </div>
   );

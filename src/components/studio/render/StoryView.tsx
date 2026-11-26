@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { CSSProperties } from "react";
 import { INSTA } from "@/lib/studio/theme";
-import { bodyFont, photoGradient, storyTones, titleCss, type Look } from "@/lib/studio/look";
+import { bodyFont, darkest, photoGradient, readable, storyTones, titleCss, type Look } from "@/lib/studio/look";
 import type { StoryFrame, StudioStyleId } from "@/types/studio";
 
 /**
@@ -27,7 +27,7 @@ export function StoryView({
   vote?: number;
   onVote?: (k: number) => void;
 }) {
-  const tc = storyTones(style, frame.tone, look);
+  const tc = storyTones(style, frame.tone, look, frame);
   const isPhotoBg = frame.bg === "photo" || frame.bg === "gen";
   const hasImg = frame.bg === "photo" && !!frame.photo_url;
   const exp = variant === "export";
@@ -44,7 +44,7 @@ export function StoryView({
     flexDirection: "column",
     boxShadow: exp ? "none" : "0 10px 30px rgba(47,74,58,0.2)",
     background: isPhotoBg ? photoGradient(look) : tc[0],
-    color: isPhotoBg ? look.colors.fond : tc[1],
+    color: isPhotoBg ? readable(darkest(look), frame.text_color || look.colors.fond, look) : tc[1],
     fontFamily: bodyFont(look),
   };
   const sticker: CSSProperties = { background: "#FFFFFF", borderRadius: 14, boxShadow: "0 4px 14px rgba(0,0,0,0.15)" };
@@ -134,7 +134,7 @@ export function StoryView({
 /** Vignette de la bande « Ta séquence de stories » (64 px). */
 export function StoryThumb({ frame, n, style, look, on, onClick, stickerName }: { frame: StoryFrame; n: number; style: StudioStyleId; look: Look; on: boolean; onClick: () => void; stickerName: string }) {
   const photo = frame.bg === "photo" || frame.bg === "gen";
-  const c = photo ? [`color-mix(in srgb, ${look.colors.principale} 85%, white)`, look.colors.fond] : storyTones(style, frame.tone, look);
+  const c = photo ? [darkest(look), readable(darkest(look), look.colors.fond, look)] : storyTones(style, frame.tone, look, frame);
   return (
     <button
       type="button"

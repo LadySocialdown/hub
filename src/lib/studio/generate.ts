@@ -73,6 +73,7 @@ async function askJson<T>(sys: string, content: Anthropic.MessageParam["content"
   throw new GenerationError("La création n'a pas abouti. Réessaie dans un instant : aucun crédit n'a été utilisé.");
 }
 
+const hexOrNull = (v: unknown) => (typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v) ? v.toUpperCase() : null);
 const str = (v: unknown, max = 400) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
 export function cleanSlide(raw: Record<string, unknown>, keep?: Partial<Slide>): Slide {
@@ -86,6 +87,8 @@ export function cleanSlide(raw: Record<string, unknown>, keep?: Partial<Slide>):
     photo_url: keep?.photo_url ?? null,
     photo_label: keep?.photo_label ?? str(raw.photo_label, 120),
     generated: keep?.generated ?? false,
+    bg_color: hexOrNull(keep?.bg_color),
+    text_color: hexOrNull(keep?.text_color),
   };
 }
 
@@ -103,6 +106,8 @@ export function cleanFrame(raw: Record<string, unknown>, keep?: Partial<StoryFra
     photo_url: keep?.photo_url ?? null,
     photo_label: keep?.photo_label ?? str(raw.photo_label, 120),
     tone: TONES.includes(raw.tone as SlideTone) ? (raw.tone as SlideTone) : keep?.tone ?? "dark",
+    bg_color: hexOrNull(keep?.bg_color),
+    text_color: hexOrNull(keep?.text_color),
   };
 }
 

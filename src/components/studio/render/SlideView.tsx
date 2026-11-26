@@ -29,7 +29,7 @@ export function SlideView({
   ctaLabel?: string;
 }) {
   const rule = styleRule(style, look);
-  const t = slideTones(style, slide.tone, look);
+  const t = slideTones(style, slide.tone, look, slide);
   const lay = slide.layout;
   const big = lay === "cover" || lay === "cta" || lay === "text" || lay === "quote";
   const titleSize = lay === "cover" ? (rule.up ? 30 : 38) : big ? (rule.up ? 26 : 34) : rule.up ? 20 : 28;
@@ -120,7 +120,7 @@ export function SlideView({
 /** Vignette de la bande « Toutes tes slides » (88 px). */
 export function SlideThumb({ slide, n, style, look, on, onClick }: { slide: Slide; n: number; style: StudioStyleId; look: Look; on: boolean; onClick: () => void }) {
   const rule = styleRule(style, look);
-  const tt = slideTones(style, slide.tone, look);
+  const tt = slideTones(style, slide.tone, look, slide);
   return (
     <button
       type="button"
