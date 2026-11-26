@@ -14,6 +14,7 @@ export function FontLoader({ custom = [] }: { custom?: { name: string; url: stri
       const link = document.createElement("link");
       link.id = id;
       link.rel = "stylesheet";
+      link.crossOrigin = "anonymous";
       link.href = googleFontsHref([...TITLE_FONTS, ...BODY_FONTS]);
       document.head.appendChild(link);
     }

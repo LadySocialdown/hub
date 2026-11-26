@@ -133,3 +133,22 @@ export function googleFontsHref(families: string[]): string {
 export function fontStack(name: string): string {
   return SERIF_FONTS.includes(name) ? `'${name}', serif` : `'${name}', sans-serif`;
 }
+
+/** Indicateurs propres aux stories, quand ils diffèrent. */
+export const STORY_KPIS: Record<string, string> = {
+  "Créer du lien": "Réponses et votes",
+};
+
+export function kpiFor(format: string, objective: string) {
+  return (format === "story" && STORY_KPIS[objective]) || KPIS[objective] || "";
+}
+
+export const DAY_NAMES = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+export const DAY_SHORT = ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."];
+export const MONTH_NAMES = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
+/** « 2026-12-11 » → Date locale (sans décalage de fuseau). */
+export function parseDate(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
